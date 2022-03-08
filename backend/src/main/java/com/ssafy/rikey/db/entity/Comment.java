@@ -8,6 +8,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
+/**
+ * 댓글 모델 정의
+ */
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -34,5 +37,10 @@ public class Comment {
         this.content = content;
         this.user = user;
         this.article = article;
+    }
+
+    // 댓글 내용 수정을 위한 편의 함수
+    public void changeContent(String content) {
+        this.content = content;
     }
 }
