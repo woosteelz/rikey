@@ -1,18 +1,31 @@
 package com.ssafy.rikey.db.entity;
 
 import lombok.Data;
-import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Data
 @Entity
-@Getter
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
+
+    private String nickName;
+
+    private String profile_pic;
+
+    private String greeting;
+
+    private int cumulCarlorie;
+
+    private int cumulDistance;
+
+    private int cumulTime;
+
+    @Enumerated(EnumType.STRING)
+    private Area area;
 }

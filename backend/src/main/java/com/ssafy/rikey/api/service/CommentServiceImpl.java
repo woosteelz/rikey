@@ -8,12 +8,17 @@ import com.ssafy.rikey.db.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
+/**
+ * CommentService 구현체
+ */
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
 
+    // 댓글 등록
     @Override
     public void createComment(CreateCommentRequestDto commentInfo, Article article, User user) {
 
@@ -25,6 +30,20 @@ public class CommentServiceImpl implements CommentService {
                     .build();
             commentRepository.save(comment);
 
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    // 댓글 수정
+    @Override
+    public Comment updateComment(CreateCommentRequestDto commentInfo, Long commentId, Long articleId) {
+
+        try {
+            Comment comment = commentRepository.findByIdAndArticleId(commentId, articleId).get();
+            comment.changeContent(commentInfo.getContent());
+            commentRepository.save(comment);
+            return comment;
         } catch (Exception e) {
             throw e;
         }
