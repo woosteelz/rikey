@@ -4,7 +4,6 @@ import com.ssafy.rikey.api.response.MainResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 /**
  * MainService 구현체
  */
