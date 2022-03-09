@@ -28,9 +28,9 @@ public class CommentController {
     @PostMapping
     @ApiOperation(value = "댓글 등록", notes = "새로운 댓글을 등록한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공(CREATED)"),
-            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
-            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 204, message = "댓글 작성 오류"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류"),
     })
     public ResponseEntity<String> createComment(
             @RequestBody @ApiParam(value="댓글 정보") CreateCommentRequestDto commentInfo,
@@ -50,8 +50,8 @@ public class CommentController {
     @PutMapping("/{articleId}")
     @ApiOperation(value = "댓글 수정", notes = "댓글을 수정한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공(SUCCESS)"),
-            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류"),
     })
     public ResponseEntity<String> updateComment(
             @RequestBody @ApiParam(value="댓글 정보") CreateCommentRequestDto commentInfo,
@@ -72,8 +72,8 @@ public class CommentController {
     @DeleteMapping("/{articleId}")
     @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공(SUCCESS)"),
-            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류"),
     })
     public ResponseEntity<String> deleteComment(
             @PathVariable("articleId") @ApiParam(value="게시글 id", required = true) Long articleId,
