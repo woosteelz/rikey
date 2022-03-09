@@ -7,13 +7,11 @@ import com.ssafy.rikey.db.entity.User;
 import com.ssafy.rikey.db.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-
-/**
- * CommentService 구현체
- */
-@Service
 @RequiredArgsConstructor
+@Service
+@Transactional
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
@@ -41,11 +39,17 @@ public class CommentServiceImpl implements CommentService {
 
         try {
             Comment comment = commentRepository.findByIdAndArticleId(commentId, articleId).get();
-            comment.changeContent(commentInfo.getContent());
+            comment.updateContent(commentInfo.getContent());
             commentRepository.save(comment);
             return comment;
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    // 댓글 삭제
+    @Override
+    public void deleteComment(Comment comment) {
+        commentRepository.delete(comment);
     }
 }
