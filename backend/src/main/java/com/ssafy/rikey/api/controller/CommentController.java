@@ -1,10 +1,10 @@
 package com.ssafy.rikey.api.controller;
 
 import com.ssafy.rikey.api.request.CreateCommentRequestDto;
-import com.ssafy.rikey.api.service.ArticleService;
 import com.ssafy.rikey.api.service.CommentService;
 import com.ssafy.rikey.db.entity.Article;
 import com.ssafy.rikey.db.entity.Comment;
+import com.ssafy.rikey.db.repository.ArticleRepository;
 import com.ssafy.rikey.db.repository.CommentRepository;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,8 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private ArticleService articleService;
     private CommentService commentService;
+    private ArticleRepository articleRepository;
     private CommentRepository commentRepository;
 
     // 댓글 등록
@@ -42,6 +42,7 @@ public class CommentController {
             @PathVariable("articleId") @ApiParam(value="게시글 id", required = true) Long articleId) {
 
         try {
+            Article article = articleRepository.findById(articleId).get();
             commentService.createComment(commentInfo, article, user);
             return new ResponseEntity<String>("CREATED", HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
