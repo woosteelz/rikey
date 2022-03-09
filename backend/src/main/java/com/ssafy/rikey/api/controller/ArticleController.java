@@ -4,9 +4,7 @@ import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.service.ArticleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +21,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ArticleController {
 
-    public ArticleService articleService;
+    private final ArticleService articleService;
 
-    @ApiOperation(value = "최근 게시글 조회", notes = "최근 게시글을 조회한다.")
     @GetMapping
+    @ApiOperation(value = "최근 게시글 조회", notes = "최근 게시글을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공(CREATED)"),
+            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+    })
     public ResponseEntity<Map<String, Object>> getRecentArticles() {
 
         Map<String, Object> result = new HashMap<>();
@@ -48,8 +51,13 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @ApiOperation(value = "전체 게시글 조회", notes = "전체 게시글을 조회한다.")
     @GetMapping
+    @ApiOperation(value = "전체 게시글 조회", notes = "전체 게시글을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공(CREATED)"),
+            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+    })
     public ResponseEntity<Map<String, Object>> getArticles(
             @RequestParam(required = false) @ApiParam(value = "카테고리") String category) {
 
@@ -72,8 +80,13 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @ApiOperation(value = "게시글 상세 조회", notes = "게시글 id에 해당하는 게시글을 불러온다")
     @GetMapping("/{articleId}")
+    @ApiOperation(value = "게시글 상세 조회", notes = "게시글 id에 해당하는 게시글을 불러온다")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공(CREATED)"),
+            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+    })
     public ResponseEntity<Map<String, Object>> getArticle(
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
@@ -95,8 +108,13 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @ApiOperation(value = "게시글 작성", notes = "새로운 게시글을 작성한다.")
     @PostMapping
+    @ApiOperation(value = "게시글 작성", notes = "새로운 게시글을 작성한다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공(CREATED)"),
+            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+    })
     public ResponseEntity<Map<String, Object>> createArticle(
             @RequestBody @ApiParam(value = "게시글 정보", required = true) ArticleRequestDto articleRequestDto) {
 
@@ -118,8 +136,13 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @ApiOperation(value = "게시글 수정", notes = "게시글을 수정한다.")
     @PutMapping("/{articleId}")
+    @ApiOperation(value = "게시글 수정", notes = "게시글을 수정한다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공(CREATED)"),
+            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+    })
     public ResponseEntity<Map<String, Object>> updateArticle(
             @RequestBody @ApiParam(value = "게시글 정보", required = true) ArticleRequestDto articleRequestDto,
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
@@ -141,8 +164,13 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.")
     @DeleteMapping("/{articleId}")
+    @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공(CREATED)"),
+            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+    })
     public ResponseEntity<Map<String, Object>> updateArticle(
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 

@@ -11,12 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * ReviewService 구현체
- */
-@Transactional
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
@@ -46,8 +43,7 @@ public class ReviewServiceImpl implements ReviewService{
 
         try {
             Review review = reviewRepository.findById(reviewId).get();
-            review.updateContent(reviewInfo.getContent());
-            review.updateScore(reviewInfo.getScore());
+            review.update(reviewInfo.getContent(), reviewInfo.getScore());
         } catch (Exception e) {
             throw e;
         }

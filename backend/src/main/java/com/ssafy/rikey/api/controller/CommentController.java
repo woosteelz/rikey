@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
 
-
-/**
- * CommentController
- */
 @Api(tags = "Comment", value = "댓글 API")
 @CrossOrigin(origins = {"*"})
 @RestController
@@ -25,11 +21,10 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private CommentService commentService;
-    private ArticleRepository articleRepository;
-    private CommentRepository commentRepository;
+    private final CommentService commentService;
+    private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
 
-    // 댓글 등록
     @PostMapping
     @ApiOperation(value = "댓글 등록", notes = "새로운 댓글을 등록한다.")
     @ApiResponses({
@@ -52,7 +47,6 @@ public class CommentController {
         }
     }
 
-    // 댓글 수정
     @PutMapping("/{articleId}")
     @ApiOperation(value = "댓글 수정", notes = "댓글을 수정한다.")
     @ApiResponses({
@@ -75,7 +69,6 @@ public class CommentController {
         }
     }
 
-    // 댓글 삭제
     @DeleteMapping("/{articleId}")
     @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제한다.")
     @ApiResponses({

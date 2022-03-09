@@ -1,6 +1,5 @@
 package com.ssafy.rikey.db.entity;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,6 @@ public class Review extends com.ssafy.rikey.db.entity.BaseEntity {
 
     private String content;
 
-    @NotNull
     private int score;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,19 +29,17 @@ public class Review extends com.ssafy.rikey.db.entity.BaseEntity {
     @JoinColumn(name = "bike_road_id")
     private BikeRoad bikeRoad;
 
-    public void updateContent(String content) {
-        this.content = content;
-    }
-
-    public void updateScore(int score) {
-        this.score = score;
-    }
-
     @Builder
     public Review(String content, int score, User user, BikeRoad bikeRoad) {
         this.content = content;
         this.score = score;
         this.user = user;
         this.bikeRoad = bikeRoad;
+    }
+
+    // 리뷰 수정을 위한 편의 함수
+    public void update(String content, int score) {
+        this.content = content;
+        this.score = score;
     }
 }
