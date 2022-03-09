@@ -13,6 +13,7 @@ import java.util.List;
 
 public interface ArticleService {
 
+    List<ArticleResponseDto> getRecentArticles();
     List<ArticleResponseDto> getArticles(String category);
     ArticleDetailResponseDto getArticle(User user, Long articleId);
     Long createArticle(User user, ArticleRequestDto articleRequestDto);

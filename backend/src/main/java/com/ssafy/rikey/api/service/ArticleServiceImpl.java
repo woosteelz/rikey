@@ -25,13 +25,19 @@ public class ArticleServiceImpl implements ArticleService {
     private LikeRepository likeRepository;
 
     @Override
+    public List<ArticleResponseDto> getRecentArticles() {
+        List<Article> articles = articleRepository.findTop5ByOrderByIdDesc();
+        return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Override
     public List<ArticleResponseDto> getArticles(String category) {
         List<Article> articles = null;
 
         if (category == "ALL") {
-            articles = articleRepository.findAll();
+            articles = articleRepository.findAllOrderByIdDesc();
         } else {
-            articles = articleRepository.findByCategory(category);
+            articles = articleRepository.findByCategoryOrderByIdDesc(category);
         }
 
         return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());

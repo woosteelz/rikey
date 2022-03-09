@@ -1,12 +1,15 @@
 package com.ssafy.rikey.db.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Table(name = "like")
+@NoArgsConstructor
 public class Like {
 
     @Id
@@ -18,6 +21,13 @@ public class Like {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User article;
+    private Article article;
+
+
+    @Builder
+    public Like(User user, Article article) {
+        this.user = user;
+        this.article = article;
+    }
 
 }
