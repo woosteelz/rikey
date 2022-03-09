@@ -12,13 +12,14 @@ import javax.persistence.*;
  * 댓글 모델 정의
  */
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Getter
+@Table(name = "comment")
 @NoArgsConstructor
-public class Comment {
+public class Comment extends com.ssafy.rikey.db.entity.BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long id;
 
     @NotNull
