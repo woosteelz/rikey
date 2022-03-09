@@ -9,9 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * ReviewController
- */
 @Api(tags = "Review", value = "리뷰 API")
 @CrossOrigin(origins = {"*"})
 @RestController
@@ -23,8 +20,8 @@ public class ReviewController {
 
     @PostMapping
     @ApiResponses({
-            @ApiResponse(code = 201, message = "success"),
-            @ApiResponse(code = 400, message = "fail")
+            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 400, message = "실패")
     })
     @ApiOperation(value = "자전거길 리뷰 등록", notes = "특정 자전거 길에 대한 리뷰를 등록한다.")
     public ResponseEntity<String> createReview(
@@ -32,16 +29,16 @@ public class ReviewController {
 
         try {
             reviewService.createReview(reviewInfo, user);
-            return new ResponseEntity<String>("sucess", HttpStatus.CREATED);
+            return new ResponseEntity<String>("성공", HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("실패", HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping
     @ApiResponses({
-            @ApiResponse(code = 200, message = "success"),
-            @ApiResponse(code = 400, message = "fail"),
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 400, message = "실패"),
     })
     @ApiOperation(value = "자전거길 리뷰 수정", notes = "등록된 특정 자전거 길에 대한 리뷰를 수정한다.")
     public ResponseEntity<String> updateReview(
@@ -50,16 +47,16 @@ public class ReviewController {
 
         try {
             reviewService.updateReview(reviewInfo, reviewId);
-            return new ResponseEntity<String>("sucess", HttpStatus.OK);
+            return new ResponseEntity<String>("성공", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("실패", HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping
     @ApiResponses({
-            @ApiResponse(code = 200, message = "success"),
-            @ApiResponse(code = 400, message = "fail"),
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 400, message = "실패"),
     })
     @ApiOperation(value = "자전거길 리뷰 삭제", notes = "등록된 특정 자전거 길에 대한 리뷰를 삭제한다.")
     public ResponseEntity<String> deleteReview(
@@ -67,9 +64,9 @@ public class ReviewController {
 
         try {
             reviewService.deleteReview(reviewId);
-            return new ResponseEntity<String>("sucess", HttpStatus.OK);
+            return new ResponseEntity<String>("성공", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("실패", HttpStatus.BAD_REQUEST);
         }
     }
 

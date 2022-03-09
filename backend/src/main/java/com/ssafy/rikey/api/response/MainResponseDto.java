@@ -5,9 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 
-/**
- * 메인 화면의 날씨, 자전거 안전 수칙 데이터 반환 Dto
- */
 @ApiModel("MainResponseDto")
 @Data
 public class MainResponseDto {
@@ -23,7 +20,6 @@ public class MainResponseDto {
 
     @Builder
     public MainResponseDto(String area, double latitude, double longitude) {
-
         this.area = area;
         this.latitude = latitude;
         this.longitude = longitude;

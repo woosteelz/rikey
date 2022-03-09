@@ -4,9 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
-/**
- * 리뷰 데이터 수정 요청 Dto
- */
 @Getter
 @ApiModel("UpdateReviewRequestDto")
 public class UpdateReviewRequestDto {
