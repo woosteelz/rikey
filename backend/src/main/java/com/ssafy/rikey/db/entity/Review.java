@@ -4,18 +4,18 @@ import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Getter
+@Table(name = "review")
 @NoArgsConstructor
-public class Review {
+public class Review extends com.ssafy.rikey.db.entity.BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     private Long id;
 
     private String content;
