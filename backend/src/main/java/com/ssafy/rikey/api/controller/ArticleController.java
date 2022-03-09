@@ -26,9 +26,8 @@ public class ArticleController {
     @GetMapping
     @ApiOperation(value = "최근 게시글 조회", notes = "최근 게시글을 조회한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공(CREATED)"),
-            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
-            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getRecentArticles() {
 
@@ -54,9 +53,8 @@ public class ArticleController {
     @GetMapping
     @ApiOperation(value = "전체 게시글 조회", notes = "전체 게시글을 조회한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공(CREATED)"),
-            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
-            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getArticles(
             @RequestParam(required = false) @ApiParam(value = "카테고리") String category) {
@@ -83,9 +81,9 @@ public class ArticleController {
     @GetMapping("/{articleId}")
     @ApiOperation(value = "게시글 상세 조회", notes = "게시글 id에 해당하는 게시글을 불러온다")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공(CREATED)"),
-            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
-            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getArticle(
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
@@ -111,9 +109,9 @@ public class ArticleController {
     @PostMapping
     @ApiOperation(value = "게시글 작성", notes = "새로운 게시글을 작성한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공(CREATED)"),
-            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
-            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 204, message = "게시글 작성 오류"),
+            @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> createArticle(
             @RequestBody @ApiParam(value = "게시글 정보", required = true) ArticleRequestDto articleRequestDto) {
@@ -139,9 +137,10 @@ public class ArticleController {
     @PutMapping("/{articleId}")
     @ApiOperation(value = "게시글 수정", notes = "게시글을 수정한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공(CREATED)"),
-            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
-            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 204, message = "게시글 작성 오류"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> updateArticle(
             @RequestBody @ApiParam(value = "게시글 정보", required = true) ArticleRequestDto articleRequestDto,
@@ -167,9 +166,9 @@ public class ArticleController {
     @DeleteMapping("/{articleId}")
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공(CREATED)"),
-            @ApiResponse(code = 204, message = "댓글 작성 오류(FAIL)"),
-            @ApiResponse(code = 400, message = "게시글 탐색 오류(NO ARTICLE)"),
+            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> updateArticle(
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {

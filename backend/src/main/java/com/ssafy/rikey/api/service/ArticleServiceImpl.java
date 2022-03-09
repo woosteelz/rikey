@@ -23,25 +23,30 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final LikeRepository likeRepository;
 
+    // 최근 게시글 조회
     @Override
     public List<ArticleResponseDto> getRecentArticles() {
         List<Article> articles = articleRepository.findTop5ByOrderByIdDesc();
         return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
     }
 
+    // 전체 게시글 조회
     @Override
     public List<ArticleResponseDto> getArticles(String category) {
         List<Article> articles = null;
 
         if (category == "ALL") {
-            articles = articleRepository.findAllOrderByIdDesc();
+            articles = articleRepository.findTop3ByOrderByHitsDesc();
+            articles.addAll(articleRepository.findAllOrderByIdDesc());
         } else {
-            articles = articleRepository.findByCategoryOrderByIdDesc(category);
+            articles = articleRepository.findTop3ByCategoryOrderByHitsDesc();
+            articles.addAll(articleRepository.findByCategoryOrderByIdDesc(category));
         }
 
         return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
     }
 
+    // 게시글 상세 조회
     @Override
     public ArticleDetailResponseDto getArticle(User user, Long articleId) {
         List<Like> likes = likeRepository.findByArticle(articleId);
@@ -57,6 +62,7 @@ public class ArticleServiceImpl implements ArticleService {
         return new ArticleDetailResponseDto(isLike, article);
     }
 
+    // 게시글 등록
     @Transactional
     @Override
     public Long createArticle(User user, ArticleRequestDto articleRequestDto) {
@@ -70,6 +76,7 @@ public class ArticleServiceImpl implements ArticleService {
         return saveArticle.getId();
     }
 
+    // 게시글 수정
     @Transactional
     @Override
     public void updateArticle(Long articleId, ArticleRequestDto articleRequestDto) {
@@ -77,6 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.update(articleRequestDto.getTitle(), articleRequestDto.getContent(), articleRequestDto.getCategory());
     }
 
+    // 게시글 삭제
     @Transactional
     @Override
     public void deleteArticle(Long articleId) {
