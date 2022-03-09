@@ -48,4 +48,9 @@ public class CommentServiceImpl implements CommentService {
             throw e;
         }
     }
+
+    @Override
+    public void deleteComment(Comment comment) {
+        commentRepository.delete(comment);
+    }
 }

@@ -13,4 +13,5 @@ public interface CommentService {
 
     void createComment(CreateCommentRequestDto commentInfo, Article article, User user);
     Comment updateComment(CreateCommentRequestDto commentInfo, Long commentId, Long articleId);
+    void deleteComment(Comment comment);
 }
