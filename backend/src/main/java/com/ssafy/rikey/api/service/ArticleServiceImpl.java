@@ -20,9 +20,8 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ArticleServiceImpl implements ArticleService {
 
-    private ArticleRepository articleRepository;
-
-    private LikeRepository likeRepository;
+    private final ArticleRepository articleRepository;
+    private final LikeRepository likeRepository;
 
     @Override
     public List<ArticleResponseDto> getRecentArticles() {

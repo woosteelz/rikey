@@ -1,6 +1,5 @@
 package com.ssafy.rikey.api.request;
 
-import com.ssafy.rikey.db.entity.Article;
 import com.ssafy.rikey.db.entity.Category;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

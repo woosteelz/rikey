@@ -21,7 +21,6 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    // 리뷰 등록 API
     @PostMapping
     @ApiResponses({
             @ApiResponse(code = 201, message = "success"),
@@ -39,7 +38,6 @@ public class ReviewController {
         }
     }
 
-    // 리뷰 수정 API
     @PostMapping
     @ApiResponses({
             @ApiResponse(code = 200, message = "success"),
@@ -58,7 +56,6 @@ public class ReviewController {
         }
     }
 
-    // 리뷰 삭제 API
     @PostMapping
     @ApiResponses({
             @ApiResponse(code = 200, message = "success"),

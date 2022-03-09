@@ -2,17 +2,12 @@ package com.ssafy.rikey.api.response;
 
 import com.ssafy.rikey.db.entity.Article;
 import com.ssafy.rikey.db.entity.Category;
-import com.ssafy.rikey.db.entity.Like;
-import com.ssafy.rikey.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ElementCollection;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor

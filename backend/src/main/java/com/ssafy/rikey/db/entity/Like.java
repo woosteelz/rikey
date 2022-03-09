@@ -23,11 +23,9 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     private Article article;
 
-
     @Builder
     public Like(User user, Article article) {
         this.user = user;
         this.article = article;
     }
-
 }
