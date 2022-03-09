@@ -16,10 +16,11 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class LikeServiceImpl implements LikeService {
 
-    public LikeRepository likeRepository;
+    private final LikeRepository likeRepository;
 
-    public ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
 
+    // 좋아요 등록
     @Override
     public void createLike(User user, Long articleId) {
         Article article = articleRepository.findById(articleId).get();
