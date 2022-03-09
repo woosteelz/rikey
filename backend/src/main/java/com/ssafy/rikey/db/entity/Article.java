@@ -36,6 +36,9 @@ public class Article extends com.ssafy.rikey.db.entity.BaseEntity {
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Like> likeUsers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Like> comments = new ArrayList<>();
+
 
     @Builder
     private Article(String title, String content, Category category, User user) {
@@ -55,6 +58,5 @@ public class Article extends com.ssafy.rikey.db.entity.BaseEntity {
     public void increaseHits() {
         this.hits++;
     }
-
 
 }

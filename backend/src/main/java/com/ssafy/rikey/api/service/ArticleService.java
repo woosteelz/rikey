@@ -14,9 +14,8 @@ import java.util.List;
 public interface ArticleService {
 
     List<ArticleResponseDto> getArticles(String category);
-    ArticleResponseDto getArticle(Long articleId);
+    ArticleDetailResponseDto getArticle(User user, Long articleId);
     Long createArticle(User user, ArticleRequestDto articleRequestDto);
-    Long updateArticle(Long articleId, ArticleRequestDto articleRequestDto);
+    void updateArticle(Long articleId, ArticleRequestDto articleRequestDto);
     void deleteArticle(Long articleId);
-
 }
