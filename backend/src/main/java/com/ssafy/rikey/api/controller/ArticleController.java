@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "Comment", value = "게시글 API")
+@Api(tags = "Article", value = "게시글 API")
 @CrossOrigin(origins = {"*"})
 @RestController
 @RequestMapping("/articles")
@@ -24,6 +24,29 @@ import java.util.Map;
 public class ArticleController {
 
     public ArticleService articleService;
+
+    @ApiOperation(value = "최근 게시글 조회", notes = "최근 게시글을 조회한다.")
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getRecentArticles() {
+
+        Map<String, Object> result = new HashMap<>();
+        List<ArticleResponseDto> articleList = null;
+        HttpStatus httpStatus = null;
+
+        try {
+            articleList = articleService.getRecentArticles();
+            httpStatus = HttpStatus.OK;
+            result.put("success", true);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("success", false);
+        }
+
+        result.put("articleList", articleList);
+
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
 
     @ApiOperation(value = "전체 게시글 조회", notes = "전체 게시글을 조회한다.")
     @GetMapping
@@ -83,7 +106,6 @@ public class ArticleController {
 
         try {
             articleId = articleService.createArticle(user, articleRequestDto);
-
             httpStatus = HttpStatus.OK;
             result.put("success", true);
         } catch (RuntimeException e) {

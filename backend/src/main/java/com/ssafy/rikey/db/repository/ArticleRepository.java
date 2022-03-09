@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    List<Article> findByCategory(String category);
+    List<Article> findAllOrderByIdDesc();
+    List<Article> findByCategoryOrderByIdDesc(String category);
+    List<Article> findTop5ByOrderByIdDesc();
 }
