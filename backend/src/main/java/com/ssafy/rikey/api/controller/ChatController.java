@@ -1,5 +1,6 @@
 package com.ssafy.rikey.api.controller;
 
+import com.ssafy.rikey.api.response.ChatDetailResponseDto;
 import com.ssafy.rikey.api.response.ChatResponseDto;
 import com.ssafy.rikey.api.service.ChatService;
 import com.ssafy.rikey.db.entity.User;
@@ -51,5 +52,20 @@ public class ChatController {
         result.put("chats", chatList);
 
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
+    @GetMapping
+    @ApiOperation(value = "채팅 상세 조회", notes = "채팅을 상세 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 400, message = "실패"),
+    })
+    public ResponseEntity<Map<String, Object>> getchat(
+            @PathVariable @ApiParam(value = "채팅 id", required = true) Long chatId) {
+
+        Map<String, Object> result = new HashMap<>();
+        List<ChatDetailResponseDto> chatDetailList = null;
+        HttpStatus httpStatus = null;
+
     }
 }
