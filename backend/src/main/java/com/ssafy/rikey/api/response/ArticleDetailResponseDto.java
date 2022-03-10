@@ -52,7 +52,7 @@ public class ArticleDetailResponseDto {
         title = article.getTitle();
         content = article.getContent();
         createdTime = article.getCreatedTime();
-        modifiedTime = article.getModifiedTime();
+        modifiedTime = article.getUpdatedTime();
         hit = article.getHits();
         category = article.getCategory();
         likeCnt = article.getLikeUsers().size();
