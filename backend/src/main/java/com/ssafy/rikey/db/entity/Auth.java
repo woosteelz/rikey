@@ -1,11 +1,13 @@
 package com.ssafy.rikey.db.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@AllArgsConstructor
 @Table(name = "auth")
 public class Auth {
 

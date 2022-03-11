@@ -1,5 +1,6 @@
 package com.ssafy.rikey.db.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
@@ -50,4 +51,16 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<RidingInfo> ridingInfos = new ArrayList<>();
+
+    @Builder
+    public User(Auth auth, String nickName, String greeting, Area area) {
+        this.auth = auth;
+        this.nickName = nickName;
+        this.profile_pic = "";
+        this.greeting = greeting;
+        this.cumulCarlorie = 0;
+        this.cumulDistance = 0;
+        this.cumulTime = 0;
+        this.area = area;
+    }
 }

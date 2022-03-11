@@ -1,5 +1,6 @@
 package com.ssafy.rikey.api.controller;
 
+import com.ssafy.rikey.api.request.UserRequestDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.response.UserResponseDto;
 import com.ssafy.rikey.api.service.UserService;
@@ -22,6 +23,35 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+
+    @PostMapping
+    @ApiOperation(value = "회원가입", notes = "회원가입을 한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<Map<String, Object>> register(
+            @RequestBody @ApiParam(value = "유저 정보") UserRequestDto userRequestDto) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+
+        try {
+            UserResponseDto userResponseDto = userService.register(userRequestDto);
+            result.put("profile", userResponseDto);
+            httpStatus = HttpStatus.OK;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
 
     @PostMapping("/login")
     @ApiOperation(value = "로그인", notes = "유저 로그인을 시도한다.")
