@@ -23,10 +23,10 @@ public class ArticleDetailResponseDto {
     @ApiModelProperty(value = "게시글 내용", example = "내용")
     private String content;
 
-    @ApiModelProperty(value = "게시글 작성일", example = "2022-02-01-23:59:59")
+    @ApiModelProperty(value = "게시글 작성일", example = "2022-02-01 23:59:59.500")
     private LocalDateTime createdTime;
 
-    @ApiModelProperty(value = "게시글 수정일", example = "2022-02-01-23:59:59")
+    @ApiModelProperty(value = "게시글 수정일", example = "2022-02-01 23:59:59.500")
     private LocalDateTime modifiedTime;
 
     @ApiModelProperty(value = "게시글 좋아요수", example = "1")
@@ -38,7 +38,7 @@ public class ArticleDetailResponseDto {
     @ApiModelProperty(value = "게시글 좋아요수", example = "1")
     private int likeCnt;
 
-    @ApiModelProperty(value = "게시글 카테고리", example = "자유")
+    @ApiModelProperty(value = "게시글 카테고리", example = "FREE")
     private Category category;
 
     @ApiModelProperty(value = "게시글 작성자 닉네임", example = "영하")

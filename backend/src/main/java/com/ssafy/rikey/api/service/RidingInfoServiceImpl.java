@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,9 +31,11 @@ public class RidingInfoServiceImpl implements RidingInfoService {
     // 주행 정보 등록
     @Override
     public void createRidingInfo(User user, RidingInfoRequestDto ridingInfoRequestDto) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+
         RidingInfo ridingInfo = RidingInfo.builder()
-                .startTime(ridingInfoRequestDto.getStartTime())
-                .endTime(ridingInfoRequestDto.getEndTime())
+                .startTime(LocalDateTime.parse(ridingInfoRequestDto.getStartTime(), formatter))
+                .endTime(LocalDateTime.parse(ridingInfoRequestDto.getStartTime(), formatter))
                 .ridingCalorie(ridingInfoRequestDto.getRidingCalorie())
                 .ridingTime(ridingInfoRequestDto.getRidingTime())
                 .ridingDist(ridingInfoRequestDto.getRidingDist())
