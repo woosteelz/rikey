@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Api(tags = "Comment", value = "댓글 API")
@@ -33,42 +35,67 @@ public class CommentController {
             @ApiResponse(code = 201, message = "성공"),
             @ApiResponse(code = 204, message = "댓글 작성 오류"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 500, message = "서버 오류"),
     })
-    public ResponseEntity<String> createComment(
+    public ResponseEntity<Map<String, Object>> createComment(
             @RequestBody @ApiParam(value="댓글 정보") CreateCommentRequestDto commentInfo,
             @RequestParam("articleId") @ApiParam(value="게시글 id", required = true) Long articleId) {
 
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+
         try {
-            Article article = articleRepository.findById(articleId).get();
-            commentService.createComment(commentInfo, article, user);
-            return new ResponseEntity<String>("CREATED", HttpStatus.CREATED);
+            Comment comment = commentService.createComment(commentInfo, articleId, user);
+            httpStatus = HttpStatus.CREATED;
+            result.put("status", "SUCCESS");
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<String>("FAIL", HttpStatus.NO_CONTENT);
+            httpStatus = HttpStatus.NO_CONTENT;
+            result.put("status", "NO CONTENT");
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<String>("NO ARTICLE", HttpStatus.BAD_REQUEST);
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "NO ARTICLE");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
         }
+
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
     @PutMapping("/{commentId}")
     @ApiOperation(value = "댓글 수정", notes = "댓글을 수정한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 204, message = "댓글 작성 오류"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 500, message = "서버 오류"),
     })
-    public ResponseEntity<String> updateComment(
+    public ResponseEntity<Map<String, Object>> updateComment(
             @RequestBody @ApiParam(value="댓글 정보") CreateCommentRequestDto commentInfo,
             @RequestParam("articleId") @ApiParam(value="게시글 id", required = true) Long articleId,
             @PathVariable("commentId") @ApiParam(value="댓글 id", required = true) Long commentId) {
 
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+
         try {
             Comment comment = commentRepository.findByIdAndArticleId(commentId, articleId).get();
-
-            // 유저 확인 로직 필요
+            httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        // 유저 확인 로직 필요
             commentService.updateComment(commentInfo, commentId, articleId);
-            return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<String>("NO ARTICLE", HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            httpStatus = HttpStatus.NO_CONTENT;
+            result.put("status", "NO CONTENT");
+        } catch (NoSuchElementException e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "NO ARTICLE");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
         }
+
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
     @DeleteMapping("/{commentId}")
@@ -76,19 +103,30 @@ public class CommentController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 500, message = "서버 오류"),
     })
-    public ResponseEntity<String> deleteComment(
+    public ResponseEntity<Map<String, Object>> deleteComment(
             @RequestParam("articleId") @ApiParam(value="게시글 id", required = true) Long articleId,
             @PathVariable("commentId") @ApiParam(value="댓글 id", required = true) Long commentId) {
+
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
 
         try {
             Comment comment = commentRepository.findByIdAndArticleId(commentId, articleId).get();
 
             // 유저 확인 로직 필요
             commentService.deleteComment(comment);
-            return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+            httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
         } catch (Exception e) {
-            return new ResponseEntity<String>("NO ARTICLE", HttpStatus.BAD_REQUEST);
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "BAD REQUEST");
         }
+
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 }
