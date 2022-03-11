@@ -1,5 +1,6 @@
 package com.ssafy.rikey.api.service;
 
+import com.ssafy.rikey.api.request.UserRequestDto;
 import com.ssafy.rikey.api.response.*;
 import com.ssafy.rikey.db.entity.*;
 import com.ssafy.rikey.db.repository.AuthRepository;
@@ -19,6 +20,23 @@ public class UserServiceImpl implements UserService {
 
     private final AuthRepository authRepository;
     private final UserRepository userRepository;
+
+    // 회원가입
+    @Override
+    public UserResponseDto register(UserRequestDto userRequestDto) {
+        Auth auth = new Auth(userRequestDto.getAuthId(), false, null);
+        auth = authRepository.save(auth);
+
+        User user = User.builder()
+                .auth(auth)
+                .nickName(userRequestDto.getNickName())
+                .greeting(userRequestDto.getGreeting())
+                .area(Area.valueOf(userRequestDto.getArea()))
+                .build();
+        user = userRepository.save(user);
+
+        return new UserResponseDto(user);
+    }
 
     // 로그인
     @Override
