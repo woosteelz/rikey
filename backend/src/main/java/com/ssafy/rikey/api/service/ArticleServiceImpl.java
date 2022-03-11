@@ -37,9 +37,9 @@ public class ArticleServiceImpl implements ArticleService {
 
         if (category == "ALL") {
             articles = articleRepository.findTop3ByOrderByHitsDesc();
-            articles.addAll(articleRepository.findAllOrderByIdDesc());
+            articles.addAll(articleRepository.findAllByOrderByIdDesc());
         } else {
-            articles = articleRepository.findTop3ByCategoryOrderByHitsDesc();
+            articles = articleRepository.findTop3ByCategoryOrderByHitsDesc(category);
             articles.addAll(articleRepository.findByCategoryOrderByIdDesc(category));
         }
 

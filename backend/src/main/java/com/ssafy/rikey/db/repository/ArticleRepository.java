@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    List<Article> findTop3ByCategoryOrderByHitsDesc();
+    List<Article> findTop3ByCategoryOrderByHitsDesc(String category);
     List<Article> findTop3ByOrderByHitsDesc();
-    List<Article> findAllOrderByIdDesc();
+    List<Article> findAllByOrderByIdDesc();
     List<Article> findByCategoryOrderByIdDesc(String category);
     List<Article> findTop5ByOrderByIdDesc();
 }
