@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Entity
+@Getter
 @Table(name = "user")
 public class User {
 
@@ -31,6 +31,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Area area;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auth_id", unique = true)
+    private Auth auth;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Like> likeArticles = new ArrayList<>();

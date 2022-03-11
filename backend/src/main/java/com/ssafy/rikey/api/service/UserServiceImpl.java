@@ -1,14 +1,14 @@
 package com.ssafy.rikey.api.service;
 
-import com.ssafy.rikey.api.response.ArticleResponseDto;
-import com.ssafy.rikey.api.response.RidingInfoResponseDto;
-import com.ssafy.rikey.api.response.UserResponseDto;
+import com.ssafy.rikey.api.response.*;
 import com.ssafy.rikey.db.entity.*;
+import com.ssafy.rikey.db.repository.AuthRepository;
 import com.ssafy.rikey.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +17,16 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
+    private final AuthRepository authRepository;
     private final UserRepository userRepository;
+
+    // 로그인
+    @Override
+    public UserResponseDto login(String authId) {
+        Auth auth = authRepository.getById(authId);
+        User user = userRepository.findByAuth(auth);
+        return user == null ? null : new UserResponseDto(user);
+    }
 
     // 프로필 조회
     @Override

@@ -23,6 +23,32 @@ public class UserController {
 
     private final UserService userService;
 
+    @PostMapping("/login")
+    @ApiOperation(value = "로그인", notes = "유저 로그인을 시도한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<Map<String, Object>> login(
+            @RequestBody @ApiParam(value = "네이버 발급 고유 일련번호") Map<String, String> body) {
+
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+
+        try {
+            UserResponseDto userResponseDto = userService.login(body.get("authid"));
+            httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
     @GetMapping("/{userId}")
     @ApiOperation(value = "유저 프로필 조회", notes = "유저 프로필을 조회한다.")
     @ApiResponses({
