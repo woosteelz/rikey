@@ -34,7 +34,7 @@ public class ChatServiceImpl implements ChatService{
 
         for (UserChat userChat : userChats) {
             Chat chat = chatRepository.findById(userChat.getChat().getId()).get();
-            ChatMessage chatMessage = chatMessageRepository.findTopByChatOrderByDesc(chat).get();
+            ChatMessage chatMessage = chatMessageRepository.findTopByChatOrderByCreatedTimeDesc(chat).get();
             chatMessages.add(chatMessage);
         }
 

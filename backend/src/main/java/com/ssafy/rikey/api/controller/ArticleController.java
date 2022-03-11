@@ -23,7 +23,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    @GetMapping
+    @GetMapping("/recent")
     @ApiOperation(value = "최근 게시글 조회", notes = "최근 게시글을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),

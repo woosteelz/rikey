@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
 
-    Optional<ChatMessage> findTopByChatOrderByDesc(Chat chat);
+    Optional<ChatMessage> findTopByChatOrderByCreatedTimeDesc(Chat chat);
 }

@@ -35,7 +35,7 @@ public class ReviewController {
         }
     }
 
-    @PostMapping
+    @PutMapping
     @ApiOperation(value = "자전거길 리뷰 수정", notes = "등록된 특정 자전거 길에 대한 리뷰를 수정한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -53,7 +53,7 @@ public class ReviewController {
         }
     }
 
-    @PostMapping
+    @DeleteMapping
     @ApiOperation(value = "자전거길 리뷰 삭제", notes = "등록된 특정 자전거 길에 대한 리뷰를 삭제한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
