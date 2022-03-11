@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @ApiModel("RidingInfoResponseDto")
 public class RidingInfoResponseDto {
 
-    @ApiModelProperty(value = "시작 시간", example = "2022-02-01-23:59:59")
+    @ApiModelProperty(value = "시작 시간", example = "2022-02-01 23:59:59.500")
     private LocalDateTime startTime;
 
-    @ApiModelProperty(value = "종료 시간", example = "2022-02-01-23:59:59")
+    @ApiModelProperty(value = "종료 시간", example = "2022-02-01 23:59:59.500")
     private LocalDateTime endTime;
 
     @ApiModelProperty(value = "주행 칼로리", example = "200")

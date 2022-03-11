@@ -4,6 +4,7 @@ import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.db.entity.Article;
+import com.ssafy.rikey.db.entity.Category;
 import com.ssafy.rikey.db.entity.Like;
 import com.ssafy.rikey.db.entity.User;
 import com.ssafy.rikey.db.repository.ArticleRepository;
@@ -35,12 +36,12 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleResponseDto> getArticles(String category) {
         List<Article> articles = null;
 
-        if (category == "ALL") {
+        if (category.equals("ALL")) {
             articles = articleRepository.findTop3ByOrderByHitsDesc();
-            articles.addAll(articleRepository.findAllOrderByIdDesc());
+            articles.addAll(articleRepository.findAllByOrderByIdDesc());
         } else {
-            articles = articleRepository.findTop3ByCategoryOrderByHitsDesc();
-            articles.addAll(articleRepository.findByCategoryOrderByIdDesc(category));
+            articles = articleRepository.findTop3ByCategoryOrderByHitsDesc(Category.valueOf(category));
+            articles.addAll(articleRepository.findByCategoryOrderByIdDesc(Category.valueOf(category)));
         }
 
         return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
@@ -69,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = Article.builder()
                 .title(articleRequestDto.getTitle())
                 .content(articleRequestDto.getContent())
-                .category(articleRequestDto.getCategory())
+                .category(Category.valueOf(articleRequestDto.getCategory()))
                 .user(user)
                 .build();
         Article saveArticle = articleRepository.save(article);
@@ -81,7 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void updateArticle(Long articleId, ArticleRequestDto articleRequestDto) {
         Article article = articleRepository.findById(articleId).get();
-        article.update(articleRequestDto.getTitle(), articleRequestDto.getContent(), articleRequestDto.getCategory());
+        article.update(articleRequestDto.getTitle(), articleRequestDto.getContent(), Category.valueOf(articleRequestDto.getCategory()));
     }
 
     // 게시글 삭제
