@@ -25,7 +25,7 @@ public class ChatController {
     private final ChatService chatService;
     private final UserRepository userRepository;
 
-    @GetMapping
+    @GetMapping("/{userId}")
     @ApiOperation(value = "전체 채팅 조회", notes = "전체 채팅을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
