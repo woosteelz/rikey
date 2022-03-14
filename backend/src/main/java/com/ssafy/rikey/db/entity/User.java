@@ -16,9 +16,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long id;
+    private String id;
 
     private String nickName;
 
@@ -55,7 +54,8 @@ public class User {
     private List<RidingInfo> ridingInfos = new ArrayList<>();
 
     @Builder
-    public User(Auth auth, String nickName, String greeting, Area area) {
+    public User(String id, Auth auth, String nickName, String greeting, Area area) {
+        this.id = id;
         this.auth = auth;
         this.nickName = nickName;
         this.profile_pic = "";

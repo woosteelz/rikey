@@ -39,7 +39,7 @@ public class ArticleController {
 
         try {
             articleList = articleService.getRecentArticles();
-            httpStatus = HttpStatus.CREATED;
+            httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -84,6 +84,7 @@ public class ArticleController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getArticle(
+            @RequestParam @ApiParam(value = "유저 아이디") String userId,
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();
@@ -91,7 +92,7 @@ public class ArticleController {
         ArticleDetailResponseDto article = null;
 
         try {
-            article = articleService.getArticle(user, articleId);
+            article = articleService.getArticle(userId, articleId);
             httpStatus = HttpStatus.CREATED;
             result.put("status", "SUCCESS");
         } catch (NoSuchElementException e) {
@@ -114,6 +115,7 @@ public class ArticleController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> createArticle(
+            @RequestParam @ApiParam(value = "유저 아이디") String userId,
             @RequestBody @ApiParam(value = "게시글 정보", required = true) ArticleRequestDto articleRequestDto) {
 
         Map<String, Object> result = new HashMap<>();
@@ -121,7 +123,7 @@ public class ArticleController {
         Long articleId = null;
 
         try {
-            articleId = articleService.createArticle(user, articleRequestDto);
+            articleId = articleService.createArticle(userId, articleRequestDto);
             httpStatus = HttpStatus.CREATED;
             result.put("status", "SUCCESS");
         } catch (IllegalArgumentException e) {

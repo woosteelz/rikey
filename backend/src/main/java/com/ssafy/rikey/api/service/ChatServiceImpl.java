@@ -8,6 +8,7 @@ import com.ssafy.rikey.db.entity.UserChat;
 import com.ssafy.rikey.db.repository.ChatMessageRepository;
 import com.ssafy.rikey.db.repository.ChatRepository;
 import com.ssafy.rikey.db.repository.UserChatRepository;
+import com.ssafy.rikey.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +25,12 @@ public class ChatServiceImpl implements ChatService{
     private final UserChatRepository userChatRepository;
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final UserRepository userRepository;
 
     // 채팅 목록 조회
     @Override
-    public List<ChatResponseDto> getChats(User user) {
+    public List<ChatResponseDto> getChats(String userId) {
+        User user = userRepository.findById(userId).get();
 
         List<ChatMessage> chatMessages = new ArrayList<>();
         List<UserChat> userChats = userChatRepository.findAllByUser(user);
