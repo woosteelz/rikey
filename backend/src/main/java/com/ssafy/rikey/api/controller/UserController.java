@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Api(tags = "User", value = "게시글 API")
 @CrossOrigin(origins = {"*"})
@@ -72,6 +73,9 @@ public class UserController {
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
             result.put("profile", userSimpleResponseDto);
+        } catch (NoSuchElementException e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "NO USER");
         } catch (RuntimeException e) {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             result.put("status", "SERVER ERROR");
@@ -84,6 +88,7 @@ public class UserController {
     @ApiOperation(value = "유저 프로필 조회", notes = "유저 프로필을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getArticles(
@@ -97,6 +102,9 @@ public class UserController {
             user = userService.getUser(userId);
             httpStatus = HttpStatus.OK;
             result.put("success", true);
+        } catch (NoSuchElementException e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "NO USER");
         } catch (RuntimeException e) {
             e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

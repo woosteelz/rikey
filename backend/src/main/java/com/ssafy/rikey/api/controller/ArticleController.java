@@ -87,10 +87,10 @@ public class ArticleController {
             @RequestParam @ApiParam(value = "유저 아이디") String userId,
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
+        System.out.println("controller 들어옴");
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
         ArticleDetailResponseDto article = null;
-
         try {
             article = articleService.getArticle(userId, articleId);
             httpStatus = HttpStatus.CREATED;
@@ -115,7 +115,6 @@ public class ArticleController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> createArticle(
-            @RequestParam @ApiParam(value = "유저 아이디") String userId,
             @RequestBody @ApiParam(value = "게시글 정보", required = true) ArticleRequestDto articleRequestDto) {
 
         Map<String, Object> result = new HashMap<>();
@@ -123,7 +122,7 @@ public class ArticleController {
         Long articleId = null;
 
         try {
-            articleId = articleService.createArticle(userId, articleRequestDto);
+            articleId = articleService.createArticle(articleRequestDto);
             httpStatus = HttpStatus.CREATED;
             result.put("status", "SUCCESS");
         } catch (IllegalArgumentException e) {
