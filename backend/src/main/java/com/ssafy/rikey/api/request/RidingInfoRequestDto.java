@@ -27,4 +27,6 @@ public class RidingInfoRequestDto {
     @ApiModelProperty(value = "주행 거리", example = "200.5")
     private double ridingDist;
 
+    @ApiModelProperty(value = "유저 id", example = "adsfsdf")
+    private String userId;
 }

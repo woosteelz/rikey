@@ -25,11 +25,10 @@ public class ReviewController {
             @ApiResponse(code = 400, message = "실패")
     })
     public ResponseEntity<String> createReview(
-            @RequestBody @ApiParam(value = "유저 아이디") String userId,
             @RequestBody @ApiParam(value="리뷰 정보") CreateReviewRequestDto reviewInfo) {
 
         try {
-            reviewService.createReview(reviewInfo, userId);
+            reviewService.createReview(reviewInfo, reviewInfo.getUserId());
             return new ResponseEntity<String>("성공", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>("실패", HttpStatus.BAD_REQUEST);

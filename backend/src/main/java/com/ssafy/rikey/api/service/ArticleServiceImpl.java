@@ -79,7 +79,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     @Override
     public Long createArticle(ArticleRequestDto articleRequestDto) {
-        User user = userRepository.findById(articleRequestDto.getUser()).get();
+        User user = userRepository.findById(articleRequestDto.getUserId()).get();
 
         Article article = Article.builder()
                 .title(articleRequestDto.getTitle())

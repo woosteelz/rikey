@@ -10,4 +10,7 @@ public class CreateCommentRequestDto {
 
     @ApiModelProperty(value = "댓글 내용", example = "내용1", required = true)
     private String content;
+
+    @ApiModelProperty(value = "유저 id", example = "adsfsdf")
+    private String userId;
 }

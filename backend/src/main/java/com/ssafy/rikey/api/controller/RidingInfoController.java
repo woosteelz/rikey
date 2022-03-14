@@ -28,14 +28,13 @@ public class RidingInfoController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> createRidingInfo(
-            @RequestBody @ApiParam(value = "유저 아이디") String userId,
             @RequestBody @ApiParam(value = "게시글 정보", required = true) RidingInfoRequestDto ridingInfoRequestDto) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
 
         try {
-            ridingInfoService.createRidingInfo(userId, ridingInfoRequestDto);
+            ridingInfoService.createRidingInfo(ridingInfoRequestDto.getUserId(), ridingInfoRequestDto);
             httpStatus = HttpStatus.OK;
             result.put("success", true);
         } catch (RuntimeException e) {

@@ -20,6 +20,7 @@ public class LikeyServiceImpl implements LikeyService {
     private final UserRepository userRepository;
 
     // 좋아요 등록
+    @Transactional
     @Override
     public void createLikey(String userId, Long articleId) {
         Article article = articleRepository.findById(articleId).get();
