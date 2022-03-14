@@ -7,7 +7,7 @@ import com.ssafy.rikey.api.response.CommentResponseDto;
 import com.ssafy.rikey.db.entity.*;
 import com.ssafy.rikey.db.repository.ArticleRepository;
 import com.ssafy.rikey.db.repository.CommentRepository;
-import com.ssafy.rikey.db.repository.LikeRepository;
+import com.ssafy.rikey.db.repository.LikeyRepository;
 import com.ssafy.rikey.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final LikeRepository likeRepository;
+    private final LikeyRepository likeRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
@@ -52,11 +52,11 @@ public class ArticleServiceImpl implements ArticleService {
     // 게시글 상세 조회
     @Override
     public ArticleDetailResponseDto getArticle(String userId, Long articleId) {
-        List<Like> likes = likeRepository.findByArticle(articleId);
+        List<Likey> likeys = likeRepository.findByArticle(articleId);
         Boolean isLike = false;
 
-        for (Like like : likes) {
-            if (like.getUser().getId().equals(userId)) {
+        for (Likey likey : likeys) {
+            if (likey.getUser().getId().equals(userId)) {
                 isLike = true;
                 break;
             }

@@ -1,8 +1,6 @@
 package com.ssafy.rikey.api.controller;
 
-import com.ssafy.rikey.api.request.ArticleRequestDto;
-import com.ssafy.rikey.api.service.LikeService;
-import com.ssafy.rikey.db.repository.LikeRepository;
+import com.ssafy.rikey.api.service.LikeyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -19,9 +17,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/likes")
 @RequiredArgsConstructor
-public class LikeController {
+public class LikeyController {
 
-    public LikeService likeService;
+    public LikeyService likeService;
 
     @ApiOperation(value = "좋아요 등록", notes = "게시글에 좋아요를 등록한다.")
     @PostMapping
@@ -33,7 +31,7 @@ public class LikeController {
         HttpStatus httpStatus = null;
 
         try {
-            likeService.createLike(userId, articleId);
+            likeService.createLikey(userId, articleId);
             httpStatus = HttpStatus.OK;
             result.put("success", true);
         } catch (RuntimeException e) {
