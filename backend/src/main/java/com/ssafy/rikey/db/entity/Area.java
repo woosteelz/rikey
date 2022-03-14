@@ -9,7 +9,7 @@ public enum Area {
     INCHEON("인천"),
     DAEJEON("대전"),
     DAEGU("대구"),
-    GWANJU("광주"),
+    GWANGJU("광주"),
     ULSAN("울산"),
     BUSAN("부산"),
     GYEONGGI("경기"),

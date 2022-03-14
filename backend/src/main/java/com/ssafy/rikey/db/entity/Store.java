@@ -2,6 +2,7 @@ package com.ssafy.rikey.db.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 
@@ -26,7 +27,5 @@ public class Store {
 
     private boolean repairTable;
 
-    private double latitude;
-
-    private double longitude;
+    private Point point;
 }

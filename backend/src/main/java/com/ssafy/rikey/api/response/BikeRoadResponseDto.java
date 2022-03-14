@@ -1,0 +1,32 @@
+package com.ssafy.rikey.api.response;
+
+import com.ssafy.rikey.db.entity.BikeRoad;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@ApiModel("BikeRoadResponseDto")
+public class BikeRoadResponseDto {
+
+    @ApiModelProperty(value = "자전거길 id", example = "1")
+    private Long bikeroadId;
+
+    @ApiModelProperty(value = "코스 종류", example = "종주 코스")
+    private String course;
+
+    @ApiModelProperty(value = "자전거길 이름", example = "한강 종주 코스")
+    private String name;
+
+    @ApiModelProperty(value = "리뷰 개수", example = "2")
+    private int reviewCnt;
+
+    public BikeRoadResponseDto(BikeRoad bikeRoad) {
+        bikeroadId = bikeRoad.getId();
+        course = bikeRoad.getCourse();
+        name = bikeRoad.getName();
+        reviewCnt = bikeRoad.getReviews().size();
+    }
+}

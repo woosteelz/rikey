@@ -7,6 +7,7 @@ import com.ssafy.rikey.db.entity.Review;
 import com.ssafy.rikey.db.entity.User;
 import com.ssafy.rikey.db.repository.BikeRoadRepository;
 import com.ssafy.rikey.db.repository.ReviewRepository;
+import com.ssafy.rikey.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +19,12 @@ public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
     private final BikeRoadRepository bikeRoadRepository;
+    private final UserRepository userRepository;
 
     // 리뷰 등록 서비스
     @Override
-    public void createReview(CreateReviewRequestDto reviewInfo, User user) {
+    public void createReview(CreateReviewRequestDto reviewInfo, String userId) {
+        User user = userRepository.findById(userId).get();
 
         try {
             BikeRoad bikeRoad = bikeRoadRepository.findById(reviewInfo.getBikeRoadId()).get();

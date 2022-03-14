@@ -10,13 +10,13 @@ import lombok.Data;
 public class MainResponseDto {
 
     @ApiModelProperty(name = "지역", example = "서울")
-    String area;
+    private String area;
 
     @ApiModelProperty(name = "위도", example = "37.566317724075155")
-    double latitude;
+    private double latitude;
 
     @ApiModelProperty(name = "경도", example = "126.97794079529639")
-    double longitude;
+    private double longitude;
 
     @Builder
     public MainResponseDto(String area, double latitude, double longitude) {
