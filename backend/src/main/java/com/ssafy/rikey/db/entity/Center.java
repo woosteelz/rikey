@@ -21,10 +21,6 @@ public class Center {
 
     private String address;
 
-    private Double latitude;
-
-    private Double longitude;
-
     private Long bikeroadId;
 
     private Point point;
