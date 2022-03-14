@@ -2,6 +2,7 @@ package com.ssafy.rikey.db.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 
@@ -20,11 +21,11 @@ public class Center {
 
     private String address;
 
-    private double latitude;
+    private Double latitude;
 
-    private double longitude;
+    private Double longitude;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bike_road_id")
-    private BikeRoad bikeRoad;
+    private Long bikeroadId;
+
+    private Point point;
 }

@@ -26,7 +26,7 @@ public class Store {
 
     private boolean repairTable;
 
-    private double latitude;
+    private Double latitude;
 
-    private double longitude;
+    private Double longitude;
 }

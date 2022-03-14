@@ -6,6 +6,7 @@ import com.ssafy.rikey.api.response.ReviewResponseDto;
 import com.ssafy.rikey.db.entity.BikeRoad;
 import com.ssafy.rikey.db.entity.Review;
 import com.ssafy.rikey.db.repository.BikeRoadRepository;
+import com.ssafy.rikey.db.repository.CenterRepository;
 import com.ssafy.rikey.db.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,14 @@ public class BikeRoadServiceImpl implements BikeRoadService {
 
     private final BikeRoadRepository bikeRoadRepository;
     private final ReviewRepository reviewRepository;
+    private final CenterRepository centerRepository;
 
     // 추천 코스 리스트 조회
     @Override
     public List<BikeRoadResponseDto> getBikeRoads(Double latitude, Double longitude) {
         List<BikeRoad> bikeRoads = bikeRoadRepository.findBikeRoadByRange(latitude, longitude);
+        List<BikeRoad> bikeRoadByCenterByRange = centerRepository.findBikeRoadByCenterByRange(latitude, longitude);
+        bikeRoads.addAll(bikeRoadByCenterByRange);
         return bikeRoads.stream().map(BikeRoadResponseDto::new).collect(Collectors.toList());
     }
 

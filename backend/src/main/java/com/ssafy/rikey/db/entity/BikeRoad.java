@@ -23,13 +23,13 @@ public class BikeRoad {
 
     private String name;
 
-    private double departureLatitude;
+    private Double departureLatitude;
 
-    private double departureLongitude;
+    private Double departureLongitude;
 
-    private double arrivalLatitude;
+    private Double arrivalLatitude;
 
-    private double arrivalLongitude;
+    private Double arrivalLongitude;
 
     private int hour;
 
