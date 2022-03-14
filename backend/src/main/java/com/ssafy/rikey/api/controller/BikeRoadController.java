@@ -1,7 +1,5 @@
 package com.ssafy.rikey.api.controller;
 
-import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
-import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.response.BikeRoadDetailResponseDto;
 import com.ssafy.rikey.api.response.BikeRoadResponseDto;
 import com.ssafy.rikey.api.service.BikeRoadService;
