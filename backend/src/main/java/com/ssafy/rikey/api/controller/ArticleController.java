@@ -65,7 +65,7 @@ public class ArticleController {
 
         try {
             articleList = articleService.getArticles(category);
-            httpStatus = HttpStatus.CREATED;
+            httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

@@ -33,11 +33,32 @@ public class LikeyController {
         try {
             likeyService.createLikey(likeyRequestDto.getUserId(), likeyRequestDto.getArticleId());
             httpStatus = HttpStatus.OK;
-            result.put("success", true);
+            result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
             e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            result.put("success", false);
+            result.put("status", "SERVER ERROR");
+        }
+
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
+    @ApiOperation(value = "좋아요 취소", notes = "게시글에 좋아요를 등록한다.")
+    @PostMapping("/delete")
+    public ResponseEntity<Map<String, Object>> deleteLike(
+            @RequestBody @ApiParam(value = "좋아요 정보", required = true) LikeyRequestDto likeyRequestDto) {
+
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+
+        try {
+            likeyService.deleteLikey(likeyRequestDto.getUserId(), likeyRequestDto.getArticleId());
+            httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
         }
 
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
