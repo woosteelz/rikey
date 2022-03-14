@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface CommentService {
 
-    void createComment(CreateCommentRequestDto commentInfo, Article article, User user);
+    Long createComment(CreateCommentRequestDto commentInfo, Long articleId, String userId);
     Comment updateComment(CreateCommentRequestDto commentInfo, Long commentId, Long articleId);
     void deleteComment(Comment comment);
     List<CommentResponseDto> getCommentList(Long articleId);

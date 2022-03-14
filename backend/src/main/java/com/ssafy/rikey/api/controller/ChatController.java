@@ -53,19 +53,19 @@ public class ChatController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @GetMapping
-    @ApiOperation(value = "채팅 상세 조회", notes = "채팅을 상세 조회한다.")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 400, message = "채팅 탐색 오류"),
-            @ApiResponse(code = 500, message = "서버 오류"),
-    })
-    public ResponseEntity<Map<String, Object>> getchat(
-            @PathVariable @ApiParam(value = "채팅 id", required = true) Long chatId) {
-
-        Map<String, Object> result = new HashMap<>();
-        List<ChatDetailResponseDto> chatDetailList = null;
-        HttpStatus httpStatus = null;
-
-    }
+//    @GetMapping
+//    @ApiOperation(value = "채팅 상세 조회", notes = "채팅을 상세 조회한다.")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, message = "성공"),
+//            @ApiResponse(code = 400, message = "채팅 탐색 오류"),
+//            @ApiResponse(code = 500, message = "서버 오류"),
+//    })
+//    public ResponseEntity<Map<String, Object>> getchat(
+//            @PathVariable @ApiParam(value = "채팅 id", required = true) Long chatId) {
+//
+//        Map<String, Object> result = new HashMap<>();
+//        List<ChatDetailResponseDto> chatDetailList = null;
+//        HttpStatus httpStatus = null;
+//
+//    }
 }

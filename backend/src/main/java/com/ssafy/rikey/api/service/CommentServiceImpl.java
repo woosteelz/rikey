@@ -7,6 +7,7 @@ import com.ssafy.rikey.db.entity.Comment;
 import com.ssafy.rikey.db.entity.User;
 import com.ssafy.rikey.db.repository.ArticleRepository;
 import com.ssafy.rikey.db.repository.CommentRepository;
+import com.ssafy.rikey.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +22,13 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final ArticleRepository articleRepository;
+    private final UserRepository userRepository;
 
     // 댓글 등록
     @Override
-    public void createComment(CreateCommentRequestDto commentInfo, Article article, User user) {
+    public Long createComment(CreateCommentRequestDto commentInfo, Long articleId, String userId) {
+        User user = userRepository.findById(userId).get();
+        Article article = articleRepository.findById(articleId).get();
 
         try {
             Comment comment = Comment.builder()
@@ -32,8 +36,8 @@ public class CommentServiceImpl implements CommentService {
                     .user(user)
                     .article(article)
                     .build();
-            commentRepository.save(comment);
-
+            Comment saveComment = commentRepository.save(comment);
+            return saveComment.getId();
         } catch (Exception e) {
             throw e;
         }

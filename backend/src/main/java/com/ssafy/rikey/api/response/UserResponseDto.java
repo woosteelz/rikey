@@ -16,7 +16,7 @@ import java.util.List;
 public class UserResponseDto {
 
     @ApiModelProperty(value = "유저 Id", example = "1232354")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "유저 닉네임", example = "nickname")
     private String nickName;

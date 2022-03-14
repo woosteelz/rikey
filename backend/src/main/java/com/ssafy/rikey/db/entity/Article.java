@@ -29,6 +29,7 @@ public class Article extends com.ssafy.rikey.db.entity.BaseEntity {
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User author;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
