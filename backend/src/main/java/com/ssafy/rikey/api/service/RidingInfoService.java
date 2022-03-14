@@ -10,5 +10,5 @@ import java.util.List;
 public interface RidingInfoService {
 
     List<RidingInfoResponseDto> getRidingInfos(String userId);
-    void createRidingInfo(User user, RidingInfoRequestDto ridingInfoRequestDto);
+    void createRidingInfo(String userId, RidingInfoRequestDto ridingInfoRequestDto);
 }

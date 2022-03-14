@@ -33,8 +33,9 @@ public class RidingInfoServiceImpl implements RidingInfoService {
 
     // 주행 정보 등록
     @Override
-    public void createRidingInfo(User user, RidingInfoRequestDto ridingInfoRequestDto) {
+    public void createRidingInfo(String userId, RidingInfoRequestDto ridingInfoRequestDto) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        User user = userRepository.findById(userId).get();
 
         RidingInfo ridingInfo = RidingInfo.builder()
                 .startTime(LocalDateTime.parse(ridingInfoRequestDto.getStartTime(), formatter))
