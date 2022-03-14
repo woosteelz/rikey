@@ -8,13 +8,13 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Table(name = "like")
 @NoArgsConstructor
-public class Like {
+@Table(name = "likey")
+public class Likey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
+    @Column(name = "likey_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,7 +26,7 @@ public class Like {
     private Article article;
 
     @Builder
-    public Like(User user, Article article) {
+    public Likey(User user, Article article) {
         this.user = user;
         this.article = article;
     }

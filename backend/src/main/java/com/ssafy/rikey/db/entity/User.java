@@ -1,7 +1,6 @@
 package com.ssafy.rikey.db.entity;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,8 +37,8 @@ public class User {
     @JoinColumn(name = "auth_id", unique = true)
     private Auth auth;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Like> likeArticles = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Likey> likeArticles = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Article> articles = new ArrayList<>();
