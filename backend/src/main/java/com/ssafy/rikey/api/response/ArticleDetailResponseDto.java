@@ -7,7 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.ElementCollection;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -44,10 +46,11 @@ public class ArticleDetailResponseDto {
     @ApiModelProperty(value = "게시글 작성자 닉네임", example = "영하")
     private String author;
 
-//    @ElementCollection
-//    private List<commentResponseDto> commentList;
+    @ElementCollection
+    private List<CommentResponseDto> commentList;
 
-    public ArticleDetailResponseDto(Boolean isLike, Article article){
+    public ArticleDetailResponseDto(Boolean isLike, Article article,
+                                    List<CommentResponseDto> commentResponseDtos){
         articleId = article.getId();
         title = article.getTitle();
         content = article.getContent();
@@ -58,5 +61,6 @@ public class ArticleDetailResponseDto {
         likeCnt = article.getLikeUsers().size();
         author = article.getAuthor().getNickName();
         this.isLike = isLike;
+        commentList = commentResponseDtos;
     }
 }
