@@ -1,14 +1,12 @@
 package com.ssafy.rikey.db.entity;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Entity
 @Getter
@@ -36,6 +34,8 @@ public class Article extends com.ssafy.rikey.db.entity.BaseEntity {
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Like> likeUsers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Like> comments = new ArrayList<>();
 
     @Builder
     private Article(String title, String content, Category category, User user) {
@@ -46,15 +46,15 @@ public class Article extends com.ssafy.rikey.db.entity.BaseEntity {
         this.author = user;
     }
 
+    // 게시글 수정을 위한 편의 함수
     public void update(String title, String content, Category category) {
         this.title = title;
         this.content = content;
         this.category = category;
     }
 
+    // 조회수 증가를 위한 편의 함수
     public void increaseHits() {
         this.hits++;
     }
-
-
 }

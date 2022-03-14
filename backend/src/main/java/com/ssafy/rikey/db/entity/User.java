@@ -3,6 +3,8 @@ package com.ssafy.rikey.db.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -28,4 +30,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Area area;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Like> likeArticles = new ArrayList<>();
 }
