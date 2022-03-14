@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final LikeyRepository likeRepository;
+    private final LikeyRepository likeyRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
@@ -52,7 +52,7 @@ public class ArticleServiceImpl implements ArticleService {
     // 게시글 상세 조회
     @Override
     public ArticleDetailResponseDto getArticle(String userId, Long articleId) {
-        List<Likey> likeys = likeRepository.findByArticle(articleId);
+        List<Likey> likeys = likeyRepository.findByArticle(articleId);
         Boolean isLike = false;
 
         for (Likey likey : likeys) {
