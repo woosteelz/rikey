@@ -2,7 +2,6 @@ package com.ssafy.rikey.api.controller;
 
 import com.ssafy.rikey.api.request.CreateCommentRequestDto;
 import com.ssafy.rikey.api.service.CommentService;
-import com.ssafy.rikey.db.entity.Article;
 import com.ssafy.rikey.db.entity.Comment;
 import com.ssafy.rikey.db.repository.ArticleRepository;
 import com.ssafy.rikey.db.repository.CommentRepository;
@@ -10,9 +9,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +36,7 @@ public class CommentController {
     })
     public ResponseEntity<Map<String, Object>> createComment(
             @RequestBody @ApiParam(value="댓글 정보") CreateCommentRequestDto commentInfo,
-            @RequestParam @ApiParam(value = "유저 아이디") String userId,
+            @RequestBody @ApiParam(value = "유저 아이디") String userId,
             @RequestParam("articleId") @ApiParam(value="게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();

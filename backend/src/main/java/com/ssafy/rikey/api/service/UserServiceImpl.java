@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final HashEncoder hashEncoder;
 
     // 회원가입
+    @Transactional
     @Override
     public UserSimpleResponseDto register(UserRequestDto userRequestDto) {
         Auth auth = new Auth(hashEncoder.encode(userRequestDto.getAuthId()), false, null);

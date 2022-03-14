@@ -30,8 +30,8 @@ public class BikeRoadController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getBikeRoads(
-            @RequestParam(required = true) @ApiParam(value = "카테고리") Double latitude,
-            @RequestParam(required = true) @ApiParam(value = "카테고리") Double longitude) {
+            @RequestParam(required = true) @ApiParam(value = "현재 위도") Double latitude,
+            @RequestParam(required = true) @ApiParam(value = "현재 경도") Double longitude) {
 
         Map<String, Object> result = new HashMap<>();
         List<BikeRoadResponseDto> bikeroadList = null;

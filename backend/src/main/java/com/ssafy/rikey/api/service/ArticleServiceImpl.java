@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final LikeyRepository likeRepository;
+    private final LikeyRepository likeyRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
@@ -52,7 +52,10 @@ public class ArticleServiceImpl implements ArticleService {
     // 게시글 상세 조회
     @Override
     public ArticleDetailResponseDto getArticle(String userId, Long articleId) {
-        List<Likey> likeys = likeRepository.findByArticle(articleId);
+        Article article = articleRepository.findById(articleId).get();
+        List<Likey> likeys = likeyRepository.findByArticle(article);
+
+        System.out.println("likeys"+ likeys);
         Boolean isLike = false;
 
         for (Likey likey : likeys) {
@@ -61,10 +64,12 @@ public class ArticleServiceImpl implements ArticleService {
                 break;
             }
         }
-        Article article = articleRepository.findById(articleId).get();
-        article.increaseHits();
+        System.out.println("isLike"+isLike);
 
+        article.increaseHits();
+        System.out.println("article = " + article);
         List<Comment> comments = commentRepository.findByArticle(article);
+        System.out.println("comments = " + comments);
         List<CommentResponseDto> commentResponseDtos = comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
 
         return new ArticleDetailResponseDto(isLike, article, commentResponseDtos);
@@ -73,8 +78,8 @@ public class ArticleServiceImpl implements ArticleService {
     // 게시글 등록
     @Transactional
     @Override
-    public Long createArticle(String userId, ArticleRequestDto articleRequestDto) {
-        User user = userRepository.findById(userId).get();
+    public Long createArticle(ArticleRequestDto articleRequestDto) {
+        User user = userRepository.findById(articleRequestDto.getUser()).get();
 
         Article article = Article.builder()
                 .title(articleRequestDto.getTitle())
