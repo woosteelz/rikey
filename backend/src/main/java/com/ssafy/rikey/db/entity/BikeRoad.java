@@ -41,8 +41,8 @@ public class BikeRoad {
 
     private Point endPoint;
 
-//    @OneToMany(mappedBy = "bikeRoad", cascade = CascadeType.REMOVE, orphanRemoval = true)
-//    private List<Center> centers = new ArrayList<>();
+    @OneToMany(mappedBy = "bikeRoad", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Center> centers = new ArrayList<>();
 
     @OneToMany(mappedBy = "bikeRoad", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
