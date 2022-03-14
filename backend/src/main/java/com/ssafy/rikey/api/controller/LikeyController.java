@@ -24,7 +24,7 @@ public class LikeyController {
     @ApiOperation(value = "좋아요 등록", notes = "게시글에 좋아요를 등록한다.")
     @PostMapping
     public ResponseEntity<Map<String, Object>> createLike(
-            @RequestParam @ApiParam(value = "유저 아이디") String userId,
+            @RequestBody @ApiParam(value = "유저 아이디") String userId,
             @RequestBody @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();
