@@ -5,6 +5,7 @@ import com.ssafy.rikey.api.response.RidingInfoResponseDto;
 import com.ssafy.rikey.db.entity.RidingInfo;
 import com.ssafy.rikey.db.entity.User;
 import com.ssafy.rikey.db.repository.RidingInfoRepository;
+import com.ssafy.rikey.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,12 @@ import java.util.stream.Collectors;
 public class RidingInfoServiceImpl implements RidingInfoService {
 
     private final RidingInfoRepository ridingInfoRepository;
+    private final UserRepository userRepository;
 
     // 주행 정보 조회
     @Override
-    public List<RidingInfoResponseDto> getRidingInfos(User user) {
+    public List<RidingInfoResponseDto> getRidingInfos(String userId) {
+        User user = userRepository.findById(userId).get();
         List<RidingInfo> ridingInfoes = ridingInfoRepository.findByUser(user);
         return ridingInfoes.stream().map(RidingInfoResponseDto::new).collect(Collectors.toList());
     }

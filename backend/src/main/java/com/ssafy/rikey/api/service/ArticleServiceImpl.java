@@ -9,6 +9,7 @@ import com.ssafy.rikey.db.entity.Like;
 import com.ssafy.rikey.db.entity.User;
 import com.ssafy.rikey.db.repository.ArticleRepository;
 import com.ssafy.rikey.db.repository.LikeRepository;
+import com.ssafy.rikey.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final LikeRepository likeRepository;
+    private final UserRepository userRepository;
 
     // 최근 게시글 조회
     @Override
@@ -49,11 +51,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     // 게시글 상세 조회
     @Override
-    public ArticleDetailResponseDto getArticle(User user, Long articleId) {
+    public ArticleDetailResponseDto getArticle(String userId, Long articleId) {
         List<Like> likes = likeRepository.findByArticle(articleId);
         Boolean isLike = false;
+
         for (Like like : likes) {
-            if (like.getUser().equals(user)) {
+            if (like.getUser().getId().equals(userId)) {
                 isLike = true;
                 break;
             }
@@ -66,13 +69,16 @@ public class ArticleServiceImpl implements ArticleService {
     // 게시글 등록
     @Transactional
     @Override
-    public Long createArticle(User user, ArticleRequestDto articleRequestDto) {
+    public Long createArticle(String userId, ArticleRequestDto articleRequestDto) {
+        User user = userRepository.findById(userId).get();
+
         Article article = Article.builder()
                 .title(articleRequestDto.getTitle())
                 .content(articleRequestDto.getContent())
                 .category(Category.valueOf(articleRequestDto.getCategory()))
                 .user(user)
                 .build();
+
         Article saveArticle = articleRepository.save(article);
         return saveArticle.getId();
     }
