@@ -21,6 +21,6 @@ public class ArticleRequestDto {
     private String category;
 
     @ApiModelProperty(value = "유저 id", example = "adsfsdf")
-    private String user;
+    private String userId;
 
 }

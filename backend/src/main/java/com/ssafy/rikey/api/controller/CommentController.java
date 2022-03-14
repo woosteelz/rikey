@@ -36,14 +36,14 @@ public class CommentController {
     })
     public ResponseEntity<Map<String, Object>> createComment(
             @RequestBody @ApiParam(value="댓글 정보") CreateCommentRequestDto commentInfo,
-            @RequestBody @ApiParam(value = "유저 아이디") String userId,
             @RequestParam("articleId") @ApiParam(value="게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
         Long commentId = null;
+
         try {
-            commentId = commentService.createComment(commentInfo, articleId, userId);
+            commentId = commentService.createComment(commentInfo, articleId, commentInfo.getUserId());
             httpStatus = HttpStatus.CREATED;
             result.put("status", "SUCCESS");
         } catch (IllegalArgumentException e) {
@@ -57,6 +57,7 @@ public class CommentController {
             result.put("status", "SERVER ERROR");
         }
 
+        result.put("comment", commentId);
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
