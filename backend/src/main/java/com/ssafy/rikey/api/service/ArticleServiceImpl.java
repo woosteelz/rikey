@@ -3,11 +3,10 @@ package com.ssafy.rikey.api.service;
 import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
-import com.ssafy.rikey.db.entity.Article;
-import com.ssafy.rikey.db.entity.Category;
-import com.ssafy.rikey.db.entity.Like;
-import com.ssafy.rikey.db.entity.User;
+import com.ssafy.rikey.api.response.CommentResponseDto;
+import com.ssafy.rikey.db.entity.*;
 import com.ssafy.rikey.db.repository.ArticleRepository;
+import com.ssafy.rikey.db.repository.CommentRepository;
 import com.ssafy.rikey.db.repository.LikeRepository;
 import com.ssafy.rikey.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +24,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     // 최근 게시글 조회
     @Override
@@ -63,7 +63,11 @@ public class ArticleServiceImpl implements ArticleService {
         }
         Article article = articleRepository.findById(articleId).get();
         article.increaseHits();
-        return new ArticleDetailResponseDto(isLike, article);
+
+        List<Comment> comments = commentRepository.findByArticle(article);
+        List<CommentResponseDto> commentResponseDtos = comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
+
+        return new ArticleDetailResponseDto(isLike, article, commentResponseDtos);
     }
 
     // 게시글 등록

@@ -39,8 +39,7 @@ public class ChatController {
         HttpStatus httpStatus = null;
 
         try {
-            User user = userRepository.findById(userId).get();
-            chatList = chatService.getChats(user);
+            chatList = chatService.getChats(userId);
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
