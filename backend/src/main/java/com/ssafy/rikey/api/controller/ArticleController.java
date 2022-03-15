@@ -84,14 +84,14 @@ public class ArticleController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getArticle(
-            @RequestParam @ApiParam(value = "유저 아이디") String userId,
+            @RequestParam @ApiParam(value = "유저 닉네임") String nickName,
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
         ArticleDetailResponseDto article = null;
         try {
-            article = articleService.getArticle(userId, articleId);
+            article = articleService.getArticle(nickName, articleId);
             httpStatus = HttpStatus.CREATED;
             result.put("status", "SUCCESS");
         } catch (NoSuchElementException e) {

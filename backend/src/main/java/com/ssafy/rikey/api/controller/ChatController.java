@@ -25,21 +25,21 @@ public class ChatController {
     private final ChatService chatService;
     private final UserRepository userRepository;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{nickName}")
     @ApiOperation(value = "전체 채팅 조회", notes = "전체 채팅을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getchats(
-            @PathVariable @ApiParam(value = "사용자 id", required = true) String userId) {
+            @PathVariable @ApiParam(value = "유저 닉네임", required = true) String nickName) {
 
         Map<String, Object> result = new HashMap<>();
         List<ChatResponseDto> chatList = null;
         HttpStatus httpStatus = null;
 
         try {
-            chatList = chatService.getChats(userId);
+            chatList = chatService.getChats(nickName);
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {

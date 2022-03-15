@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService {
 
     // 프로필 조회
     @Override
-    public UserResponseDto getUserProfile(String userId) {
-        User user = userRepository.findById(userId).get();
+    public UserResponseDto getUserProfile(String nickName) {
+        User user = userRepository.findByNickName(nickName);
 
         List<Article> articles = user.getArticles();
         List<ArticleResponseDto> articleResponseDtos = articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
