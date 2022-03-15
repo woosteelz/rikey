@@ -87,7 +87,6 @@ public class ArticleController {
             @RequestParam @ApiParam(value = "유저 아이디") String userId,
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
-        System.out.println("controller 들어옴");
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
         ArticleDetailResponseDto article = null;

@@ -69,7 +69,7 @@ public class UserController {
         HttpStatus httpStatus = null;
 
         try {
-            UserSimpleResponseDto userSimpleResponseDto = userService.login(body.get("authid"));
+            UserSimpleResponseDto userSimpleResponseDto = userService.login(body.get("authId"));
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
             result.put("profile", userSimpleResponseDto);
