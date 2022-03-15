@@ -59,7 +59,6 @@ public class CommentServiceImpl implements CommentService {
         try {
             Comment comment = commentRepository.findByIdAndArticleId(commentId, commentInfo.getArticleId()).get();
             comment.updateContent(commentInfo.getContent());
-            commentRepository.save(comment);
         } catch (Exception e) {
             throw e;
         }

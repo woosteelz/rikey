@@ -1,5 +1,6 @@
 package com.ssafy.rikey.api.controller;
 
+import com.ssafy.rikey.api.request.UpdateUserRequestDto;
 import com.ssafy.rikey.api.request.UserRequestDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.response.UserResponseDto;
@@ -84,14 +85,37 @@ public class UserController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @GetMapping("/{userId}")
-    @ApiOperation(value = "유저 프로필 조회", notes = "유저 프로필을 조회한다.")
+    @PutMapping
+    @ApiOperation(value = "유저 회원정보 수정", notes = "유저 회원정보를 수정한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
-    public ResponseEntity<Map<String, Object>> getArticles(
+    public ResponseEntity<Map<String, Object>> updateUserProfile(
+            @RequestBody @ApiParam(value = "유저 정보") UpdateUserRequestDto updateUserRequestDto) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+        try {
+            userService.updateUserProfile(updateUserRequestDto);
+            httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
+    @GetMapping("/{userId}")
+    @ApiOperation(value = "유저 프로필 조회", notes = "유저 프로필을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류"),
+    })
+    public ResponseEntity<Map<String, Object>> getUserProfile(
             @PathVariable @ApiParam(value = "유저 id", required = true) String userId) {
 
         Map<String, Object> result = new HashMap<>();
