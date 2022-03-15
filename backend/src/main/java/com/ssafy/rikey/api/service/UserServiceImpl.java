@@ -1,5 +1,6 @@
 package com.ssafy.rikey.api.service;
 
+import com.ssafy.rikey.api.request.UpdateUserRequestDto;
 import com.ssafy.rikey.api.request.UserRequestDto;
 import com.ssafy.rikey.api.response.*;
 import com.ssafy.rikey.db.entity.*;
@@ -48,6 +49,14 @@ public class UserServiceImpl implements UserService {
         Auth auth = authRepository.getById(hashEncoder.encode(authId));
         User user = userRepository.findByAuth(auth);
         return user == null ? null : new UserSimpleResponseDto(user);
+    }
+
+    // 회원정보 수정
+    @Transactional
+    @Override
+    public void updateUserProfile(UpdateUserRequestDto updateUserRequestDto) {
+        User user = userRepository.getById(updateUserRequestDto.getUserId());
+        user.update(updateUserRequestDto.getNickName(), updateUserRequestDto.getGreeting(), Area.valueOf(updateUserRequestDto.getArea()));
     }
 
     // 프로필 조회
