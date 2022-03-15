@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     // 프로필 조회
     @Override
-    public UserResponseDto getUser(String userId) {
+    public UserResponseDto getUserProfile(String userId) {
         User user = userRepository.findById(userId).get();
 
         List<Article> articles = user.getArticles();
@@ -77,5 +77,13 @@ public class UserServiceImpl implements UserService {
         List<RidingInfoResponseDto> ridingInfoResponseDtos = ridingInfos.stream().map(RidingInfoResponseDto::new).collect(Collectors.toList());
 
         return new UserResponseDto(user, articleResponseDtos, commentResponseDtos, reviewResponseDtos, ridingInfoResponseDtos);
+    }
+
+    // 회원 탈퇴
+    @Transactional
+    @Override
+    public void deleteUser(String userId) {
+        User user = userRepository.getById(userId);
+        userRepository.delete(user);
     }
 }
