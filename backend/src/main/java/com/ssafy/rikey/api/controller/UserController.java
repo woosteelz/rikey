@@ -110,7 +110,7 @@ public class UserController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{nickName}")
     @ApiOperation(value = "유저 프로필 조회", notes = "유저 프로필을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -118,14 +118,14 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getUserProfile(
-            @PathVariable @ApiParam(value = "유저 id", required = true) String userId) {
+            @PathVariable @ApiParam(value = "유저 닉네임", required = true) String nickName) {
 
         Map<String, Object> result = new HashMap<>();
         UserResponseDto user = null;
         HttpStatus httpStatus = null;
 
         try {
-            user = userService.getUserProfile(userId);
+            user = userService.getUserProfile(nickName);
             httpStatus = HttpStatus.OK;
             result.put("success", true);
         } catch (NoSuchElementException e) {

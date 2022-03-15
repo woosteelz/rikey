@@ -51,25 +51,22 @@ public class ArticleServiceImpl implements ArticleService {
 
     // 게시글 상세 조회
     @Override
-    public ArticleDetailResponseDto getArticle(String userId, Long articleId) {
+    public ArticleDetailResponseDto getArticle(String nickName, Long articleId) {
         Article article = articleRepository.findById(articleId).get();
         List<Likey> likeys = likeyRepository.findByArticle(article);
+        User user = userRepository.findByNickName(nickName);
 
-        System.out.println("likeys"+ likeys);
         Boolean isLike = false;
 
         for (Likey likey : likeys) {
-            if (likey.getUser().getId().equals(userId)) {
+            if (likey.getUser().getId().equals(user.getId())) {
                 isLike = true;
                 break;
             }
         }
-        System.out.println("isLike"+isLike);
 
         article.increaseHits();
-        System.out.println("article = " + article);
         List<Comment> comments = commentRepository.findByArticle(article);
-        System.out.println("comments = " + comments);
         List<CommentResponseDto> commentResponseDtos = comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
 
         return new ArticleDetailResponseDto(isLike, article, commentResponseDtos);
