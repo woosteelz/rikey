@@ -2,9 +2,6 @@ package com.ssafy.rikey.api.controller;
 
 import com.ssafy.rikey.api.request.CreateCommentRequestDto;
 import com.ssafy.rikey.api.service.CommentService;
-import com.ssafy.rikey.db.entity.Comment;
-import com.ssafy.rikey.db.repository.ArticleRepository;
-import com.ssafy.rikey.db.repository.CommentRepository;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,8 +20,6 @@ import java.util.NoSuchElementException;
 public class CommentController {
 
     private final CommentService commentService;
-    private final ArticleRepository articleRepository;
-    private final CommentRepository commentRepository;
 
     @PostMapping
     @ApiOperation(value = "댓글 등록", notes = "새로운 댓글을 등록한다.")
@@ -42,7 +37,7 @@ public class CommentController {
         Long commentId = null;
 
         try {
-            commentId = commentService.createComment(commentInfo, commentInfo.getArticleId(), commentInfo.getUserId());
+            commentId = commentService.createComment(commentInfo);
             httpStatus = HttpStatus.CREATED;
             result.put("status", "SUCCESS");
         } catch (IllegalArgumentException e) {
@@ -76,11 +71,10 @@ public class CommentController {
         HttpStatus httpStatus = null;
 
         try {
-            Comment comment = commentRepository.findByIdAndArticleId(commentId, commentInfo.getArticleId()).get();
+            // 유저 확인 로직 필요
+            commentService.updateComment(commentInfo, commentId);
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
-            // 유저 확인 로직 필요
-            commentService.updateComment(commentInfo, commentId, commentInfo.getArticleId());
         } catch (IllegalArgumentException e) {
             httpStatus = HttpStatus.NO_CONTENT;
             result.put("status", "NO CONTENT");
@@ -109,9 +103,8 @@ public class CommentController {
         HttpStatus httpStatus = null;
 
         try {
-            Comment comment = commentRepository.findById(commentId).get();
             // 유저 확인 로직 필요
-            commentService.deleteComment(comment);
+            commentService.deleteComment(commentId);
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {

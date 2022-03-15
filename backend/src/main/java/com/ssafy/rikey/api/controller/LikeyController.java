@@ -44,7 +44,7 @@ public class LikeyController {
     }
 
     @ApiOperation(value = "좋아요 취소", notes = "게시글에 좋아요를 등록한다.")
-    @PostMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<Map<String, Object>> deleteLike(
             @RequestBody @ApiParam(value = "좋아요 정보", required = true) LikeyRequestDto likeyRequestDto) {
 
