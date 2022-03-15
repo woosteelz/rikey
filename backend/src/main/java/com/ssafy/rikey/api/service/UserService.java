@@ -10,5 +10,6 @@ public interface UserService {
     UserSimpleResponseDto register(UserRequestDto userRequestDto);
     UserSimpleResponseDto login(String authId);
     void updateUserProfile(UpdateUserRequestDto updateUserRequestDto);
-    UserResponseDto getUser(String userId);
+    UserResponseDto getUserProfile(String userId);
+    void deleteUser(String userId);
 }

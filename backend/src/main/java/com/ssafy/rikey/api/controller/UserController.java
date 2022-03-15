@@ -97,6 +97,7 @@ public class UserController {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
+
         try {
             userService.updateUserProfile(updateUserRequestDto);
             httpStatus = HttpStatus.OK;
@@ -105,6 +106,7 @@ public class UserController {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             result.put("status", "SERVER ERROR");
         }
+
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
@@ -123,7 +125,7 @@ public class UserController {
         HttpStatus httpStatus = null;
 
         try {
-            user = userService.getUser(userId);
+            user = userService.getUserProfile(userId);
             httpStatus = HttpStatus.OK;
             result.put("success", true);
         } catch (NoSuchElementException e) {
@@ -136,6 +138,31 @@ public class UserController {
         }
 
         result.put("user", user);
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
+    @DeleteMapping
+    @ApiOperation(value = "회원탈퇴", notes = "회원 탈퇴한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류"),
+    })
+    public ResponseEntity<Map<String, Object>> deleteUser(
+            @RequestBody @ApiParam(value = "네이버 발급 고유 일련번호") Map<String, String> body) {
+
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+
+        try {
+            userService.deleteUser(body.get("userId"));
+            httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 }
