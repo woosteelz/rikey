@@ -12,8 +12,9 @@ import java.util.List;
  */
 public interface CommentService {
 
+    Comment getComment(Long commentId);
     Long createComment(CreateCommentRequestDto commentInfo);
-    Comment updateComment(CreateCommentRequestDto commentInfo, Long commentId);
+    void updateComment(CreateCommentRequestDto commentInfo, Long commentId);
     void deleteComment(Long commentId);
     List<CommentResponseDto> getCommentList(Long articleId);
 }

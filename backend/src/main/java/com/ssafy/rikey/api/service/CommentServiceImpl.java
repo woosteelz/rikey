@@ -24,6 +24,13 @@ public class CommentServiceImpl implements CommentService {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
 
+    //댓글 조회
+    @Override
+    public Comment getComment(Long commentId) {
+        Comment comment = commentRepository.getById(commentId);
+        return comment;
+    }
+
     // 댓글 등록
     @Transactional
     @Override
@@ -47,13 +54,12 @@ public class CommentServiceImpl implements CommentService {
     // 댓글 수정
     @Transactional
     @Override
-    public Comment updateComment(CreateCommentRequestDto commentInfo, Long commentId) {
+    public void updateComment(CreateCommentRequestDto commentInfo, Long commentId) {
 
         try {
             Comment comment = commentRepository.findByIdAndArticleId(commentId, commentInfo.getArticleId()).get();
             comment.updateContent(commentInfo.getContent());
             commentRepository.save(comment);
-            return comment;
         } catch (Exception e) {
             throw e;
         }
