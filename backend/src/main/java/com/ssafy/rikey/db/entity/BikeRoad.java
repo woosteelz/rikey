@@ -19,14 +19,17 @@ public class BikeRoad {
     @Column(name = "bikeroad_id")
     private Long id;
 
-    private String course;
-
     private String name;
+
+    private String departure;
+
+    private String destination;
 
     private int hour;
 
     private int minute;
 
+    @Column(length = 5000)
     private String introduce;
 
     private Point startPoint;

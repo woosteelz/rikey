@@ -4,7 +4,6 @@ import com.ssafy.rikey.Geometry.GeometryUtil;
 import com.ssafy.rikey.Geometry.Location;
 import com.ssafy.rikey.db.entity.BikeRoad;
 import com.ssafy.rikey.Geometry.Direction;
-import com.ssafy.rikey.db.entity.Center;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;

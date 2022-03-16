@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +32,9 @@ public class BikeRoadServiceImpl implements BikeRoadService {
         List<BikeRoad> bikeRoads = bikeRoadRepository.findBikeRoadByRange(latitude, longitude);
         List<BikeRoad> bikeRoadByCenterByRange = centerRepository.findBikeRoadByCenterByRange(latitude, longitude);
         bikeRoads.addAll(bikeRoadByCenterByRange);
-        return bikeRoads.stream().map(BikeRoadResponseDto::new).collect(Collectors.toList());
+        HashSet<BikeRoad> bikeRoadSet = new HashSet<BikeRoad>(bikeRoads);
+        ArrayList<BikeRoad> finalBikeRoads = new ArrayList<BikeRoad>(bikeRoadSet);
+        return finalBikeRoads.stream().map(BikeRoadResponseDto::new).collect(Collectors.toList());
     }
 
     // 코스 상세 정보 조회
