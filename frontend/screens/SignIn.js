@@ -7,22 +7,23 @@ import {
   Platform
 } from "react-native";
 import { NaverLogin, getProfile } from "@react-native-seoul/naver-login";
-import styled from "styled-components";
 import { NativeBaseProvider, Select, Center, Box, CheckIcon } from "native-base";
+import styled from "styled-components";
+import axios from 'axios'
+
 
 const iosKeys = {
   kConsumerKey: "naver client id",
   kConsumerSecret: "naver secret id",
-  kServiceAppName: "테스트앱(iOS)",
-  kServiceAppUrlScheme: "testapp" // only for iOS
+  kServiceSignInName: "테스트앱(iOS)",
+  kServiceSignInUrlScheme: "testSignIn" // only for iOS
 };
 
 const androidKeys = {
   kConsumerKey: "WfLiuAOSqT_2PxhawHwp",
   kConsumerSecret: "RZ8elOQK8h",
-  kServiceAppName: "RIKEY"
+  kServiceSignInName: "RIKEY"
 };
-
 
 
 const naverLogin = props => {
@@ -57,7 +58,7 @@ const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 // Promise: https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise
 
 // naverLogin: token => getUserProfile(token): naverId
-const App = () => {
+const SignIn = ({ navigation }) => {
   const [naverToken, setNaverToken] = useState('');
   const [userNaverId, setUserNaverId] = useState('');
 
@@ -65,7 +66,6 @@ const App = () => {
     NaverLogin.logout();
     setNaverToken("");
     setUserNaverId('');
-		setValidUser(false);
     console.log('로그아웃 완료')
   };
 
@@ -73,10 +73,17 @@ const App = () => {
     try {
       const token = await naverLogin(initials)
       const id = await getUserProfile(token.accessToken);
-
+      
+      console.log(id)
       setNaverToken(token);
       setUserNaverId(id)
-			setValidUser(true);
+      
+      if (id != '') {
+        // 아이디가 유효하다면   
+        navigation.navigate('SignUp')
+      } else {
+        console.log('invalid')
+      }
     }
     catch(e)  {
     }
@@ -91,13 +98,19 @@ const App = () => {
 					title="네이버 아이디로 로그인하기"
 					onPress={() => naverLoginProcess()}
 					/>
-        <Button
+
+        {/* <Button
+          title="로그아웃"
           onPress={() => naverLogout()}
-        />
+        /> */}
+
 				{/* 화원정보 가져오기 */}
 				{/* {!!naverToken && (
 						<Button title="회원정보 가져오기" onPress={getUserProfile} />
 					)} */}
+
+        {!!naverToken && <Button title="로그아웃하기" onPress={naverLogout} />}
+
       
     </NativeBaseProvider>
 	</SafeAreaView>
@@ -113,7 +126,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+export default SignIn;
 
 // callback hell
 // promise hell

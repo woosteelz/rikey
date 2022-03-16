@@ -1,29 +1,44 @@
 import styled from "styled-components";
 import { NativeBaseProvider, Select, Center, Box, CheckIcon } from "native-base";
 import React, { useState, useEffect} from "react";
+import { Button } from 'react-native';
+import axios from 'axios'
 
 const SignUp = () => {
     const [validUser, setValidUser] = useState(false);
+    const [area, setArea] = useState('');
+
+		const [data, setData] = useState('');
+		const onClick = async () => {
+			try { 
+				const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1')
+			} catch (e) {
+				console.log(e);
+			}
+		}
+
 
     return (
 			<NativeBaseProvider>
 				
-				{validUser ? 
 					<Center>
-						
-						<SignUpText>{"닉네임을 입력해 주세요."}</SignUpText>
+						<Button title="시험" onPress={() => onClick()}/>
+						<SignUpText>{"닉네임을 입력해 주세요." }</SignUpText>
 						<SignUpInput />
 
 						<SignUpText>{"소개말을 입력해 주세요."}</SignUpText>
 						<SignUpInput />
 
 						<SignUpText>{"지역을 선택해 주세요."}</SignUpText>
+
 						<Box w="3/4" maxW="300">
+
 							<Select selectedValue={area} minWidth="200" accessibilityLabel="지역" placeholder="Choose Service" 
 							_selectedItem={{
 								bg: "teal.600",
 								endIcon: <CheckIcon size="5" />
 							}} mt={1} onValueChange={itemValue => setArea(itemValue)}>
+								
 								<Select.Item label="경기" value="GYEONGGI" />
 								<Select.Item label="경남" value="GYEONGNAM" />
 								<Select.Item label="경북" value="GYEONGBUK" />
@@ -40,12 +55,13 @@ const SignUp = () => {
 								<Select.Item label="제주" value="JEJU" />
 								<Select.Item label="충남" value="CHUNGNAM" />
 								<Select.Item label="충북" value="CHUNGBUK" />
+
 							</Select>
+
 						</Box>
-						{!!naverToken && <Button title="로그아웃하기" onPress={naverLogout} />}
 					</Center>   
+					{/* {!!naverToken && <Button title="로그아웃하기" onPress={naverLogout} />} */}
 				
-				: <SignUpText>{"로그인!"}</SignUpText> }
 			</NativeBaseProvider>
     )
 }
