@@ -17,8 +17,6 @@ public class BikeRoadDetailResponseDto {
     @ApiModelProperty(value = "자전거길 id", example = "1")
     private Long bikeroadId;
 
-    @ApiModelProperty(value = "코스 종류", example = "종주 코스")
-    private String course;
 
     @ApiModelProperty(value = "자전거길 이름", example = "한강 종주 코스")
     private String name;
@@ -37,7 +35,6 @@ public class BikeRoadDetailResponseDto {
 
     public BikeRoadDetailResponseDto(BikeRoad bikeRoad, List<ReviewResponseDto> reviewResponseDtos){
         bikeroadId = bikeRoad.getId();
-        course = bikeRoad.getCourse();
         name = bikeRoad.getName();
         hour = bikeRoad.getHour();
         minute = bikeRoad.getMinute();
