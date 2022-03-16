@@ -11,8 +11,8 @@ public interface ArticleService {
 
     List<ArticleResponseDto> getRecentArticles();
     List<ArticleResponseDto> getArticles(String category);
-    ArticleDetailResponseDto getArticle(User user, Long articleId);
-    Long createArticle(User user, ArticleRequestDto articleRequestDto);
+    ArticleDetailResponseDto getArticle(String userId, Long articleId);
+    Long createArticle(ArticleRequestDto articleRequestDto);
     void updateArticle(Long articleId, ArticleRequestDto articleRequestDto);
     void deleteArticle(Long articleId);
 }
