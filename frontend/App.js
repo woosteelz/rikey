@@ -11,7 +11,6 @@ import {
   Alert,
 } from 'react-native';
 
-// import BottomNavigator from './navigation/navigation';
 import Tabs from './navigation/tabs';
 
 const App = () => {
