@@ -33,8 +33,8 @@ public class CenterRepositoryImpl implements CenterRepositoryCustom {
         String pointFormat = String.format("'LINESTRING(%f %f, %f %f)')", x1, y1, x2, y2);
 
         // 센터를 기준으로
-        Query query = em.createNativeQuery("SELECT c FROM center AS c "
-                        + "WHERE MBRContains(ST_LINESTRINGFROMTEXT(" + pointFormat + ", c.point))", Center.class)
+        Query query = em.createNativeQuery("SELECT c.center_id, c.address, c.bikeroad_id, c.latitude, c.longitude, c.name FROM center AS c "
+                        + "WHERE MBRContains(ST_LINESTRINGFROMTEXT(" + pointFormat + ", POINT(c.latitude, c.longitude))", Center.class)
                 .setMaxResults(10);
 
         List<Center> centers = query.getResultList();

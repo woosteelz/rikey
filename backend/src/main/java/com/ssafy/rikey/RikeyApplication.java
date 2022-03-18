@@ -14,6 +14,7 @@ import java.util.UUID;
 public class RikeyApplication {
 
 	public static void main(String[] args) {
+//		System.out.println("hiber"+org.hibernate.Version.getVersionString());
 		SpringApplication.run(RikeyApplication.class, args);
 	}
 

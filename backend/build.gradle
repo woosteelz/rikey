@@ -42,7 +42,7 @@ dependencies {
 	implementation("io.springfox:springfox-bean-validators:3.0.0")
 	implementation("io.springfox:springfox-boot-starter:3.0.0")
 
-	implementation('org.hibernate:hibernate-spatial:5.4.20.Final')
+	implementation('org.hibernate:hibernate-spatial:5.6.5.Final')
 	// 하이버네이트랑 버전 맞춰줘야함.
 
 }

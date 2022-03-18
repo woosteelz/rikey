@@ -1,5 +1,6 @@
 package com.ssafy.rikey.db.repository;
 
+import com.ssafy.rikey.api.response.CenterResponseDto;
 import com.ssafy.rikey.db.entity.Center;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -24,8 +24,11 @@ public class CenterDetailResponseDto {
     @ApiModelProperty(value = "센터 위치", example = "서울시 노들동 노들로")
     private String address;
 
-    @ApiModelProperty(value = "센터 위도, 경도", example = "(37.23, 170.34)")
-    private Point point;
+    @ApiModelProperty(value = "센터 위도", example = "170.34")
+    private Double latitude;
+
+    @ApiModelProperty(value = "센터 경도", example = "170.34")
+    private Double longitude;
 
     @ApiModelProperty(value = "센터와 가까운 화장실 리스트")
     @ElementCollection
@@ -39,16 +42,19 @@ public class CenterDetailResponseDto {
     @ElementCollection
     private List<StoreResponseDto> storeList;
 
-    public CenterResponseDto(Center center,
-                             List<ToiletResponseDto> toiletResponseDtos,
-                             List<CvsResponseDto> cvsResponseDtos,
-                             List<StoreResponseDto> storeResponseDtos) {
+    public CenterDetailResponseDto(Center center,
+//                             List<ToiletResponseDto> toiletResponseDtos,
+                             List<CvsResponseDto> cvsResponseDtos)
+//                             List<StoreResponseDto> storeResponseDtos) {
+    {
         centerId = center.getId();
         name = center.getName();
         address = center.getAddress();
-        point = center.getPoint();
-        toiletList = toiletResponseDtos;
+        latitude = center.getLatitude();
+        longitude = center.getLongitude();
+
+//        toiletList = toiletResponseDtos;
         cvsList = cvsResponseDtos;
-        storeList = storeResponseDtos;
+//        storeList = storeResponseDtos;
     }
 }
