@@ -32,9 +32,13 @@ public class BikeRoad {
     @Column(length = 5000)
     private String introduce;
 
-    private Point startPoint;
+    private Double startLatitude;
 
-    private Point endPoint;
+    private Double startLongitude;
+
+    private Double endLatitude;
+
+    private Double endLongitude;
 
     @OneToMany(mappedBy = "bikeRoad", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();

@@ -25,5 +25,7 @@ public class Cvs {
 
     private String roadAddress;
 
-    private Point point;
+    private Double latitude;
+
+    private Double longitude;
 }

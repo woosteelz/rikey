@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.locationtech.jts.geom.Point;
 
 @Data
 @NoArgsConstructor
@@ -18,12 +17,16 @@ public class CenterResponseDto {
     @ApiModelProperty(value = "센터 이름", example = "한강 인증 센터")
     private String name;
 
-    @ApiModelProperty(value = "센터 위도, 경도", example = "(37.23, 170.34)")
-    private Point point;
+    @ApiModelProperty(value = "센터 위도", example = "170.34")
+    private Double latitude;
+
+    @ApiModelProperty(value = "센터 경도", example = "170.34")
+    private Double longitude;
 
     public CenterResponseDto(Center center) {
         centerId = center.getId();
         name = center.getName();
-        point = center.getPoint();
+        latitude = center.getLatitude();
+        longitude = center.getLongitude();
     }
 }

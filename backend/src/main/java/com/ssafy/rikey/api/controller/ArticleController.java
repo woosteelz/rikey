@@ -4,7 +4,6 @@ import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.service.ArticleService;
-import com.ssafy.rikey.db.entity.Comment;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -177,7 +176,7 @@ public class ArticleController {
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
-    public ResponseEntity<Map<String, Object>> updateArticle(
+    public ResponseEntity<Map<String, Object>> deleteArticle(
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();
