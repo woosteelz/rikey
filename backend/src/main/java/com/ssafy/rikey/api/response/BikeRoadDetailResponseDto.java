@@ -1,6 +1,7 @@
 package com.ssafy.rikey.api.response;
 
 import com.ssafy.rikey.db.entity.BikeRoad;
+import com.ssafy.rikey.db.entity.Center;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -33,12 +34,32 @@ public class BikeRoadDetailResponseDto {
     @ElementCollection
     private List<ReviewResponseDto> reviewList;
 
-    public BikeRoadDetailResponseDto(BikeRoad bikeRoad, List<ReviewResponseDto> reviewResponseDtos){
+    @ApiModelProperty(value = "인증센터 리스트")
+    @ElementCollection
+    private List<CenterResponseDto> centerList;
+
+    @ApiModelProperty(value = "편의점 리스트")
+    @ElementCollection
+    private List<CvsResponseDto> cvsList;
+
+    @ApiModelProperty(value = "화장실 리스트")
+    @ElementCollection
+    private List<ToiletResponseDto> toiletList;
+
+    @ApiModelProperty(value = "자전거 보관소 리스트")
+    @ElementCollection
+    private List<StoreResponseDto> storeList;
+
+    public BikeRoadDetailResponseDto(BikeRoad bikeRoad, List<ReviewResponseDto> reviewResponseDtos, List<CenterResponseDto> centerResponseDtos, List<CvsResponseDto> cvsResponseDtos, List<ToiletResponseDto> toiletResponseDtos, List<StoreResponseDto> storeResponseDtos){
         bikeroadId = bikeRoad.getId();
         name = bikeRoad.getName();
         hour = bikeRoad.getHour();
         minute = bikeRoad.getMinute();
         introduce = bikeRoad.getIntroduce();
         reviewList = reviewResponseDtos;
+        centerList = centerResponseDtos;
+        cvsList = cvsResponseDtos;
+        toiletList = toiletResponseDtos;
+        storeList = storeResponseDtos;
     }
 }
