@@ -4,13 +4,14 @@ import {
   SafeAreaView,
   StyleSheet,
   Button,
-  Platform
+  Platform,
+  Image,
 } from "react-native";
 import { NaverLogin, getProfile } from "@react-native-seoul/naver-login";
-import { NativeBaseProvider, Select, Center, Box, CheckIcon } from "native-base";
 import styled from "styled-components";
-import axios from 'axios'
-
+import Logo from '../assets/images/RIKEY_LOGO.png'
+import Bike from '../assets/images/SIGNIN_IMAGE.png'
+import API from "../api/API";
 
 const iosKeys = {
   kConsumerKey: "naver client id",
@@ -24,7 +25,6 @@ const androidKeys = {
   kConsumerSecret: "RZ8elOQK8h",
   kServiceSignInName: "RIKEY"
 };
-
 
 const naverLogin = props => {
   return new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@ const getUserProfile = async (token) => {
     Alert.alert("로그인 실패", profileResult.message);
     throw Error();
   } else {
-    console.log("profileResult", profileResult);
+    // console.log("profileResult", profileResult);
     return profileResult.response.id;
   }
 }; 
@@ -73,60 +73,107 @@ const SignIn = ({ navigation }) => {
     try {
       const token = await naverLogin(initials)
       const id = await getUserProfile(token.accessToken);
-      
-      console.log(id)
+
       setNaverToken(token);
       setUserNaverId(id)
       
-      if (id != '') {
-        // 아이디가 유효하다면   
-        navigation.navigate('SignUp')
-      } else {
-        console.log('invalid')
+      // 네이버 로그인 실패
+      if (id == undefined) {
+        console.log("네이버 로그인 실패");
+        return
       }
+
+      API.post('/users/login', {
+        "authId": id
+      })
+      .then( async (response) => {
+        const result = await response.data.profile;
+        if (result === null) {
+          // 아이디가 유효하면서 정보가 없다면?
+          // 반환되는게 null이면 회원가입으로 redirect
+          navigation.navigate('SignUp', {id : id})
+        } 
+        else {
+        //   // 반환 success면 Home으로 가기
+          navigation.navigate('Home')
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
     }
     catch(e)  {
     }
   }
 
   return (
+    <Container>
+        <LogoContainer>
+          <LogoImg source={Logo} />
+        </LogoContainer>
 
-    <SafeAreaView style={styles.container}>
-      <NativeBaseProvider>
+        <BikeContainer>
+          <BikeImg source={Bike}/>
+        </BikeContainer>
 
-				<Button
-					title="네이버 아이디로 로그인하기"
-					onPress={() => naverLoginProcess()}
-					/>
+          <LoginTextcontainer/>
+            <LoginText>{"즐거운 라이딩을 위한"}</LoginText>
+            <LoginText>{"현명한 선택"}</LoginText>
+          <LoginTextcontainer/>
 
-        {/* <Button
-          title="로그아웃"
-          onPress={() => naverLogout()}
-        /> */}
-
-				{/* 화원정보 가져오기 */}
-				{/* {!!naverToken && (
-						<Button title="회원정보 가져오기" onPress={getUserProfile} />
-					)} */}
-
-        {!!naverToken && <Button title="로그아웃하기" onPress={naverLogout} />}
-
-      
-    </NativeBaseProvider>
-	</SafeAreaView>
-
-  );
+        <ButtonContainer>
+          <LoginButton
+            title="네이버 로그인"
+            onPress={() => naverLoginProcess()}
+            color="#19ce60"
+            />
+        </ButtonContainer>
+    </Container>
+);
 };
+{/* {!!naverToken && (
+  <Button title="회원정보 가져오기" onPress={getUserProfile} />
+)} */}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "space-evenly",
-    alignItems: "center"
-  }
-});
+{/* {!!naverToken && <Button title="로그아웃하기" onPress={naverLogout} />} */}
 
 export default SignIn;
+
+const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  background-color: white;
+`
+const LogoContainer = styled.View`
+  flex: 1.5;
+  margin-left: 10%;
+`
+const LogoImg = styled.Image`
+flex: 1;
+resize-mode: contain;
+`
+const BikeContainer = styled.View`
+  flex: 2;
+`
+const BikeImg = styled.Image`
+  resize-mode: contain;
+`
+const LoginTextcontainer = styled.View`
+  flex: 1;
+`
+const LoginText = styled.Text`
+  font-size: 20px;
+`
+const ButtonContainer = styled.View`
+  flex: 1;
+  width: 60%;
+  bottom: 10%;
+`
+const LoginButton = styled.Button`
+
+`
+
 
 // callback hell
 // promise hell
@@ -145,8 +192,3 @@ export default SignIn;
 // MDN, 자바스크립트 튜토리얼, 
 // ECMASCRIPT(TC39) 
 // 웹표준 W3C, WHATWG
-
-
-
-
-
