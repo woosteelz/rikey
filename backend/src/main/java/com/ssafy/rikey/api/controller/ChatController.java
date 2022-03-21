@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Api(tags = "Chat", value = "채팅 API")
 @CrossOrigin(origins = {"*"})
@@ -33,6 +34,7 @@ public class ChatController {
     @ApiOperation(value = "전체 채팅 조회", notes = "전체 채팅을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 204, message = "메시지 미존재"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getchats(
@@ -46,6 +48,10 @@ public class ChatController {
             chatList = chatService.getChats(userId);
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            httpStatus = HttpStatus.NO_CONTENT;
+            result.put("status", "NO MESSAGES");
         } catch (RuntimeException e) {
             e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

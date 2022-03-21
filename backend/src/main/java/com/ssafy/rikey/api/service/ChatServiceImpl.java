@@ -40,8 +40,12 @@ public class ChatServiceImpl implements ChatService{
 
         for (UserChat userChat : userChats) {
             Chat chat = chatRepository.findById(userChat.getChat().getId()).get();
-            ChatMessage chatMessage = chatMessageRepository.findTopByChatOrderByCreatedTimeDesc(chat).get();
-            chatMessages.add(chatMessage);
+            try {
+                ChatMessage chatMessage = chatMessageRepository.findTopByChatOrderByCreatedTimeDesc(chat).get();
+                chatMessages.add(chatMessage);
+            } catch (Exception e) {
+                throw e;
+            }
         }
 
         return chatMessages.stream().map(ChatResponseDto::new).collect(Collectors.toList());
