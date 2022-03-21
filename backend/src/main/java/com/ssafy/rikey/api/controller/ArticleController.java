@@ -3,6 +3,8 @@ package com.ssafy.rikey.api.controller;
 import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
+import com.ssafy.rikey.api.response.UserRankingResponseDto;
+import com.ssafy.rikey.api.response.UserResponseDto;
 import com.ssafy.rikey.api.service.ArticleService;
 import com.ssafy.rikey.api.service.UserService;
 import com.ssafy.rikey.db.entity.Article;
@@ -210,6 +212,42 @@ public class ArticleController {
             result.put("status", "BAD REQUEST");
         }
 
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
+    @GetMapping("/rankings")
+    @ApiOperation(value = "랭킹 조회", notes = "누적 칼로리, 누적 거리, 누적 시간을 기준으로 랭킹을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류"),
+    })
+    public ResponseEntity<Map<String, Object>> getRankings(
+            @RequestParam @ApiParam(value = "지역", required = true) String area) {
+
+        Map<String, Object> result = new HashMap<>();
+        List<UserRankingResponseDto> usersByCalorie = null;
+        List<UserRankingResponseDto> usersByDistance = null;
+        List<UserRankingResponseDto> usersByTime = null;
+        HttpStatus httpStatus = null;
+
+        try {
+            usersByCalorie = userService.getRankingsByCalorie(area);
+            usersByDistance = userService.getRankingsByDistance(area);
+            usersByTime = userService.getRankingsByTime(area);
+            httpStatus = HttpStatus.OK;
+            result.put("success", true);
+        } catch (NoSuchElementException e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "NO USER");
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("success", false);
+        }
+
+        result.put("usersByCalorie", usersByCalorie);
+        result.put("usersByDistance", usersByDistance);
+        result.put("usersByTime", usersByTime);
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 }

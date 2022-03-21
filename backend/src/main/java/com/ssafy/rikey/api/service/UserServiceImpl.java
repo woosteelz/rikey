@@ -86,4 +86,26 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.getById(userId);
         userRepository.delete(user);
     }
+
+    // 칼로리로 랭킹 조회
+    @Override
+    public List<UserRankingResponseDto> getRankingsByCalorie(String area) {
+        List<User> users = userRepository.findTop3ByAreaOrderByCumulCalorieDesc(Area.valueOf(area));
+        return users.stream().map(UserRankingResponseDto::new).collect(Collectors.toList());
+    }
+
+    // 거리로 랭킹 조회
+    @Override
+    public List<UserRankingResponseDto> getRankingsByDistance(String area) {
+        List<User> users = userRepository.findTop3ByAreaOrderByCumulDistanceDesc(Area.valueOf(area));
+        return users.stream().map(UserRankingResponseDto::new).collect(Collectors.toList());
+    }
+
+    // 시간으로 랭킹 조회
+    @Override
+    public List<UserRankingResponseDto> getRankingsByTime(String area) {
+        List<User> users = userRepository.findTop3ByAreaOrderByCumulTimeDesc(Area.valueOf(area));
+        return users.stream().map(UserRankingResponseDto::new).collect(Collectors.toList());
+    }
+
 }
