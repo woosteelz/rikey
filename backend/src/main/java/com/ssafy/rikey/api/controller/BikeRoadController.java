@@ -7,7 +7,6 @@ import com.ssafy.rikey.api.service.StoreService;
 import com.ssafy.rikey.api.service.ToiletService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.locationtech.jts.io.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

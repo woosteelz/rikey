@@ -4,16 +4,16 @@ import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.service.ArticleService;
+import com.ssafy.rikey.api.service.UserService;
+import com.ssafy.rikey.db.entity.Article;
+import com.ssafy.rikey.db.repository.ArticleRepository;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Api(tags = "Article", value = "게시글 API")
 @CrossOrigin(origins = {"*"})
@@ -23,6 +23,8 @@ import java.util.NoSuchElementException;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final ArticleRepository articleRepository;
+    private final UserService userService;
 
     @GetMapping("/recent")
     @ApiOperation(value = "최근 게시글 조회", notes = "최근 게시글을 조회한다.")
@@ -110,6 +112,7 @@ public class ArticleController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
             @ApiResponse(code = 204, message = "게시글 작성 오류"),
+            @ApiResponse(code = 403, message = "잘못된 유저"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> createArticle(
@@ -141,6 +144,7 @@ public class ArticleController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 204, message = "게시글 작성 오류"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 403, message = "잘못된 유저"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> updateArticle(
@@ -151,10 +155,15 @@ public class ArticleController {
         HttpStatus httpStatus = null;
 
         try {
-            //유저 확인 로직 필요
-            articleService.updateArticle(articleId, articleRequestDto);
-            httpStatus = HttpStatus.OK;
-            result.put("status", "SUCCESS");
+            Article article = articleRepository.getById(articleId);
+            if (article.getAuthor().getId().equals(articleRequestDto.getUserId())) {
+                articleService.updateArticle(articleId, articleRequestDto);
+                httpStatus = HttpStatus.OK;
+                result.put("status", "SUCCESS");
+            } else {
+                httpStatus = HttpStatus.FORBIDDEN;
+                result.put("status", "WRONG USER");
+            }
         } catch (IllegalArgumentException e) {
             httpStatus = HttpStatus.NO_CONTENT;
             result.put("status", "NO CONTENT");
@@ -177,16 +186,22 @@ public class ArticleController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> deleteArticle(
+            @RequestBody @ApiParam(value = "유저 id") Map<String, String> body,
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
 
         try {
-            //유저 확인 로직 필요
-            articleService.deleteArticle(articleId);
-            httpStatus = HttpStatus.OK;
-            result.put("status", "SUCCESS");
+            Article article = articleRepository.getById(articleId);
+            if (article.getAuthor().getId().equals(body.get("userId"))) {
+                articleService.deleteArticle(articleId);;
+                httpStatus = HttpStatus.OK;
+                result.put("status", "SUCCESS");
+            } else {
+                httpStatus = HttpStatus.FORBIDDEN;
+                result.put("status", "WRONG USER");
+            }
         } catch (RuntimeException e) {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             result.put("status", "SERVER ERROR");

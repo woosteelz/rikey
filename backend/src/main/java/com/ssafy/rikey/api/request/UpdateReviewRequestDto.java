@@ -13,4 +13,7 @@ public class UpdateReviewRequestDto {
 
     @ApiModelProperty(value = "평점", example = "4")
     private int score;
+
+    @ApiModelProperty(value = "작성자Id", example = "sdafweae1")
+    private String userId;
 }
