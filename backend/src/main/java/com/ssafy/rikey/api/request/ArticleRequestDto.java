@@ -17,7 +17,10 @@ public class ArticleRequestDto {
     @ApiModelProperty(value = "게시글 내용", example = "내용")
     private String content;
 
-    @ApiModelProperty(value = "게시글 카테고리", example = "자유")
-    private Category category;
+    @ApiModelProperty(value = "게시글 카테고리", example = "FREE")
+    private String category;
+
+    @ApiModelProperty(value = "유저 id", example = "adsfsdf")
+    private String userId;
 
 }

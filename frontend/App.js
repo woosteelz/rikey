@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import {
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Animated,
-  Text,
-  Alert,
-} from 'react-native';
+import StackNavigation from './navigation/Stack';
+import Tabs from './navigation/tabs'
 
-import Tabs from './navigation/tabs';
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Tabs />
+        <StackNavigation />
+        {/* <Tabs /> */}
     </NavigationContainer>
   );
 };

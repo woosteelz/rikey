@@ -6,7 +6,7 @@ import com.ssafy.rikey.db.entity.User;
 
 public interface ReviewService {
 
-    void createReview(CreateReviewRequestDto reviewInfo, User user);
+    void createReview(CreateReviewRequestDto reviewInfo, String userId);
     void updateReview(UpdateReviewRequestDto reviewInfo, Long reviewId);
     void deleteReview(Long reviewId);
 }
