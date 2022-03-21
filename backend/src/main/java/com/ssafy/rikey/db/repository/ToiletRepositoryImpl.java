@@ -35,8 +35,8 @@ public class ToiletRepositoryImpl implements ToiletRepositoryCustom {
 
         String pointFormat = String.format("'LINESTRING(%f %f, %f %f)')", x1, y1, x2, y2);
         // 출발지, 도착지를 기준으로
-        Query query = em.createNativeQuery("SELECT  c.cvs_id, c.brand_name, c.name, c.address, c.road_address, c.latitude, c.longitude FROM cvs AS c "
-                        + "WHERE MBRContains(ST_LINESTRINGFROMTEXT(" + pointFormat + ", POINT(c.latitude, c.longitude))", Cvs.class)
+        Query query = em.createNativeQuery("SELECT t.toilet_id, t.name, t.address, t.open_time, t.road_address, t.latitude, t.longitude FROM toilet AS t "
+                        + "WHERE MBRContains(ST_LINESTRINGFROMTEXT(" + pointFormat + ", POINT(t.latitude, t.longitude))", Toilet.class)
                 .setMaxResults(20);
         List<Toilet> toilets = query.getResultList();
 

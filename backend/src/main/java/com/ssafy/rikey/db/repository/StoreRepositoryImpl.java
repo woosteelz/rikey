@@ -45,7 +45,7 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom {
         List<Store> sortedStore = stores.stream()
                 .sorted(Comparator.comparing((Store store) -> distanceInKilometerByHaversine(latitude, longitude, store.getLatitude(), store.getLongitude()))).collect(Collectors.toList());
 
-        System.out.println("sortedCvs = " + sortedStore);
+        System.out.println("sortedStore = " + sortedStore);
 
         return sortedStore;
     }
