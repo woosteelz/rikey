@@ -1,5 +1,6 @@
 package com.ssafy.rikey.api.service;
 
+import com.ssafy.rikey.api.request.UpdateUserRequestDto;
 import com.ssafy.rikey.api.request.UserRequestDto;
 import com.ssafy.rikey.api.response.*;
 import com.ssafy.rikey.db.entity.*;
@@ -50,10 +51,18 @@ public class UserServiceImpl implements UserService {
         return user == null ? null : new UserSimpleResponseDto(user);
     }
 
+    // 회원정보 수정
+    @Transactional
+    @Override
+    public void updateUserProfile(UpdateUserRequestDto updateUserRequestDto) {
+        User user = userRepository.getById(updateUserRequestDto.getUserId());
+        user.update(updateUserRequestDto.getNickName(), updateUserRequestDto.getGreeting(), Area.valueOf(updateUserRequestDto.getArea()));
+    }
+
     // 프로필 조회
     @Override
-    public UserResponseDto getUser(String userId) {
-        User user = userRepository.findById(userId).get();
+    public UserResponseDto getUserProfile(String nickName) {
+        User user = userRepository.findByNickName(nickName);
 
         List<Article> articles = user.getArticles();
         List<ArticleResponseDto> articleResponseDtos = articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
@@ -68,5 +77,13 @@ public class UserServiceImpl implements UserService {
         List<RidingInfoResponseDto> ridingInfoResponseDtos = ridingInfos.stream().map(RidingInfoResponseDto::new).collect(Collectors.toList());
 
         return new UserResponseDto(user, articleResponseDtos, commentResponseDtos, reviewResponseDtos, ridingInfoResponseDtos);
+    }
+
+    // 회원 탈퇴
+    @Transactional
+    @Override
+    public void deleteUser(String userId) {
+        User user = userRepository.getById(userId);
+        userRepository.delete(user);
     }
 }

@@ -23,9 +23,11 @@ public class Store {
 
     private String address;
 
-    private boolean airInjector;
+    private Boolean airInjector;
 
-    private boolean repairTable;
+    private Boolean repairTable;
 
-    private Point point;
+    private Double latitude;
+
+    private Double longitude;
 }

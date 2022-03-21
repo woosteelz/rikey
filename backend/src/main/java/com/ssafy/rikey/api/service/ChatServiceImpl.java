@@ -29,8 +29,8 @@ public class ChatServiceImpl implements ChatService{
 
     // 채팅 목록 조회
     @Override
-    public List<ChatResponseDto> getChats(String userId) {
-        User user = userRepository.findById(userId).get();
+    public List<ChatResponseDto> getChats(String nickName) {
+        User user = userRepository.findByNickName(nickName);
 
         List<ChatMessage> chatMessages = new ArrayList<>();
         List<UserChat> userChats = userChatRepository.findAllByUser(user);

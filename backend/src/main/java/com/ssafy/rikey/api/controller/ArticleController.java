@@ -4,7 +4,6 @@ import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.service.ArticleService;
-import com.ssafy.rikey.db.entity.Comment;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -65,7 +64,7 @@ public class ArticleController {
 
         try {
             articleList = articleService.getArticles(category);
-            httpStatus = HttpStatus.CREATED;
+            httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -84,15 +83,14 @@ public class ArticleController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getArticle(
-            @RequestParam @ApiParam(value = "유저 아이디") String userId,
+            @RequestParam @ApiParam(value = "유저 닉네임") String nickName,
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
-        System.out.println("controller 들어옴");
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
         ArticleDetailResponseDto article = null;
         try {
-            article = articleService.getArticle(userId, articleId);
+            article = articleService.getArticle(nickName, articleId);
             httpStatus = HttpStatus.CREATED;
             result.put("status", "SUCCESS");
         } catch (NoSuchElementException e) {
@@ -178,7 +176,7 @@ public class ArticleController {
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
-    public ResponseEntity<Map<String, Object>> updateArticle(
+    public ResponseEntity<Map<String, Object>> deleteArticle(
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();

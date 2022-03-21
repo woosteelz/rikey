@@ -17,18 +17,26 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
 
-    // 댓글 등록
+    //댓글 조회
     @Override
-    public Long createComment(CreateCommentRequestDto commentInfo, Long articleId, String userId) {
-        User user = userRepository.findById(userId).get();
-        Article article = articleRepository.findById(articleId).get();
+    public Comment getComment(Long commentId) {
+        Comment comment = commentRepository.getById(commentId);
+        return comment;
+    }
+
+    // 댓글 등록
+    @Transactional
+    @Override
+    public Long createComment(CreateCommentRequestDto commentInfo) {
+        User user = userRepository.findById(commentInfo.getUserId()).get();
+        Article article = articleRepository.findById(commentInfo.getArticleId()).get();
 
         try {
             Comment comment = Comment.builder()
@@ -44,23 +52,23 @@ public class CommentServiceImpl implements CommentService {
     }
 
     // 댓글 수정
+    @Transactional
     @Override
-    public Comment updateComment(CreateCommentRequestDto commentInfo, Long commentId, Long articleId) {
+    public void updateComment(CreateCommentRequestDto commentInfo, Long commentId) {
 
         try {
-            Comment comment = commentRepository.findByIdAndArticleId(commentId, articleId).get();
+            Comment comment = commentRepository.findByIdAndArticleId(commentId, commentInfo.getArticleId()).get();
             comment.updateContent(commentInfo.getContent());
-            commentRepository.save(comment);
-            return comment;
         } catch (Exception e) {
             throw e;
         }
     }
 
     // 댓글 삭제
+    @Transactional
     @Override
-    public void deleteComment(Comment comment) {
-        commentRepository.delete(comment);
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
     }
 
     // 게시글 내 댓글 리스트 조회

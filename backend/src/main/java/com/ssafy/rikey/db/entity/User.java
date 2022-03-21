@@ -3,6 +3,7 @@ package com.ssafy.rikey.db.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor
 @Table(name = "user")
 public class User {
@@ -62,6 +64,13 @@ public class User {
         this.cumulCarlorie = 0;
         this.cumulDistance = 0;
         this.cumulTime = 0;
+        this.area = area;
+    }
+
+    // 유저 정보 수정을 위한 편의 함수
+    public void update(String nickName, String greeting, Area area) {
+        this.nickName = nickName;
+        this.greeting = greeting;
         this.area = area;
     }
 }

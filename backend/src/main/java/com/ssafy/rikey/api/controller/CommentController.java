@@ -3,8 +3,7 @@ package com.ssafy.rikey.api.controller;
 import com.ssafy.rikey.api.request.CreateCommentRequestDto;
 import com.ssafy.rikey.api.service.CommentService;
 import com.ssafy.rikey.db.entity.Comment;
-import com.ssafy.rikey.db.repository.ArticleRepository;
-import com.ssafy.rikey.db.repository.CommentRepository;
+import com.ssafy.rikey.db.entity.User;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,8 +22,6 @@ import java.util.NoSuchElementException;
 public class CommentController {
 
     private final CommentService commentService;
-    private final ArticleRepository articleRepository;
-    private final CommentRepository commentRepository;
 
     @PostMapping
     @ApiOperation(value = "댓글 등록", notes = "새로운 댓글을 등록한다.")
@@ -35,15 +32,14 @@ public class CommentController {
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> createComment(
-            @RequestBody @ApiParam(value="댓글 정보") CreateCommentRequestDto commentInfo,
-            @RequestParam("articleId") @ApiParam(value="게시글 id", required = true) Long articleId) {
+            @RequestBody @ApiParam(value="댓글 정보") CreateCommentRequestDto commentInfo) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
         Long commentId = null;
 
         try {
-            commentId = commentService.createComment(commentInfo, articleId, commentInfo.getUserId());
+            commentId = commentService.createComment(commentInfo);
             httpStatus = HttpStatus.CREATED;
             result.put("status", "SUCCESS");
         } catch (IllegalArgumentException e) {
@@ -67,22 +63,26 @@ public class CommentController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 204, message = "댓글 작성 오류"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 403, message = "잘못된 유저"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> updateComment(
             @RequestBody @ApiParam(value="댓글 정보") CreateCommentRequestDto commentInfo,
-            @RequestParam("articleId") @ApiParam(value="게시글 id", required = true) Long articleId,
             @PathVariable("commentId") @ApiParam(value="댓글 id", required = true) Long commentId) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
 
         try {
-            Comment comment = commentRepository.findByIdAndArticleId(commentId, articleId).get();
-            httpStatus = HttpStatus.OK;
-            result.put("status", "SUCCESS");
-        // 유저 확인 로직 필요
-            commentService.updateComment(commentInfo, commentId, articleId);
+            Comment comment = commentService.getComment(commentId);
+            if (comment.getUser().getId().equals(commentInfo.getUserId())) {
+                commentService.updateComment(commentInfo, commentId);
+                httpStatus = HttpStatus.OK;
+                result.put("status", "SUCCESS");
+            } else {
+                httpStatus = HttpStatus.FORBIDDEN;
+                result.put("status", "WRONG USER");
+            }
         } catch (IllegalArgumentException e) {
             httpStatus = HttpStatus.NO_CONTENT;
             result.put("status", "NO CONTENT");
@@ -102,22 +102,26 @@ public class CommentController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 403, message = "잘못된 유저"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> deleteComment(
-            @RequestParam("articleId") @ApiParam(value="게시글 id", required = true) Long articleId,
+            @RequestBody @ApiParam(value = "유저 id") Map<String, String> body,
             @PathVariable("commentId") @ApiParam(value="댓글 id", required = true) Long commentId) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
 
         try {
-            Comment comment = commentRepository.findByIdAndArticleId(commentId, articleId).get();
-
-            // 유저 확인 로직 필요
-            commentService.deleteComment(comment);
-            httpStatus = HttpStatus.OK;
-            result.put("status", "SUCCESS");
+            Comment comment = commentService.getComment(commentId);
+            if (comment.getUser().getId().equals(body.get("userId"))) {
+                commentService.deleteComment(commentId);
+                httpStatus = HttpStatus.OK;
+                result.put("status", "SUCCESS");
+            } else {
+                httpStatus = HttpStatus.FORBIDDEN;
+                result.put("status", "WRONG USER");
+            }
         } catch (RuntimeException e) {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             result.put("status", "SERVER ERROR");
