@@ -19,6 +19,6 @@ public class CreateReviewRequestDto {
     @ApiModelProperty(value = "평점", example = "4")
     private int score;
 
-    @ApiModelProperty(value = "유저 id", example = "adsfsdf")
+    @ApiModelProperty(value = "유저 아이디", example = "userId")
     private String userId;
 }
