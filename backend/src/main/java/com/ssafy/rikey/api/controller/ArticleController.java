@@ -215,39 +215,37 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @GetMapping("/rankings")
+    @GetMapping("/rankings/{nickname}")
     @ApiOperation(value = "랭킹 조회", notes = "누적 칼로리, 누적 거리, 누적 시간을 기준으로 랭킹을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getRankings(
-            @RequestParam @ApiParam(value = "지역", required = true) String area) {
+            @RequestParam @ApiParam(value = "지역", required = true) String area,
+            @PathVariable @ApiParam(value = "유저 닉네임", required = true) String nickname) {
 
         Map<String, Object> result = new HashMap<>();
-        List<UserRankingResponseDto> usersByCalorie = null;
-        List<UserRankingResponseDto> usersByDistance = null;
-        List<UserRankingResponseDto> usersByTime = null;
+        List<Integer> rankings = null;
         HttpStatus httpStatus = null;
 
         try {
-            usersByCalorie = userService.getRankingsByCalorie(area);
-            usersByDistance = userService.getRankingsByDistance(area);
-            usersByTime = userService.getRankingsByTime(area);
+            rankings = userService.getRankings(nickname, area);
             httpStatus = HttpStatus.OK;
-            result.put("success", true);
+            result.put("status", "SUCCESS");
         } catch (NoSuchElementException e) {
             httpStatus = HttpStatus.BAD_REQUEST;
-            result.put("status", "NO USER");
+            result.put("status", "WRONG USER");
         } catch (RuntimeException e) {
             e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            result.put("success", false);
+            result.put("status", "SERVER ERROR");
         }
 
-        result.put("usersByCalorie", usersByCalorie);
-        result.put("usersByDistance", usersByDistance);
-        result.put("usersByTime", usersByTime);
+        result.put("rankingByCalorie", rankings.get(0));
+        result.put("rankingsByDistance", rankings.get(1));
+        result.put("rankingByTime", rankings.get(2));
+
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 }
