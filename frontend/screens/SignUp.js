@@ -4,11 +4,13 @@ import { NativeBaseProvider, Select, Center, Box, CheckIcon } from "native-base"
 import React, { useState, useEffect} from "react";
 import Logo from '../assets/images/RIKEY_LOGO.png'
 import API from "../api/API";
+import { useStore } from "../states";
 
 const SignUp = ({ route, navigation }) => {
 		const [nickName, setNickName] = useState('');
 		const [intro, setIntro] = useState('');
 		const [area, setArea] = useState('');
+		const { setUserId } = useStore();
 
 		const id = route.params.id;
 
@@ -19,12 +21,18 @@ const SignUp = ({ route, navigation }) => {
 				"greeting" : intro,
 				"nickName" : nickName
 			})
+
 			.then((response) => {
 				console.log(response);
+				setUserId(response.data.profile.id);
+
+				navigation.navigate('Home')
+
 			})
+
 			.catch((e) => {
 				console.log(e);
-				console.log(area, id, intro, nickName)
+				
 			})
 		}
 
