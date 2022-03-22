@@ -84,7 +84,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String userId) {
         User user = userRepository.getById(userId);
+        Auth auth = user.getAuth();
         userRepository.delete(user);
+        authRepository.delete(auth);
     }
 
     // 칼로리, 거리, 시간으로 랭킹 조회
