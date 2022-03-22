@@ -16,7 +16,7 @@ const Home = ({ navigation }) => {
       <Button
         title="click"
         onPress={() => {
-          alert('Communinty');
+          navigation.navigate('Profile');
         }}
       />
     </View>

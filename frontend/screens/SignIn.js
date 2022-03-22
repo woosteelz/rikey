@@ -100,7 +100,7 @@ const SignIn = ({ navigation }) => {
         else {
           // 반환 success면 Home으로 가기
           setUserId(result.id);
-          navigation.navigate('Home')
+          navigation.navigate('Tabs')
         }
         
       })
@@ -115,26 +115,42 @@ const SignIn = ({ navigation }) => {
 
   return (
     <Container>
+
+        <TopGap />
+
         <LogoContainer>
           <LogoImg source={Logo} />
         </LogoContainer>
 
-        <BikeContainer>
-          <BikeImg source={Bike}/>
-        </BikeContainer>
+        <ContentsFlex>
+            <InnerFlex>
 
-          <LoginTextcontainer/>
-            <LoginText>{"즐거운 라이딩을 위한"}</LoginText>
-            <LoginText>{"현명한 선택"}</LoginText>
-          <LoginTextcontainer/>
+                <BikeContainer>
+                  <BikeImg source={Bike}/>
+                </BikeContainer>
 
-        <ButtonContainer>
-          <LoginButton
-            title="네이버 로그인"
-            onPress={() => naverLoginProcess()}
-            color="#19ce60"
-            />
-        </ButtonContainer>
+                <BottomFlex>
+
+                  <LoginTextcontainer/>
+                    <LoginText>{"즐거운 라이딩을 위한"}</LoginText>
+                    <LoginText>{"현명한 선택"}</LoginText>
+                  <LoginTextcontainer/>
+
+                  <ButtonContainer>
+                    <LoginButton
+                      title="네이버 로그인"
+                      onPress={() => naverLoginProcess()}
+                      color="#19ce60"
+                      />
+                  </ButtonContainer>
+
+                </BottomFlex>
+
+                <BottomGap/>
+
+            </InnerFlex>
+        </ContentsFlex>
+
     </Container>
 );
 };
@@ -146,38 +162,59 @@ const SignIn = ({ navigation }) => {
 
 export default SignIn;
 
+
 const Container = styled.View`
   flex: 1;
   align-items: center;
   background-color: white;
 `
+
+const TopGap = styled.View`
+  flex: 0.7;
+`
 const LogoContainer = styled.View`
   flex: 1.5;
   margin-left: 10%;
+  margin-top: 10%;
 `
 const LogoImg = styled.Image`
-flex: 1;
-resize-mode: contain;
+  flex: 1;
+  resize-mode: contain;
+`
+const ContentsFlex = styled.View`
+  flex: 6;
+`
+const InnerFlex = styled.View`
+  flex: 1;
+  align-items: center;
 `
 const BikeContainer = styled.View`
-  flex: 2;
+  flex: 5;
 `
-const BikeImg = styled.Image`
-  resize-mode: contain;
+const BottomFlex = styled.View`
+  flex: 4;
+  align-items: center;
+  width: 120%;
 `
 const LoginTextcontainer = styled.View`
   flex: 1;
 `
-const LoginText = styled.Text`
-  font-size: 20px;
-`
 const ButtonContainer = styled.View`
   flex: 1;
   width: 60%;
-  bottom: 10%;
+`
+const BottomGap = styled.View`
+  flex: 3;
+`
+
+const BikeImg = styled.Image`
+  resize-mode: contain;
+`
+const LoginText = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
 `
 const LoginButton = styled.Button`
-
 `
 
 
