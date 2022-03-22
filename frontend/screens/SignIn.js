@@ -12,6 +12,7 @@ import styled from "styled-components";
 import Logo from '../assets/images/RIKEY_LOGO.png'
 import Bike from '../assets/images/SIGNIN_IMAGE.png'
 import API from "../api/API";
+import { useStore } from "../states";
 
 const iosKeys = {
   kConsumerKey: "naver client id",
@@ -61,6 +62,7 @@ const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 const SignIn = ({ navigation }) => {
   const [naverToken, setNaverToken] = useState('');
   const [userNaverId, setUserNaverId] = useState('');
+  const { setUserId } = useStore();
 
   const naverLogout = () => {
     NaverLogin.logout();
@@ -86,17 +88,21 @@ const SignIn = ({ navigation }) => {
       API.post('/users/login', {
         "authId": id
       })
-      .then( async (response) => {
-        const result = await response.data.profile;
+      .then((response) => {
+
+        const result = response.data.profile;
         if (result === null) {
           // 아이디가 유효하면서 정보가 없다면?
           // 반환되는게 null이면 회원가입으로 redirect
           navigation.navigate('SignUp', {id : id})
         } 
+
         else {
-        //   // 반환 success면 Home으로 가기
+          // 반환 success면 Home으로 가기
+          setUserId(result.id);
           navigation.navigate('Home')
         }
+        
       })
       .catch((error) => {
         console.log(error);
