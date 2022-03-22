@@ -7,6 +7,7 @@ import Map from '../screens/Map';
 import Profile from '../screens/Profile';
 import Record from '../screens/Record';
 import Communinty from '../screens/Community';
+import { HomeScreen }  from './Stack'
 
 const CustomTabBarButton = ({ children, onPress }) => (
   <TouchableOpacity
@@ -51,7 +52,7 @@ const Tabs = () => {
       }}>
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={HomeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

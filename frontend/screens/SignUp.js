@@ -26,7 +26,7 @@ const SignUp = ({ route, navigation }) => {
 				console.log(response);
 				setUserId(response.data.profile.id);
 
-				navigation.navigate('Home')
+				navigation.navigate('Tabs')
 
 			})
 
