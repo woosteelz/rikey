@@ -20,6 +20,7 @@ public class User {
     @Column(name = "user_id")
     private String id;
 
+    @Column(unique = true)
     private String nickName;
 
     private String profile_pic;

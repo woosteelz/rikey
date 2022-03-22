@@ -235,14 +235,14 @@ public class ArticleController {
             usersByDistance = userService.getRankingsByDistance(area);
             usersByTime = userService.getRankingsByTime(area);
             httpStatus = HttpStatus.OK;
-            result.put("success", true);
+            result.put("status", "SUCCESS");
         } catch (NoSuchElementException e) {
             httpStatus = HttpStatus.BAD_REQUEST;
             result.put("status", "NO USER");
         } catch (RuntimeException e) {
             e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            result.put("success", false);
+            result.put("status", "SERVER ERROR");
         }
 
         result.put("usersByCalorie", usersByCalorie);
