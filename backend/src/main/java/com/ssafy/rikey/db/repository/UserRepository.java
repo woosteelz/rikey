@@ -11,7 +11,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     User findByAuth(Auth auth);
     User findByNickName(String nickName);
-    List<User> findTop3ByAreaOrderByCumulCalorieDesc(Area area);
-    List<User> findTop3ByAreaOrderByCumulDistanceDesc(Area area);
-    List<User> findTop3ByAreaOrderByCumulTimeDesc(Area area);
+    List<User> findAllByAreaOrderByCumulCalorieDesc(Area area);
+    List<User> findAllByAreaOrderByCumulDistanceDesc(Area area);
+    List<User> findAll3ByAreaOrderByCumulTimeDesc(Area area);
 }

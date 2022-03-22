@@ -87,25 +87,26 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
-    // 칼로리로 랭킹 조회
+    // 칼로리, 거리, 시간으로 랭킹 조회
     @Override
-    public List<UserRankingResponseDto> getRankingsByCalorie(String area) {
-        List<User> users = userRepository.findTop3ByAreaOrderByCumulCalorieDesc(Area.valueOf(area));
-        return users.stream().map(UserRankingResponseDto::new).collect(Collectors.toList());
-    }
+    public List<Integer> getRankings(String nickname, String area) {
+        List<Integer> rankingList = new ArrayList<>();
+        User user = userRepository.findByNickName(nickname);
 
-    // 거리로 랭킹 조회
-    @Override
-    public List<UserRankingResponseDto> getRankingsByDistance(String area) {
-        List<User> users = userRepository.findTop3ByAreaOrderByCumulDistanceDesc(Area.valueOf(area));
-        return users.stream().map(UserRankingResponseDto::new).collect(Collectors.toList());
-    }
+        List<User> usersByCalorie = userRepository.findAllByAreaOrderByCumulCalorieDesc(Area.valueOf(area));
+        int rankingByCalorie = usersByCalorie.indexOf(user);
+        rankingList.add(rankingByCalorie + 1);
+        System.out.println("usersByCalorie" + usersByCalorie);
+        System.out.println("rankingByCalorie" + rankingByCalorie);
 
-    // 시간으로 랭킹 조회
-    @Override
-    public List<UserRankingResponseDto> getRankingsByTime(String area) {
-        List<User> users = userRepository.findTop3ByAreaOrderByCumulTimeDesc(Area.valueOf(area));
-        return users.stream().map(UserRankingResponseDto::new).collect(Collectors.toList());
-    }
+        List<User> usersByDistance = userRepository.findAllByAreaOrderByCumulDistanceDesc(Area.valueOf(area));
+        int rankingByDistance = usersByDistance.indexOf(user);
+        rankingList.add(rankingByDistance + 1);
 
+        List<User> usersByTime = userRepository.findAll3ByAreaOrderByCumulTimeDesc(Area.valueOf(area));
+        int rankingsByTime = usersByTime.indexOf(user);
+        rankingList.add(rankingsByTime + 1);
+
+        return rankingList;
+    }
 }

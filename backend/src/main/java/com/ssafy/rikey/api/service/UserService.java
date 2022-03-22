@@ -15,7 +15,5 @@ public interface UserService {
     void updateUserProfile(UpdateUserRequestDto updateUserRequestDto);
     UserResponseDto getUserProfile(String nickName);
     void deleteUser(String userId);
-    List<UserRankingResponseDto> getRankingsByCalorie(String area);
-    List<UserRankingResponseDto> getRankingsByDistance(String area);
-    List<UserRankingResponseDto> getRankingsByTime(String area);
+    List<Integer> getRankings(String nickname, String area);
 }
