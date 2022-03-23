@@ -9,6 +9,7 @@ import com.ssafy.rikey.db.repository.UserRepository;
 import com.ssafy.rikey.util.HashEncoder;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private final AuthRepository authRepository;
     private final UserRepository userRepository;
     private final HashEncoder hashEncoder;
+
+    @Autowired
     private RestTemplate restTemplate;
 
     // 회원가입
@@ -121,7 +124,6 @@ public class UserServiceImpl implements UserService {
         return rankingList;
     }
 
-    @Transactional
     @Override
     public String uploadImage(MultipartFile uploadFile) throws Exception {
         // 파일 정보

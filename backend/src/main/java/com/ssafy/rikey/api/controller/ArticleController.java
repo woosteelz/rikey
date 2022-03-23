@@ -143,7 +143,8 @@ public class ArticleController {
 
     @ApiOperation(value = "게시글 사진 업로드")
     @PostMapping("/upload")
-    public ResponseEntity<Map<String, Object>> Upload(@RequestPart(required = false) List<MultipartFile> uploadFiles) throws Exception {
+    public ResponseEntity<Map<String, Object>> Upload(
+            @RequestPart(required = false) List<MultipartFile> uploadFiles) throws Exception {
 
         Map<String, Object> result = new HashMap<>();
         List<String> urls = null;
