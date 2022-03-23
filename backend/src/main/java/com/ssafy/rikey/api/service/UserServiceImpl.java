@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserProfile(UpdateUserRequestDto updateUserRequestDto) {
         User user = userRepository.getById(updateUserRequestDto.getUserId());
-        user.update(updateUserRequestDto.getNickName(), updateUserRequestDto.getGreeting(), Area.valueOf(updateUserRequestDto.getArea()));
+        user.update(updateUserRequestDto.getNickName(), updateUserRequestDto.getGreeting(), Area.valueOf(updateUserRequestDto.getArea()), updateUserRequestDto.getProfilePic());
     }
 
     // 프로필 조회
