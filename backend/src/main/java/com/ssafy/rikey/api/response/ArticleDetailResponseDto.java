@@ -25,6 +25,10 @@ public class ArticleDetailResponseDto {
     @ApiModelProperty(value = "게시글 내용", example = "내용")
     private String content;
 
+    @ElementCollection
+    @ApiModelProperty(value = "게시글 사진 리스트")
+    private List<String> pics;
+
     @ApiModelProperty(value = "게시글 작성일", example = "2022-02-01 23:59:59.500")
     private LocalDateTime createdTime;
 
@@ -55,6 +59,7 @@ public class ArticleDetailResponseDto {
         articleId = article.getId();
         title = article.getTitle();
         content = article.getContent();
+        pics = article.getPics();
         createdTime = article.getCreatedTime();
         modifiedTime = article.getUpdatedTime();
         hit = article.getHits();

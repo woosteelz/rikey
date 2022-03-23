@@ -23,6 +23,9 @@ public class Article extends com.ssafy.rikey.db.entity.BaseEntity {
 
     private String content;
 
+    @ElementCollection
+    private List<String> pics;
+
     private int hits;
 
     @Enumerated(EnumType.STRING)
@@ -39,9 +42,10 @@ public class Article extends com.ssafy.rikey.db.entity.BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    private Article(String title, String content, Category category, User user) {
+    private Article(String title, String content, List<String> pics, Category category, User user) {
         this.title = title;
         this.content = content;
+        this.pics = pics;
         this.hits = 0;
         this.category = category;
         this.author = user;
