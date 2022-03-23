@@ -56,7 +56,7 @@ public class User {
     private List<RidingInfo> ridingInfos = new ArrayList<>();
 
     @Builder
-    public User(String id, Auth auth, String nickName, String greeting, Area area) {
+    public User(String id, Auth auth, String nickName, String greeting, Area area, int height, int weight) {
         this.id = id;
         this.auth = auth;
         this.nickName = nickName;
@@ -66,6 +66,8 @@ public class User {
         this.cumulDistance = 0;
         this.cumulTime = 0;
         this.area = area;
+        this.height = height;
+        this.weight = weight;
     }
 
     // 유저 정보 수정을 위한 편의 함수

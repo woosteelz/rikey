@@ -49,6 +49,8 @@ public class UserServiceImpl implements UserService {
                 .nickName(userRequestDto.getNickName())
                 .greeting(userRequestDto.getGreeting())
                 .area(Area.valueOf(userRequestDto.getArea()))
+                .height(userRequestDto.getHeight())
+                .weight(userRequestDto.getWeight())
                 .build();
         user = userRepository.save(user);
 
