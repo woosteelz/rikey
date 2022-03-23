@@ -69,10 +69,11 @@ public class User {
     }
 
     // 유저 정보 수정을 위한 편의 함수
-    public void update(String nickName, String greeting, Area area) {
+    public void update(String nickName, String greeting, Area area, String profile_pic) {
         this.nickName = nickName;
         this.greeting = greeting;
         this.area = area;
+        this.profile_pic = profile_pic;
     }
 
     // 유저 주행 정보 수정을 위한 편의 함수

@@ -21,4 +21,7 @@ public class UpdateUserRequestDto {
 
     @ApiModelProperty(value = "지역", example = "SEOUL")
     private String area;
+
+    @ApiModelProperty(value = "유저 사진 경로", example = "ftpServerUrl/pic.jpg")
+    private String profilePic;
 }
