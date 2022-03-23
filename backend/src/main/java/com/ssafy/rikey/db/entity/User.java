@@ -25,6 +25,10 @@ public class User {
 
     private String profile_pic;
 
+    private int height;
+
+    private int weight;
+
     private String greeting;
 
     private int cumulCalorie;
@@ -71,11 +75,13 @@ public class User {
     }
 
     // 유저 정보 수정을 위한 편의 함수
-    public void update(String nickName, String greeting, Area area, String profile_pic) {
+    public void update(String nickName, String greeting, Area area, String profile_pic, int height, int weight) {
         this.nickName = nickName;
         this.greeting = greeting;
         this.area = area;
         this.profile_pic = profile_pic;
+        this.height = height;
+        this.weight = weight;
     }
 
     // 유저 주행 정보 수정을 위한 편의 함수
