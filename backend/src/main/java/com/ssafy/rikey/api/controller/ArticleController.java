@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -138,6 +139,28 @@ public class ArticleController {
 
         result.put("article", articleId);
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
+    @ApiOperation(value = "게시글 사진 업로드")
+    @PostMapping("/upload")
+    public ResponseEntity<Map<String, Object>> Upload(
+            @RequestPart(required = false) List<MultipartFile> uploadFiles) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        List<String> urls = null;
+        HttpStatus status = null;
+        try {
+            urls = articleService.uploadImage(uploadFiles);
+            status = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (Exception e) {
+            e.printStackTrace();
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        result.put("urls", urls);
+        return new ResponseEntity<Map<String, Object>>(result, status);
     }
 
     @PutMapping("/{articleId}")

@@ -9,6 +9,7 @@ import com.ssafy.rikey.db.repository.UserRepository;
 import com.ssafy.rikey.util.HashEncoder;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private final AuthRepository authRepository;
     private final UserRepository userRepository;
     private final HashEncoder hashEncoder;
+
+    @Autowired
     private RestTemplate restTemplate;
 
     // 회원가입
@@ -46,6 +49,8 @@ public class UserServiceImpl implements UserService {
                 .nickName(userRequestDto.getNickName())
                 .greeting(userRequestDto.getGreeting())
                 .area(Area.valueOf(userRequestDto.getArea()))
+                .height(userRequestDto.getHeight())
+                .weight(userRequestDto.getWeight())
                 .build();
         user = userRepository.save(user);
 
@@ -65,7 +70,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserProfile(UpdateUserRequestDto updateUserRequestDto) {
         User user = userRepository.getById(updateUserRequestDto.getUserId());
-        user.update(updateUserRequestDto.getNickName(), updateUserRequestDto.getGreeting(), Area.valueOf(updateUserRequestDto.getArea()));
+        user.update(updateUserRequestDto.getNickName(), updateUserRequestDto.getGreeting(),
+                Area.valueOf(updateUserRequestDto.getArea()), updateUserRequestDto.getProfilePic(),
+                updateUserRequestDto.getHeight(), updateUserRequestDto.getWeight());
     }
 
     // 프로필 조회

@@ -14,6 +14,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -117,6 +118,27 @@ public class UserController {
         }
 
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
+    @ApiOperation(value = "회원 사진 업로드")
+    @PostMapping("/upload")
+    public ResponseEntity<Map<String, Object>> Upload(@RequestPart(required = false) MultipartFile uploadFile) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        String url = null;
+        HttpStatus status = null;
+        try {
+            url = userService.uploadImage(uploadFile);
+            status = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (Exception e) {
+            e.printStackTrace();
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        result.put("url", url);
+        return new ResponseEntity<Map<String, Object>>(result, status);
     }
 
     @GetMapping("/{nickName}")
