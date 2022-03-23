@@ -121,6 +121,7 @@ public class UserServiceImpl implements UserService {
         return rankingList;
     }
 
+    @Transactional
     @Override
     public String uploadImage(MultipartFile uploadFile) throws Exception {
         // 파일 정보
