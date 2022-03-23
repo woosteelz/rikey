@@ -21,4 +21,10 @@ public class UserRequestDto {
 
     @ApiModelProperty(value = "지역", example = "SEOUL")
     private String area;
+
+    @ApiModelProperty(value = "키", example = "180")
+    private int height;
+
+    @ApiModelProperty(value = "몸무게", example = "80")
+    private int weight;
 }
