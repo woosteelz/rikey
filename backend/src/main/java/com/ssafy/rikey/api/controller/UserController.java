@@ -7,8 +7,10 @@ import com.ssafy.rikey.api.response.UserResponseDto;
 import com.ssafy.rikey.api.response.UserSimpleResponseDto;
 import com.ssafy.rikey.api.service.UserService;
 import com.ssafy.rikey.db.entity.User;
+import com.ssafy.rikey.db.repository.UserRepository;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +28,13 @@ import java.util.NoSuchElementException;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @PostMapping
     @ApiOperation(value = "회원가입", notes = "회원가입을 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 400, message = "중복된 닉네임"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
@@ -45,9 +48,15 @@ public class UserController {
             UserSimpleResponseDto userSimpleResponseDto = userService.register(userRequestDto);
             result.put("profile", userSimpleResponseDto);
             httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "CHECK NICKNAME");
         } catch (RuntimeException e) {
             e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
         } catch (Exception e) {
             e.printStackTrace();
         }

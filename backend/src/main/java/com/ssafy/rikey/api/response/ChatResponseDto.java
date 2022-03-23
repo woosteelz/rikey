@@ -17,7 +17,7 @@ public class ChatResponseDto {
     private Long chatId;
 
     @ApiModelProperty(name = "최근 채팅 작성자 닉네임", example = "yeongha")
-    private String nickname;
+    private String nickName;
 
     @ApiModelProperty(name = "최근 채팅 작성자 프로필 이미지", example = "이미지 경로")
     private String profilePic;
@@ -30,7 +30,7 @@ public class ChatResponseDto {
 
     public ChatResponseDto(ChatMessage chatMessage) {
         chatId = chatMessage.getChat().getId();
-        nickname = chatMessage.getUser().getNickName();
+        nickName = chatMessage.getUser().getNickName();
         profilePic = chatMessage.getUser().getProfile_pic();
         recentMsg = chatMessage.getContent();
         createdTime = chatMessage.getCreatedTime();

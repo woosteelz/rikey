@@ -20,15 +20,16 @@ public class User {
     @Column(name = "user_id")
     private String id;
 
+    @Column(unique = true)
     private String nickName;
 
     private String profile_pic;
 
     private String greeting;
 
-    private int cumulCarlorie;
+    private int cumulCalorie;
 
-    private int cumulDistance;
+    private double cumulDistance;
 
     private int cumulTime;
 
@@ -61,7 +62,7 @@ public class User {
         this.nickName = nickName;
         this.profile_pic = "";
         this.greeting = greeting;
-        this.cumulCarlorie = 0;
+        this.cumulCalorie = 0;
         this.cumulDistance = 0;
         this.cumulTime = 0;
         this.area = area;
@@ -72,5 +73,12 @@ public class User {
         this.nickName = nickName;
         this.greeting = greeting;
         this.area = area;
+    }
+
+    // 유저 주행 정보 수정을 위한 편의 함수
+    public void updateRiding(int calorie, double distance, int time) {
+        this.cumulCalorie += calorie;
+        this.cumulDistance += distance;
+        this.cumulTime += time;
     }
 }

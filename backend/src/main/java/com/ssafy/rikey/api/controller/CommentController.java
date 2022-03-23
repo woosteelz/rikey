@@ -3,7 +3,6 @@ package com.ssafy.rikey.api.controller;
 import com.ssafy.rikey.api.request.CreateCommentRequestDto;
 import com.ssafy.rikey.api.service.CommentService;
 import com.ssafy.rikey.db.entity.Comment;
-import com.ssafy.rikey.db.entity.User;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

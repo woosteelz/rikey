@@ -31,7 +31,7 @@ public class UserResponseDto {
     private int weeklyCalories;
 
     @ApiModelProperty(value = "유저 누적 거리", example = "200")
-    private int weeklyDistance;
+    private double weeklyDistance;
 
     @ApiModelProperty(value = "유저 누적 시간", example = "200")
     private int weeklyTime;
@@ -65,7 +65,7 @@ public class UserResponseDto {
         nickName = user.getNickName();
         profilePic = user.getProfile_pic();
         greeting = user.getGreeting();
-        weeklyCalories = user.getCumulCarlorie();
+        weeklyCalories = user.getCumulCalorie();
         weeklyDistance = user.getCumulDistance();
         weeklyTime = user.getCumulTime();
         area = user.getArea();

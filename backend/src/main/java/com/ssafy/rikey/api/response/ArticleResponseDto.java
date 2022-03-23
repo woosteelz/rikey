@@ -20,9 +20,6 @@ public class ArticleResponseDto {
     @ApiModelProperty(value = "게시글 내용", example = "내용")
     private String content;
 
-    @ApiModelProperty(value = "게시글 좋아요수", example = "1")
-    private int likeCnt;
-
     @ApiModelProperty(value = "게시글 작성자 닉네임", example = "영하")
     private String author;
 
@@ -30,7 +27,6 @@ public class ArticleResponseDto {
         articleId = article.getId();
         title = article.getTitle();
         content = article.getContent();
-        likeCnt = article.getLikeUsers().size();
         author = article.getAuthor().getNickName();
     }
 }
