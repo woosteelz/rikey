@@ -11,6 +11,7 @@ import com.ssafy.rikey.db.repository.LikeyRepository;
 import com.ssafy.rikey.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -37,7 +38,9 @@ public class ArticleServiceImpl implements ArticleService {
     private final LikeyRepository likeyRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
-    private final RestTemplate restTemplate;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     // 최근 게시글 조회
     @Override
@@ -103,7 +106,6 @@ public class ArticleServiceImpl implements ArticleService {
         return saveArticle.getId();
     }
 
-    @Transactional
     @Override
     public List<String> uploadImage(List<MultipartFile> uploadFiles) throws Exception {
         List<String> urls = new ArrayList<>();
@@ -135,7 +137,7 @@ public class ArticleServiceImpl implements ArticleService {
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("uploadFile", fileAsResource); //파일 바이트 저장
-            body.add("parentPath","profile");
+            body.add("parentPath","article");
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
