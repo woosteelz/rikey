@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class RidingInfoServiceImpl implements RidingInfoService {
 
     private final RidingInfoRepository ridingInfoRepository;
@@ -32,6 +32,7 @@ public class RidingInfoServiceImpl implements RidingInfoService {
     }
 
     // 주행 정보 등록
+    @Transactional
     @Override
     public void createRidingInfo(String userId, RidingInfoRequestDto ridingInfoRequestDto) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
@@ -45,6 +46,8 @@ public class RidingInfoServiceImpl implements RidingInfoService {
                 .ridingDist(ridingInfoRequestDto.getRidingDist())
                 .user(user)
                 .build();
+
+        user.updateRiding(ridingInfoRequestDto.getRidingCalorie(), ridingInfoRequestDto.getRidingDist(), ridingInfoRequestDto.getRidingTime());
         ridingInfoRepository.save(ridingInfo);
     }
 }

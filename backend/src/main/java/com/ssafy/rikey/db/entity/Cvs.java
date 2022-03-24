@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,5 +27,7 @@ public class Cvs {
 
     private String roadAddress;
 
-    private Point point;
+    private Double latitude;
+
+    private Double longitude;
 }

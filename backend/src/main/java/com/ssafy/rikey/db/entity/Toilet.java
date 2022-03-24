@@ -25,5 +25,7 @@ public class Toilet {
 
     private String openTime;
 
-    private Point point;
+    private Double latitude;
+
+    private Double longitude;
 }

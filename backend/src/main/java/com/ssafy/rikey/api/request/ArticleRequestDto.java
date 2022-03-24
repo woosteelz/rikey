@@ -6,6 +6,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.ElementCollection;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @ApiModel("ArticleRequestDto")
@@ -16,6 +19,10 @@ public class ArticleRequestDto {
 
     @ApiModelProperty(value = "게시글 내용", example = "내용")
     private String content;
+
+    @ElementCollection
+    @ApiModelProperty(value = "게시글 사진 리스트")
+    private List<String> pics;
 
     @ApiModelProperty(value = "게시글 카테고리", example = "FREE")
     private String category;

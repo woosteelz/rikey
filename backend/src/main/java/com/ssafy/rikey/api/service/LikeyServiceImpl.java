@@ -31,4 +31,12 @@ public class LikeyServiceImpl implements LikeyService {
                 .build();
         likeyRepository.save(likey);
     }
+
+    @Transactional
+    @Override
+    public void deleteLikey(String userId, Long articleId) {
+        Article article = articleRepository.findById(articleId).get();
+        User user = userRepository.findById(userId).get();
+        likeyRepository.deleteByUserAndArticle(user, article);
+    }
 }

@@ -2,9 +2,7 @@ package com.ssafy.rikey.api.service;
 
 import com.ssafy.rikey.api.request.CreateCommentRequestDto;
 import com.ssafy.rikey.api.response.CommentResponseDto;
-import com.ssafy.rikey.db.entity.Article;
 import com.ssafy.rikey.db.entity.Comment;
-import com.ssafy.rikey.db.entity.User;
 
 import java.util.List;
 
@@ -14,8 +12,9 @@ import java.util.List;
  */
 public interface CommentService {
 
-    Long createComment(CreateCommentRequestDto commentInfo, Long articleId, String userId);
-    Comment updateComment(CreateCommentRequestDto commentInfo, Long commentId, Long articleId);
-    void deleteComment(Comment comment);
+    Comment getComment(Long commentId);
+    Long createComment(CreateCommentRequestDto commentInfo);
+    void updateComment(CreateCommentRequestDto commentInfo, Long commentId);
+    void deleteComment(Long commentId);
     List<CommentResponseDto> getCommentList(Long articleId);
 }

@@ -10,6 +10,8 @@ const SignUp = ({ route, navigation }) => {
 		const [nickName, setNickName] = useState('');
 		const [intro, setIntro] = useState('');
 		const [area, setArea] = useState('');
+		const [height, setHeight] = useState('');
+		const [weight, setWeight] = useState('');
 		const { setUserId } = useStore();
 
 		const id = route.params.id;
@@ -19,7 +21,9 @@ const SignUp = ({ route, navigation }) => {
 				"area" : area,
 				"authId" : id,
 				"greeting" : intro,
-				"nickName" : nickName
+				"nickName" : nickName,
+				"height" : height,
+				"weight" : weight,
 			})
 
 			.then((response) => {
@@ -90,6 +94,16 @@ const SignUp = ({ route, navigation }) => {
 								</Center>   
 							</SignUpContainer>
 							
+							<HeightWeightContainer>
+
+								<SignUpText>{"키를 입력해 주세요."}</SignUpText>
+								<HeightInput onChangeText={text => setHeight(text)} />
+
+								<SignUpText>{"몸무게를 입력해 주세요."}</SignUpText>
+								<WeightInput onChangeText={text => setWeight(text)} />
+
+							</HeightWeightContainer>
+
 							<ButtonContainer>
 								<SignUpButton title="회원가입 하기" color="#00C689" onPress={() => RIKEYSignUp()}/>
 							</ButtonContainer>
@@ -149,10 +163,30 @@ const SignUpInput = styled.TextInput`
 	margin-top: 1%;
 	width: 200px;
 	height: 35px;
-  border: 0.5px solid;
+ 	border: 0.5px solid;
 	border-radius: 6px;
 	color: black;
 `
+
+const HeightWeightContainer = styled.View`
+`
+const HeightInput = styled.TextInput`
+	margin-top: 1%;
+	width: 200px;
+	height: 35px;
+	border: 0.5px solid;
+	border-radius: 6px;
+	color: black;
+`
+const WeightInput = styled.TextInput`
+	margin-top: 1%;
+	width: 200px;
+	height: 35px;
+	border: 0.5px solid;
+	border-radius: 6px;
+	color: black;
+`
+
 
 const ButtonContainer = styled.View`
 	margin-top: 10%;
