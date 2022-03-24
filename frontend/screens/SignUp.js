@@ -12,7 +12,6 @@ const SignUp = ({ route, navigation }) => {
 		const [area, setArea] = useState('');
 		const [height, setHeight] = useState('');
 		const [weight, setWeight] = useState('');
-
 		const { setUserId } = useStore();
 
 		const id = route.params.id;
@@ -102,7 +101,7 @@ const SignUp = ({ route, navigation }) => {
 
 								<SignUpText>{"몸무게를 입력해 주세요."}</SignUpText>
 								<WeightInput onChangeText={text => setWeight(text)} />
-								
+
 							</HeightWeightContainer>
 
 							<ButtonContainer>
