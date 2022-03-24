@@ -17,31 +17,34 @@ import { useStore } from "../states";
 const iosKeys = {
   kConsumerKey: "naver client id",
   kConsumerSecret: "naver secret id",
-  kServiceSignInName: "테스트앱(iOS)",
-  kServiceSignInUrlScheme: "testSignIn" // only for iOS
+  kServiceAppName: "테스트앱(iOS)",
+  kServiceAppUrlScheme: "testSignIn" // only for iOS
 };
 
 const androidKeys = {
   kConsumerKey: "WfLiuAOSqT_2PxhawHwp",
-  kConsumerSecret: "RZ8elOQK8h",
-  kServiceSignInName: "RIKEY"
+  kConsumerSecret: "ymJj5C80sb",
+  kServiceAppName: "RIKEY"
 };
 
 const naverLogin = props => {
   return new Promise((resolve, reject) => {
     NaverLogin.login(props, (err, token) => {
       console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
-
+      
       if (err) {
         reject(err);
         return;
       }
-
+      
       resolve(token);
     });
   });
 };
 
+// useEffect(() => {
+  
+// }, [])
 
 const getUserProfile = async (token) => {
   const profileResult = await getProfile(token);
@@ -75,7 +78,7 @@ const SignIn = ({ navigation }) => {
     try {
       const token = await naverLogin(initials)
       const id = await getUserProfile(token.accessToken);
-
+      
       setNaverToken(token);
       setUserNaverId(id)
       
