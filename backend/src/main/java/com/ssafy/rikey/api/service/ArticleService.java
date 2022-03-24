@@ -4,6 +4,7 @@ import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.db.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,8 +12,9 @@ public interface ArticleService {
 
     List<ArticleResponseDto> getRecentArticles();
     List<ArticleResponseDto> getArticles(String category);
-    ArticleDetailResponseDto getArticle(String userId, Long articleId);
+    ArticleDetailResponseDto getArticle(String nickName, Long articleId);
     Long createArticle(ArticleRequestDto articleRequestDto);
     void updateArticle(Long articleId, ArticleRequestDto articleRequestDto);
     void deleteArticle(Long articleId);
+    List<String> uploadImage(List<MultipartFile> uploadFiles) throws Exception;
 }

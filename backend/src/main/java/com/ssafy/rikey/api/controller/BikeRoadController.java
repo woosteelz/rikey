@@ -1,8 +1,10 @@
 package com.ssafy.rikey.api.controller;
 
-import com.ssafy.rikey.api.response.BikeRoadDetailResponseDto;
-import com.ssafy.rikey.api.response.BikeRoadResponseDto;
+import com.ssafy.rikey.api.response.*;
 import com.ssafy.rikey.api.service.BikeRoadService;
+import com.ssafy.rikey.api.service.CvsService;
+import com.ssafy.rikey.api.service.StoreService;
+import com.ssafy.rikey.api.service.ToiletService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,9 +24,12 @@ import java.util.NoSuchElementException;
 public class BikeRoadController {
 
     private final BikeRoadService bikeRoadService;
+    private final CvsService cvsService;
+    private final StoreService storeService;
+    private final ToiletService toiletService;
 
     @GetMapping
-    @ApiOperation(value = "추천 코스 리스트 조회", notes = "추천 코스 리트스를 조회한다.")
+    @ApiOperation(value = "추천 코스 리스트 조회", notes = "추천 코스 리스트를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류"),
@@ -77,6 +82,43 @@ public class BikeRoadController {
         }
 
         result.put("bikeRoad", bikeRoad);
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
+    @GetMapping("/facilities")
+    @ApiOperation(value = "주변 편의시설 조회", notes = "내 주변에 있는 편의시설 정보를 불러온다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 400, message = "자전거길 탐색 오류"),
+            @ApiResponse(code = 500, message = "서버 오류"),
+    })
+    public ResponseEntity<Map<String, Object>> getFacilities(
+            @RequestParam(required = true) @ApiParam(value = "현재 위도") Double latitude,
+            @RequestParam(required = true) @ApiParam(value = "현재 경도") Double longitude) {
+
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+        List<CvsResponseDto> cvss = null;
+        List<StoreResponseDto> stores = null;
+        List<ToiletResponseDto> toilets = null;
+
+        try {
+            cvss = cvsService.getCvss(latitude, longitude);
+            stores = storeService.getStores(latitude, longitude);
+            toilets = toiletService.getToilets(latitude, longitude);
+            httpStatus = HttpStatus.CREATED;
+            result.put("status", "SUCCESS");
+        } catch (NoSuchElementException e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "NO ARTICLE");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        result.put("cvss", cvss);
+        result.put("stores", stores);
+        result.put("toilets", toilets);
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 }

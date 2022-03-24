@@ -3,6 +3,7 @@ package com.ssafy.rikey.db.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor
 @Table(name = "user")
 public class User {
@@ -18,15 +20,20 @@ public class User {
     @Column(name = "user_id")
     private String id;
 
+    @Column(unique = true)
     private String nickName;
 
     private String profile_pic;
 
+    private int height;
+
+    private int weight;
+
     private String greeting;
 
-    private int cumulCarlorie;
+    private int cumulCalorie;
 
-    private int cumulDistance;
+    private double cumulDistance;
 
     private int cumulTime;
 
@@ -53,15 +60,34 @@ public class User {
     private List<RidingInfo> ridingInfos = new ArrayList<>();
 
     @Builder
-    public User(String id, Auth auth, String nickName, String greeting, Area area) {
+    public User(String id, Auth auth, String nickName, String greeting, Area area, int height, int weight) {
         this.id = id;
         this.auth = auth;
         this.nickName = nickName;
         this.profile_pic = "";
         this.greeting = greeting;
-        this.cumulCarlorie = 0;
+        this.cumulCalorie = 0;
         this.cumulDistance = 0;
         this.cumulTime = 0;
         this.area = area;
+        this.height = height;
+        this.weight = weight;
+    }
+
+    // 유저 정보 수정을 위한 편의 함수
+    public void update(String nickName, String greeting, Area area, String profile_pic, int height, int weight) {
+        this.nickName = nickName;
+        this.greeting = greeting;
+        this.area = area;
+        this.profile_pic = profile_pic;
+        this.height = height;
+        this.weight = weight;
+    }
+
+    // 유저 주행 정보 수정을 위한 편의 함수
+    public void updateRiding(int calorie, double distance, int time) {
+        this.cumulCalorie += calorie;
+        this.cumulDistance += distance;
+        this.cumulTime += time;
     }
 }

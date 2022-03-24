@@ -19,19 +19,26 @@ public class BikeRoad {
     @Column(name = "bikeroad_id")
     private Long id;
 
-    private String course;
-
     private String name;
+
+    private String departure;
+
+    private String destination;
 
     private int hour;
 
     private int minute;
 
+    @Column(length = 5000)
     private String introduce;
 
-    private Point startPoint;
+    private Double startLatitude;
 
-    private Point endPoint;
+    private Double startLongitude;
+
+    private Double endLatitude;
+
+    private Double endLongitude;
 
     @OneToMany(mappedBy = "bikeRoad", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
