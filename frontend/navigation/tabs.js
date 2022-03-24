@@ -2,7 +2,6 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-import Home from '../screens/Home';
 import Map from '../screens/Map';
 import Profile from '../screens/Profile';
 import Record from '../screens/Record';

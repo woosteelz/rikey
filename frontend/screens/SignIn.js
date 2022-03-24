@@ -94,18 +94,19 @@ const SignIn = ({ navigation }) => {
         if (result === null) {
           // 아이디가 유효하면서 정보가 없다면?
           // 반환되는게 null이면 회원가입으로 redirect
-          navigation.navigate('SignUp', {id : id})
+          navigation.navigate('SignUp', {id : id});
         } 
 
         else {
           // 반환 success면 Home으로 가기
           setUserId(result.id);
-          navigation.navigate('Tabs')
+          navigation.navigate('Tabs');
         }
         
       })
       .catch((error) => {
         console.log(error);
+        console.log("API 에러")
       })
 
     }
