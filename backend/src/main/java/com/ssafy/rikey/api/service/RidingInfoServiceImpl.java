@@ -25,8 +25,8 @@ public class RidingInfoServiceImpl implements RidingInfoService {
 
     // 주행 정보 조회
     @Override
-    public List<RidingInfoResponseDto> getRidingInfos(String userId) {
-        User user = userRepository.findById(userId).get();
+    public List<RidingInfoResponseDto> getRidingInfoes(String nickname) {
+        User user = userRepository.findByNickName(nickname);
         List<RidingInfo> ridingInfoes = ridingInfoRepository.findByUser(user);
         return ridingInfoes.stream().map(RidingInfoResponseDto::new).collect(Collectors.toList());
     }
@@ -49,5 +49,14 @@ public class RidingInfoServiceImpl implements RidingInfoService {
 
         user.updateRiding(ridingInfoRequestDto.getRidingCalorie(), ridingInfoRequestDto.getRidingDist(), ridingInfoRequestDto.getRidingTime());
         ridingInfoRepository.save(ridingInfo);
+    }
+
+    @Transactional
+    @Override
+    public void deleteRidingInfo(Long ridingInfoId) {
+        RidingInfo ridingInfo = ridingInfoRepository.findById(ridingInfoId).get();
+        User user = ridingInfo.getUser();
+        user.deleteRiding(ridingInfo.getRidingCalorie(), ridingInfo.getRidingDist(), ridingInfo.getRidingTime());
+        ridingInfoRepository.deleteById(ridingInfoId);
     }
 }

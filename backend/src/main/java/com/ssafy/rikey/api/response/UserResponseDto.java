@@ -51,16 +51,11 @@ public class UserResponseDto {
     @ElementCollection
     private List<ReviewResponseDto> myReviews;
 
-    @ApiModelProperty(value = "유저의 주행 리스트")
-    @ElementCollection
-    private List<RidingInfoResponseDto> myRidings;
-
 
     public UserResponseDto(User user,
                            List<ArticleResponseDto> articles,
                            List<CommentResponseDto> comments,
-                           List<ReviewResponseDto> reviews,
-                           List<RidingInfoResponseDto> ridings) {
+                           List<ReviewResponseDto> reviews) {
         id = user.getId();
         nickName = user.getNickName();
         profilePic = user.getProfile_pic();
@@ -72,6 +67,5 @@ public class UserResponseDto {
         myArticles = articles;
         myComments = comments;
         myReviews = reviews;
-        myRidings = ridings;
     }
 }

@@ -208,6 +208,7 @@ public class ArticleController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 403, message = "잘못된 유저"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> deleteArticle(
@@ -220,7 +221,7 @@ public class ArticleController {
         try {
             Article article = articleRepository.getById(articleId);
             if (article.getAuthor().getId().equals(body.get("userId"))) {
-                articleService.deleteArticle(articleId);;
+                articleService.deleteArticle(articleId);
                 httpStatus = HttpStatus.OK;
                 result.put("status", "SUCCESS");
             } else {
