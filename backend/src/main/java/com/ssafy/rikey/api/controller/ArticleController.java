@@ -3,16 +3,20 @@ package com.ssafy.rikey.api.controller;
 import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
+import com.ssafy.rikey.api.response.UserRankingResponseDto;
+import com.ssafy.rikey.api.response.UserResponseDto;
 import com.ssafy.rikey.api.service.ArticleService;
+import com.ssafy.rikey.api.service.UserService;
+import com.ssafy.rikey.db.entity.Article;
+import com.ssafy.rikey.db.repository.ArticleRepository;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Api(tags = "Article", value = "게시글 API")
 @CrossOrigin(origins = {"*"})
@@ -22,11 +26,13 @@ import java.util.Map;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final ArticleRepository articleRepository;
+    private final UserService userService;
 
-    @GetMapping
+    @GetMapping("/recent")
     @ApiOperation(value = "최근 게시글 조회", notes = "최근 게시글을 조회한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getRecentArticles() {
@@ -38,22 +44,20 @@ public class ArticleController {
         try {
             articleList = articleService.getRecentArticles();
             httpStatus = HttpStatus.OK;
-            result.put("success", true);
+            result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
-            e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            result.put("success", false);
+            result.put("status", "SERVER ERROR");
         }
 
         result.put("articleList", articleList);
-
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
     @GetMapping
     @ApiOperation(value = "전체 게시글 조회", notes = "전체 게시글을 조회한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getArticles(
@@ -66,40 +70,40 @@ public class ArticleController {
         try {
             articleList = articleService.getArticles(category);
             httpStatus = HttpStatus.OK;
-            result.put("success", true);
+            result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
-            e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            result.put("success", false);
+            result.put("status", "SERVER ERROR");
         }
 
         result.put("articleList", articleList);
-
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
     @GetMapping("/{articleId}")
     @ApiOperation(value = "게시글 상세 조회", notes = "게시글 id에 해당하는 게시글을 불러온다")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getArticle(
+            @RequestParam @ApiParam(value = "유저 닉네임") String nickName,
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
         ArticleDetailResponseDto article = null;
-
         try {
-            article = articleService.getArticle(user, articleId);
-            httpStatus = HttpStatus.OK;
-            result.put("success", true);
+            article = articleService.getArticle(nickName, articleId);
+            httpStatus = HttpStatus.CREATED;
+            result.put("status", "SUCCESS");
+        } catch (NoSuchElementException e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "NO ARTICLE");
         } catch (RuntimeException e) {
-            e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            result.put("success", false);
+            result.put("status", "SERVER ERROR");
         }
 
         result.put("article", article);
@@ -107,10 +111,11 @@ public class ArticleController {
     }
 
     @PostMapping
-    @ApiOperation(value = "게시글 작성", notes = "새로운 게시글을 작성한다.")
+    @ApiOperation(value = "게시글 등록", notes = "새로운 게시글을 등록한다.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
             @ApiResponse(code = 204, message = "게시글 작성 오류"),
+            @ApiResponse(code = 403, message = "잘못된 유저"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> createArticle(
@@ -121,25 +126,50 @@ public class ArticleController {
         Long articleId = null;
 
         try {
-            articleId = articleService.createArticle(user, articleRequestDto);
-            httpStatus = HttpStatus.OK;
-            result.put("success", true);
+            articleId = articleService.createArticle(articleRequestDto);
+            httpStatus = HttpStatus.CREATED;
+            result.put("status", "SUCCESS");
+        } catch (IllegalArgumentException e) {
+            httpStatus = HttpStatus.NO_CONTENT;
+            result.put("status", "NO CONTENT");
         } catch (RuntimeException e) {
-            e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            result.put("success", false);
+            result.put("status", "SERVER ERROR");
         }
 
         result.put("article", articleId);
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
+    @ApiOperation(value = "게시글 사진 업로드")
+    @PostMapping("/upload")
+    public ResponseEntity<Map<String, Object>> Upload(
+            @RequestPart(required = false) List<MultipartFile> uploadFiles) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        List<String> urls = null;
+        HttpStatus status = null;
+        try {
+            urls = articleService.uploadImage(uploadFiles);
+            status = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (Exception e) {
+            e.printStackTrace();
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        result.put("urls", urls);
+        return new ResponseEntity<Map<String, Object>>(result, status);
+    }
+
     @PutMapping("/{articleId}")
     @ApiOperation(value = "게시글 수정", notes = "게시글을 수정한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 204, message = "게시글 작성 오류"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 403, message = "잘못된 유저"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> updateArticle(
@@ -148,16 +178,26 @@ public class ArticleController {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
-        ArticleDetailResponseDto articleDetailResponseDto = null;
 
         try {
-            articleService.updateArticle(articleId, articleRequestDto);
-            httpStatus = HttpStatus.OK;
-            result.put("success", true);
+            Article article = articleRepository.getById(articleId);
+            if (article.getAuthor().getId().equals(articleRequestDto.getUserId())) {
+                articleService.updateArticle(articleId, articleRequestDto);
+                httpStatus = HttpStatus.OK;
+                result.put("status", "SUCCESS");
+            } else {
+                httpStatus = HttpStatus.FORBIDDEN;
+                result.put("status", "WRONG USER");
+            }
+        } catch (IllegalArgumentException e) {
+            httpStatus = HttpStatus.NO_CONTENT;
+            result.put("status", "NO CONTENT");
+        } catch (NoSuchElementException e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "NO ARTICLE");
         } catch (RuntimeException e) {
-            e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            result.put("success", false);
+            result.put("status", "SERVER ERROR");
         }
 
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
@@ -166,28 +206,70 @@ public class ArticleController {
     @DeleteMapping("/{articleId}")
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
-    public ResponseEntity<Map<String, Object>> updateArticle(
+    public ResponseEntity<Map<String, Object>> deleteArticle(
+            @RequestBody @ApiParam(value = "유저 id") Map<String, String> body,
             @PathVariable @ApiParam(value = "게시글 id", required = true) Long articleId) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
 
         try {
-            articleService.deleteArticle(articleId);
-            httpStatus = HttpStatus.OK;
-            result.put("success", true);
+            Article article = articleRepository.getById(articleId);
+            if (article.getAuthor().getId().equals(body.get("userId"))) {
+                articleService.deleteArticle(articleId);;
+                httpStatus = HttpStatus.OK;
+                result.put("status", "SUCCESS");
+            } else {
+                httpStatus = HttpStatus.FORBIDDEN;
+                result.put("status", "WRONG USER");
+            }
         } catch (RuntimeException e) {
-            e.printStackTrace();
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            result.put("success", false);
+            result.put("status", "SERVER ERROR");
+        } catch (Exception e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "BAD REQUEST");
         }
 
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
+    @GetMapping("/rankings/{nickname}")
+    @ApiOperation(value = "랭킹 조회", notes = "누적 칼로리, 누적 거리, 누적 시간을 기준으로 랭킹을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류"),
+    })
+    public ResponseEntity<Map<String, Object>> getRankings(
+            @RequestParam @ApiParam(value = "지역", required = true) String area,
+            @PathVariable @ApiParam(value = "유저 닉네임", required = true) String nickname) {
+
+        Map<String, Object> result = new HashMap<>();
+        List<Integer> rankings = null;
+        HttpStatus httpStatus = null;
+
+        try {
+            rankings = userService.getRankings(nickname, area);
+            httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (NoSuchElementException e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            result.put("status", "WRONG USER");
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        result.put("rankingByCalorie", rankings.get(0));
+        result.put("rankingsByDistance", rankings.get(1));
+        result.put("rankingByTime", rankings.get(2));
+
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
 }
 

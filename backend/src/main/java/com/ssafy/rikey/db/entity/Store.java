@@ -2,6 +2,7 @@ package com.ssafy.rikey.db.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 
@@ -22,11 +23,11 @@ public class Store {
 
     private String address;
 
-    private boolean airInjector;
+    private Boolean airInjector;
 
-    private boolean repairTable;
+    private Boolean repairTable;
 
-    private double latitude;
+    private Double latitude;
 
-    private double longitude;
+    private Double longitude;
 }

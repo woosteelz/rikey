@@ -1,4 +1,7 @@
 package com.ssafy.rikey.db.repository;
 
-public class StoreRepository {
+import com.ssafy.rikey.db.entity.Store;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StoreRepository extends JpaRepository<Store, Long>, StoreRepositoryCustom {
 }

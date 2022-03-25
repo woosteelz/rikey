@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface BikeRoadRepository extends JpaRepository<BikeRoad, Long> {
+public interface BikeRoadRepository extends JpaRepository<BikeRoad, Long>, BikeRoadRepositoryCustom {
 
-    Optional<BikeRoad> findById(Long BikeRoadId);
 }

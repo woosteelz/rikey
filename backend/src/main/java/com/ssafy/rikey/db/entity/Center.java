@@ -2,11 +2,14 @@ package com.ssafy.rikey.db.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@ToString
 @Table(name = "center")
 @NoArgsConstructor
 public class Center {
@@ -20,11 +23,9 @@ public class Center {
 
     private String address;
 
-    private double latitude;
+    private Long bikeroadId;
 
-    private double longitude;
+    private Double latitude;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bike_road_id")
-    private BikeRoad bikeRoad;
+    private Double longitude;
 }

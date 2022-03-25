@@ -11,6 +11,10 @@ const useStore = create(set => ({
     set(state => {
       cnt: state.cnt - 1;
     }),
+
+  userId: '',
+  setUserId: (givenId) => set({ userId : givenId }),
+
 }));
 
 const useUserInput = create(set => ({
@@ -25,19 +29,19 @@ export { useStore, useUserInput };
 
 /* ------------------------------다른 컴포넌트에서 작성법--------------------------------------  */
 // 다른 Components에서 사용하고자 할 때
-import { useStore, useUserInput } from 'states.js/상대파일경로';
+// import { useStore, useUserInput } from 'states.js/상대파일경로';
 
-const cnt = useStore(state => {
-  state.cnt;
-});
-const increase = useStore(state => {
-  state.increase;
-});
+// const cnt = useStore(state => {
+//   state.cnt;
+// });
+// const increase = useStore(state => {
+//   state.increase;
+// });
 
-const userInput = useUserInput(state => {
-  state.country;
-});
+// const userInput = useUserInput(state => {
+//   state.country;
+// });
 
-const getUserInput = useUserInput(state => {
-  state.getUserInput;
-});
+// const getUserInput = useUserInput(state => {
+//   state.getUserInput;
+// });

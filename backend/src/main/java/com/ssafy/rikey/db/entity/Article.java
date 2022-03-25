@@ -23,24 +23,29 @@ public class Article extends com.ssafy.rikey.db.entity.BaseEntity {
 
     private String content;
 
+    @ElementCollection
+    private List<String> pics;
+
     private int hits;
 
     @Enumerated(EnumType.STRING)
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User author;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Like> likeUsers = new ArrayList<>();
+    @OneToMany(mappedBy = "article")
+    private List<Likey> likeUsers = new ArrayList<>();
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Like> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    private Article(String title, String content, Category category, User user) {
+    private Article(String title, String content, List<String> pics, Category category, User user) {
         this.title = title;
         this.content = content;
+        this.pics = pics;
         this.hits = 0;
         this.category = category;
         this.author = user;
