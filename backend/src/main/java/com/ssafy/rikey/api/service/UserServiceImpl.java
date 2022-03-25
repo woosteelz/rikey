@@ -89,10 +89,7 @@ public class UserServiceImpl implements UserService {
         List<Review> reviews = user.getReviews();
         List<ReviewResponseDto> reviewResponseDtos = reviews.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
 
-        List<RidingInfo> ridingInfos = user.getRidingInfos();
-        List<RidingInfoResponseDto> ridingInfoResponseDtos = ridingInfos.stream().map(RidingInfoResponseDto::new).collect(Collectors.toList());
-
-        return new UserResponseDto(user, articleResponseDtos, commentResponseDtos, reviewResponseDtos, ridingInfoResponseDtos);
+        return new UserResponseDto(user, articleResponseDtos, commentResponseDtos, reviewResponseDtos);
     }
 
     // 회원 탈퇴

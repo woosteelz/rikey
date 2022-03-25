@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 @ApiModel("RidingInfoResponseDto")
 public class RidingInfoResponseDto {
 
+    @ApiModelProperty(value = "주행 정보 id", example = "1")
+    private Long id;
+
     @ApiModelProperty(value = "시작 시간", example = "2022-02-01 23:59:59.500")
     private LocalDateTime startTime;
 
@@ -29,6 +32,7 @@ public class RidingInfoResponseDto {
     private double ridingDist;
 
     public RidingInfoResponseDto(RidingInfo ridingInfo) {
+        id = ridingInfo.getId();
         startTime = ridingInfo.getStartTime();
         endTime = ridingInfo.getEndTime();
         ridingCalorie = ridingInfo.getRidingCalorie();
