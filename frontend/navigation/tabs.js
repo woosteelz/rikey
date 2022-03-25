@@ -8,26 +8,29 @@ import Record from '../screens/Record';
 import Communinty from '../screens/Community';
 import { HomeScreen }  from './Stack'
 
-const CustomTabBarButton = ({ children, onPress }) => (
-  <TouchableOpacity
-    style={{
-      top: -30,
-      justifyContent: 'center',
-      alignItems: 'center',
-      ...styles.shadow,
-    }}
-    onPress={onPress}>
-    <View
+const CustomTabBarButton = ({ children, onPress }) => {
+  return (
+    <TouchableOpacity
       style={{
-        width: 70,
-        height: 70,
-        borderRadius: 35,
-        backgroundColor: 'white',
-      }}>
-      {children}
-    </View>
-  </TouchableOpacity>
-);
+        top: -30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        ...styles.shadow,
+      }}
+      onPress={onPress}>
+      <View
+        style={{
+          width: 70,
+          height: 70,
+          borderRadius: 35,
+          backgroundColor: 'white',
+        }}>
+        {children}
+      </View>
+    </TouchableOpacity>
+  );
+};
+const recordStart = () => {};
 
 const Tab = createBottomTabNavigator();
 
@@ -39,9 +42,6 @@ const Tabs = () => {
         headerShown: false,
         tabBarStyle: {
           position: 'absolute',
-          //   bottom: 25,
-          //   left: 20,
-          //   right: 20,
           elevation: 0,
           backgroundColor: '#ffffff',
           borderRadius: 15,
@@ -96,7 +96,7 @@ const Tabs = () => {
         name="Record"
         component={Record}
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <Image
               source={require('../assets/icons/play-button.png')}
               resizeMode="contain"
