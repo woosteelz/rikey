@@ -55,10 +55,10 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articles = null;
 
         if (category.equals("ALL")) {
-            articles = articleRepository.findTop3ByOrderByHitsDesc();
+            articles = articleRepository.findRecentlyOrderByHIts();
             articles.addAll(articleRepository.findAllByOrderByIdDesc());
         } else {
-            articles = articleRepository.findTop3ByCategoryOrderByHitsDesc(Category.valueOf(category));
+            articles = articleRepository.findRecentlyByCategoryOrderByHIts(category);
             articles.addAll(articleRepository.findByCategoryOrderByIdDesc(Category.valueOf(category)));
         }
 
@@ -66,6 +66,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     // 게시글 상세 조회
+    @Transactional
     @Override
     public ArticleDetailResponseDto getArticle(String nickName, Long articleId) {
         Article article = articleRepository.findById(articleId).get();
