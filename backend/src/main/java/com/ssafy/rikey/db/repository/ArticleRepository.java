@@ -8,10 +8,8 @@ import com.ssafy.rikey.db.entity.Article;
 import java.util.Collection;
 import java.util.List;
 
-public interface ArticleRepository extends JpaRepository<Article, Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleRepositoryCustom {
 
-    List<Article> findTop3ByCategoryOrderByHitsDesc(Category category);
-    List<Article> findTop3ByOrderByHitsDesc();
     List<Article> findAllByOrderByIdDesc();
     List<Article> findByCategoryOrderByIdDesc(Category category);
     List<Article> findTop5ByOrderByIdDesc();
