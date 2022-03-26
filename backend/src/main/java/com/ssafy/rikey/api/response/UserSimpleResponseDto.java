@@ -18,8 +18,12 @@ public class UserSimpleResponseDto {
     @ApiModelProperty(value = "유저 지역", example = "서울")
     private Area area;
 
+    @ApiModelProperty(value = "유저 닉네임", example = "nickname")
+    private String nickName;
+
     public UserSimpleResponseDto(User user) {
         id = user.getId();
         area = user.getArea();
+        nickName = user.getNickName();
     }
 }
