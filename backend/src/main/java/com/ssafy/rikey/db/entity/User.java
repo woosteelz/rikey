@@ -90,4 +90,11 @@ public class User {
         this.cumulDistance += distance;
         this.cumulTime += time;
     }
+
+    // 유저 주행 정보 삭제를 위한 편의 함수
+    public void deleteRiding(int calorie, double distance, int time) {
+        this.cumulCalorie -= calorie;
+        this.cumulDistance -= distance;
+        this.cumulTime -= time;
+    }
 }

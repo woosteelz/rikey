@@ -2,6 +2,7 @@ package com.ssafy.rikey.api.controller;
 
 import com.ssafy.rikey.api.request.CreateReviewRequestDto;
 import com.ssafy.rikey.api.request.UpdateReviewRequestDto;
+import com.ssafy.rikey.api.response.ReviewResponseDto;
 import com.ssafy.rikey.api.service.ReviewService;
 import com.ssafy.rikey.db.entity.Review;
 import com.ssafy.rikey.db.repository.ReviewRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -24,6 +26,32 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final ReviewRepository reviewRepository;
+
+    @GetMapping("{nickname}")
+    @ApiOperation(value = "내 리뷰 조회", notes = "내가 작성한 리뷰를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류"),
+    })
+    public ResponseEntity<Map<String, Object>> getMyReviews(
+            @PathVariable @ApiParam(value="닉네임", required = true) String nickname) {
+
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+        List<ReviewResponseDto> reviewList = null;
+
+        try {
+            reviewList = reviewService.getMyReviews(nickname);
+            httpStatus = HttpStatus.CREATED;
+            result.put("status", "SUCCESS");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        result.put("reviewList", reviewList);
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
 
     @PostMapping
     @ApiOperation(value = "자전거길 리뷰 등록", notes = "특정 자전거 길에 대한 리뷰를 등록한다.")

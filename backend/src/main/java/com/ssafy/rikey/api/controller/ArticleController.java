@@ -3,8 +3,6 @@ package com.ssafy.rikey.api.controller;
 import com.ssafy.rikey.api.request.ArticleRequestDto;
 import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
-import com.ssafy.rikey.api.response.UserRankingResponseDto;
-import com.ssafy.rikey.api.response.UserResponseDto;
 import com.ssafy.rikey.api.service.ArticleService;
 import com.ssafy.rikey.api.service.UserService;
 import com.ssafy.rikey.db.entity.Article;
@@ -110,6 +108,32 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
+    @GetMapping("/profile/{nickname}")
+    @ApiOperation(value = "내 게시글 조회", notes = "내가 작성한 게시글을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류"),
+    })
+    public ResponseEntity<Map<String, Object>> getMyArticles(
+            @PathVariable @ApiParam(value="닉네임", required = true) String nickname) {
+
+        Map<String, Object> result = new HashMap<>();
+        List<ArticleResponseDto> articleList = null;
+        HttpStatus httpStatus = null;
+
+        try {
+            articleList = articleService.getMyArticles(nickname);
+            httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        result.put("articleList", articleList);
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
     @PostMapping
     @ApiOperation(value = "게시글 등록", notes = "새로운 게시글을 등록한다.")
     @ApiResponses({
@@ -208,6 +232,7 @@ public class ArticleController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 400, message = "게시글 탐색 오류"),
+            @ApiResponse(code = 403, message = "잘못된 유저"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> deleteArticle(
@@ -220,7 +245,7 @@ public class ArticleController {
         try {
             Article article = articleRepository.getById(articleId);
             if (article.getAuthor().getId().equals(body.get("userId"))) {
-                articleService.deleteArticle(articleId);;
+                articleService.deleteArticle(articleId);
                 httpStatus = HttpStatus.OK;
                 result.put("status", "SUCCESS");
             } else {

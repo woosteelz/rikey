@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface RidingInfoService {
 
-    List<RidingInfoResponseDto> getRidingInfos(String userId);
+    List<RidingInfoResponseDto> getRidingInfoes(String nickname);
     void createRidingInfo(String userId, RidingInfoRequestDto ridingInfoRequestDto);
+    void deleteRidingInfo(Long ridingInfoId);
 }

@@ -23,8 +23,8 @@ const iosKeys = {
 
 const androidKeys = {
   kConsumerKey: "WfLiuAOSqT_2PxhawHwp",
-  kConsumerSecret: "RZ8elOQK8h",
-  kServiceSignInName: "RIKEY"
+  kConsumerSecret: "ymJj5C80sb",
+  kServiceAppName: "RIKEY",
 };
 
 const naverLogin = props => {
