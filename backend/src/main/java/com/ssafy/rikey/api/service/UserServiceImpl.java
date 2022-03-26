@@ -79,17 +79,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto getUserProfile(String nickName) {
         User user = userRepository.findByNickName(nickName);
-
-        List<Article> articles = user.getArticles();
-        List<ArticleResponseDto> articleResponseDtos = articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
-
-        List<Comment> comments = user.getComments();
-        List<CommentResponseDto> commentResponseDtos = comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
-
-        List<Review> reviews = user.getReviews();
-        List<ReviewResponseDto> reviewResponseDtos = reviews.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
-
-        return new UserResponseDto(user, articleResponseDtos, commentResponseDtos, reviewResponseDtos);
+        return new UserResponseDto(user);
     }
 
     // 회원 탈퇴

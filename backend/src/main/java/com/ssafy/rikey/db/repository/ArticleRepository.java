@@ -2,6 +2,7 @@ package com.ssafy.rikey.db.repository;
 
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.db.entity.Category;
+import com.ssafy.rikey.db.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.ssafy.rikey.db.entity.Article;
 
@@ -13,4 +14,5 @@ public interface ArticleRepository extends JpaRepository<Article, Long>, Article
     List<Article> findAllByOrderByIdDesc();
     List<Article> findByCategoryOrderByIdDesc(Category category);
     List<Article> findTop5ByOrderByIdDesc();
+    List<Article> findByAuthor(User user);
 }
