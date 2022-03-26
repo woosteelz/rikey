@@ -1,6 +1,8 @@
 package com.ssafy.rikey.api.controller;
 
 import com.ssafy.rikey.api.request.CreateCommentRequestDto;
+import com.ssafy.rikey.api.response.CommentResponseDto;
+import com.ssafy.rikey.api.response.ReviewResponseDto;
 import com.ssafy.rikey.api.service.CommentService;
 import com.ssafy.rikey.db.entity.Comment;
 import io.swagger.annotations.*;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -21,6 +24,32 @@ import java.util.NoSuchElementException;
 public class CommentController {
 
     private final CommentService commentService;
+
+    @GetMapping("{nickName}")
+    @ApiOperation(value = "내 댓글 조회", notes = "내가 작성한 댓글을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류"),
+    })
+    public ResponseEntity<Map<String, Object>> getMyComments(
+            @PathVariable @ApiParam(value="닉네임", required = true) String nickName) {
+
+        Map<String, Object> result = new HashMap<>();
+        HttpStatus httpStatus = null;
+        List<CommentResponseDto> commentList = null;
+
+        try {
+            commentList = commentService.getMyComments(nickName);
+            httpStatus = HttpStatus.CREATED;
+            result.put("status", "SUCCESS");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        result.put("commentList", commentList);
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
 
     @PostMapping
     @ApiOperation(value = "댓글 등록", notes = "새로운 댓글을 등록한다.")
