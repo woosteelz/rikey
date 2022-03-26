@@ -89,6 +89,13 @@ public class ArticleServiceImpl implements ArticleService {
         return new ArticleDetailResponseDto(isLike, article, commentResponseDtos);
     }
 
+    @Override
+    public List<ArticleResponseDto> getMyArticles(String nickname) {
+        User user = userRepository.findByNickName(nickname);
+        List<Article> articles = articleRepository.findByAuthor(user);
+        return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
+    }
+
     // 게시글 등록
     @Transactional
     @Override

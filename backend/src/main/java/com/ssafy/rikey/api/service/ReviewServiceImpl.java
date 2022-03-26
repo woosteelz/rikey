@@ -2,6 +2,7 @@ package com.ssafy.rikey.api.service;
 
 import com.ssafy.rikey.api.request.CreateReviewRequestDto;
 import com.ssafy.rikey.api.request.UpdateReviewRequestDto;
+import com.ssafy.rikey.api.response.ReviewResponseDto;
 import com.ssafy.rikey.db.entity.BikeRoad;
 import com.ssafy.rikey.db.entity.Review;
 import com.ssafy.rikey.db.entity.User;
@@ -12,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -20,6 +24,14 @@ public class ReviewServiceImpl implements ReviewService{
     private final ReviewRepository reviewRepository;
     private final BikeRoadRepository bikeRoadRepository;
     private final UserRepository userRepository;
+
+    // 내 리뷰 조회
+    @Override
+    public List<ReviewResponseDto> getMyReviews(String nickname) {
+        User user = userRepository.findByNickName(nickname);
+        List<Review> reviews = reviewRepository.findByUser(user);
+        return reviews.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
+    }
 
     // 리뷰 등록 서비스
     @Override
