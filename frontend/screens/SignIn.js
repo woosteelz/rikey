@@ -55,11 +55,10 @@ const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 // Promise: https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise
 
 // naverLogin: token => getUserProfile(token): naverId
-
 const SignIn = ({ navigation }) => {
-  const [naverToken, setNaverToken] = useState('');
-  const [userNaverId, setUserNaverId] = useState('');
-  const { setUserId } = useStore();
+  // const [naverToken, setNaverToken] = useState('');
+  // const [userNaverId, setUserNaverId] = useState('');
+  const { setUserId, setUserNickName } = useStore();
 
   const naverLogout = () => {
     NaverLogin.logout();
@@ -90,6 +89,7 @@ const SignIn = ({ navigation }) => {
         else {
           // 반환 success면 Home으로 가기
           setUserId(result.id);
+          setUserNickName(result.nickName);
           navigation.navigate('Tabs');
         }
       })
