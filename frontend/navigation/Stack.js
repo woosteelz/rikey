@@ -6,6 +6,10 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
+import RidingRecord from '../screens/RidingRecord';
+import Settings from '../screens/Settings';
+
+
 import LogoTitle from '../components/Header/LogoTitle'
 import ProfileIcon from '../assets/icons/ProfileIcon.jpg'
 import 'react-native-gesture-handler';
@@ -13,7 +17,11 @@ import 'react-native-gesture-handler';
 const HomeStack = createStackNavigator();
 const HomeScreen = () => {
   return (
-    <HomeStack.Navigator initialRouteName='Home'>
+    <HomeStack.Navigator initialRouteName='Home'
+      screenOptions={{ 
+        cardStyle: { backgroundColor: '#ffffff'}
+    }}
+    >
       <Stack.Screen
         name="Home"
         component={Home}
@@ -23,20 +31,23 @@ const HomeScreen = () => {
           headerBackTitleVisible : false,
           headerLeft: null,
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Profile')}
-              style={{marginRight:"13%"}}
-            >
-              <Image 
-                source={ProfileIcon}
-                style = {{ width:20, height:28, marginBottom: "3%" }}
-              />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Profile')}
+            style={{marginRight:"13%"}}
+          >
+            <Image 
+              source={ProfileIcon}
+              style = {{ width:20, height:28, marginBottom: "3%" }}
+            />
           </TouchableOpacity>
+          
           ),
         })}
       />
-      <Stack.Screen name="Logo" component={LogoTitle}/>
       <Stack.Screen name="Profile" component={Profile}/>
+      <Stack.Screen name="RidingRecord" component={RidingRecord}/>
+      <Stack.Screen name="Settings" component={Settings}/>
+
     </HomeStack.Navigator>
   )
 }
@@ -45,7 +56,7 @@ const HomeScreen = () => {
 const Stack = createStackNavigator();
 const StackNavigation = () => {
   return (
-    <Stack.Navigator 
+    <Stack.Navigator  
       screenOptions={{ 
         headerShown: false,
         cardStyle: { backgroundColor: '#ffffff'}
