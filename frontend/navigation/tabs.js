@@ -5,8 +5,8 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Map from '../screens/Map';
 import Chat from '../screens/Chat';
 import Record from '../screens/Record';
-import Communinty from '../screens/Community';
-import { HomeScreen }  from './Stack'
+import Community from '../screens/Community';
+import { HomeScreen,CommunityScreen }  from './Stack'
 
 const CustomTabBarButton = ({ children, onPress }) => {
   return (
@@ -73,7 +73,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Community"
-        component={Communinty}
+        component={CommunityScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
