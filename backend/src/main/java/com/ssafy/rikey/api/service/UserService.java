@@ -15,6 +15,6 @@ public interface UserService {
     void updateUserProfile(UpdateUserRequestDto updateUserRequestDto);
     UserResponseDto getUserProfile(String nickName);
     void deleteUser(String userId);
-    List<Integer> getRankings(String nickname, String area);
+    List<Integer> getRankings(String nickName, String area);
     String uploadImage(MultipartFile multipartFile) throws Exception;
 }

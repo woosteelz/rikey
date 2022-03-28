@@ -2,11 +2,9 @@ package com.ssafy.rikey.api.controller;
 
 import com.ssafy.rikey.api.request.UpdateUserRequestDto;
 import com.ssafy.rikey.api.request.UserRequestDto;
-import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.response.UserResponseDto;
 import com.ssafy.rikey.api.response.UserSimpleResponseDto;
 import com.ssafy.rikey.api.service.UserService;
-import com.ssafy.rikey.db.entity.User;
 import com.ssafy.rikey.db.repository.UserRepository;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 

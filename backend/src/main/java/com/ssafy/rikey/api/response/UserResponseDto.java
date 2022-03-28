@@ -4,13 +4,10 @@ import com.ssafy.rikey.db.entity.Area;
 import com.ssafy.rikey.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ElementCollection;
-import java.util.List;
-
-@Getter
+@Data
 @NoArgsConstructor
 @ApiModel("UserResponseDto")
 public class UserResponseDto {

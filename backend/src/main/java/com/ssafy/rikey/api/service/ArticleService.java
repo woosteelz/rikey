@@ -13,6 +13,7 @@ public interface ArticleService {
     List<ArticleResponseDto> getArticles(String category);
     ArticleDetailResponseDto getArticle(String nickName, Long articleId);
     List<ArticleResponseDto> getMyArticles(String nickname);
+    List<ArticleResponseDto> searchArticles(String keyword);
     Long createArticle(ArticleRequestDto articleRequestDto);
     void updateArticle(Long articleId, ArticleRequestDto articleRequestDto);
     void deleteArticle(Long articleId);

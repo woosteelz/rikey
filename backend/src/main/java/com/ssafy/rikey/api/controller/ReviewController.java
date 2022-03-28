@@ -27,21 +27,21 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewRepository reviewRepository;
 
-    @GetMapping("{nickname}")
+    @GetMapping("{nickName}")
     @ApiOperation(value = "내 리뷰 조회", notes = "내가 작성한 리뷰를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getMyReviews(
-            @PathVariable @ApiParam(value="닉네임", required = true) String nickname) {
+            @PathVariable @ApiParam(value="닉네임", required = true) String nickName) {
 
         Map<String, Object> result = new HashMap<>();
         HttpStatus httpStatus = null;
         List<ReviewResponseDto> reviewList = null;
 
         try {
-            reviewList = reviewService.getMyReviews(nickname);
+            reviewList = reviewService.getMyReviews(nickName);
             httpStatus = HttpStatus.CREATED;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {

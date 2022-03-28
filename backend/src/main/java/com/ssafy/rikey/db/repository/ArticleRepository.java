@@ -12,5 +12,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long>, Article
     List<Article> findAllByOrderByIdDesc();
     List<Article> findByCategoryOrderByIdDesc(Category category);
     List<Article> findTop5ByOrderByIdDesc();
-    List<Article> findByAuthor(User user);
+    List<Article> findByAuthorOrderByIdDesc(User user);
+    List<Article> findByTitleContainingOrContentContainingOrderByIdDesc(String keyword1, String keyword2);
 }

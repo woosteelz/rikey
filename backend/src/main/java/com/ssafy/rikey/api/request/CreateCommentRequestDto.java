@@ -4,8 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel("CreateCommentRequestDto")
 @Data
+@ApiModel("CreateCommentRequestDto")
 public class CreateCommentRequestDto {
 
     @ApiModelProperty(value = "유저 id", example = "adsfsdf")
@@ -17,3 +17,4 @@ public class CreateCommentRequestDto {
     @ApiModelProperty(value = "게시글 id", example = "1", required = true)
     private Long articleId;
 }
+
