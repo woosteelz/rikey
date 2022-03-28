@@ -39,6 +39,12 @@ public class UserResponseDto {
     @ApiModelProperty(value = "유저 지역", example = "서울")
     private Area area;
 
+    @ApiModelProperty(value = "유저 키", example = "180")
+    private int height;
+
+    @ApiModelProperty(value = "유저 몸무게", example = "80")
+    private int weight;
+
     public UserResponseDto(User user) {
         id = user.getId();
         nickName = user.getNickName();
@@ -48,5 +54,7 @@ public class UserResponseDto {
         weeklyDistance = user.getCumulDistance();
         weeklyTime = user.getCumulTime();
         area = user.getArea();
+        height = user.getHeight();
+        weight = user.getWeight();
     }
 }
