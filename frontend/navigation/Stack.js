@@ -6,6 +6,9 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
+import CommunityBoard from '../screens/CommunityBoard';
+import Community from '../screens/Community';
+import Writepage from '../screens/WritePage';
 import RidingRecord from '../screens/RidingRecord';
 import Settings from '../screens/Settings';
 
@@ -69,4 +72,15 @@ const StackNavigation = () => {
   );
 }
 
-export { StackNavigation, HomeScreen };
+const CommunityStack = createStackNavigator();
+const CommunityScreen = () => {
+  return (
+    <CommunityStack.Navigator screenOptions={{ headerShown : false }} initialRouteName='Community'>
+      <Stack.Screen name="Community" component={Community}/>
+      <Stack.Screen name="CommunityBoard" component={CommunityBoard}/>
+      <Stack.Screen name="Writepage" component={Writepage} />
+    </CommunityStack.Navigator>
+  )
+}
+
+export { StackNavigation, HomeScreen, CommunityScreen };
