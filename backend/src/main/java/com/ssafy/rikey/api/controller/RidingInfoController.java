@@ -1,7 +1,6 @@
 package com.ssafy.rikey.api.controller;
 
 import com.ssafy.rikey.api.request.RidingInfoRequestDto;
-import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.response.RidingInfoResponseDto;
 import com.ssafy.rikey.api.service.RidingInfoService;
 import com.ssafy.rikey.db.entity.RidingInfo;
@@ -26,21 +25,21 @@ public class RidingInfoController {
     private final RidingInfoService ridingInfoService;
     private final RidingInfoRepository ridingInfoRepository;
 
-    @GetMapping("/{nickname}")
+    @GetMapping("/{nickName}")
     @ApiOperation(value = "주행 정보 조회", notes = "나의 주행 정보를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getRidingInfos(
-            @PathVariable @ApiParam(value = "사용자 닉네임", required = true) String nickname) {
+            @PathVariable @ApiParam(value = "사용자 닉네임", required = true) String nickName) {
 
         Map<String, Object> result = new HashMap<>();
         List<RidingInfoResponseDto> ridingList = null;
         HttpStatus httpStatus = null;
 
         try {
-            ridingList = ridingInfoService.getRidingInfoes(nickname);
+            ridingList = ridingInfoService.getRidingInfoes(nickName);
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
@@ -111,7 +110,6 @@ public class RidingInfoController {
         httpStatus = HttpStatus.BAD_REQUEST;
         result.put("status", "BAD REQUEST");
     }
-
 
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }

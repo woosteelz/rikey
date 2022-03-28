@@ -1,7 +1,6 @@
 package com.ssafy.rikey.api.response;
 
 import com.ssafy.rikey.db.entity.BikeRoad;
-import com.ssafy.rikey.db.entity.Center;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -108,21 +108,21 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @GetMapping("/profile/{nickname}")
+    @GetMapping("/profile/{nickName}")
     @ApiOperation(value = "내 게시글 조회", notes = "내가 작성한 게시글을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류"),
     })
     public ResponseEntity<Map<String, Object>> getMyArticles(
-            @PathVariable @ApiParam(value="닉네임", required = true) String nickname) {
+            @PathVariable @ApiParam(value="닉네임", required = true) String nickName) {
 
         Map<String, Object> result = new HashMap<>();
         List<ArticleResponseDto> articleList = null;
         HttpStatus httpStatus = null;
 
         try {
-            articleList = articleService.getMyArticles(nickname);
+            articleList = articleService.getMyArticles(nickName);
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
@@ -165,7 +165,7 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @ApiOperation(value = "게시글 사진 업로드")
+    @ApiOperation(value = "게시글 사진 업로드",notes = "게시글에 사진들을 업로드한다.")
     @PostMapping("/upload")
     public ResponseEntity<Map<String, Object>> Upload(
             @RequestPart(required = false) List<MultipartFile> uploadFiles) throws Exception {
@@ -173,6 +173,7 @@ public class ArticleController {
         Map<String, Object> result = new HashMap<>();
         List<String> urls = null;
         HttpStatus status = null;
+
         try {
             urls = articleService.uploadImage(uploadFiles);
             status = HttpStatus.OK;
@@ -263,7 +264,7 @@ public class ArticleController {
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 
-    @GetMapping("/rankings/{nickname}")
+    @GetMapping("/rankings/{nickName}")
     @ApiOperation(value = "랭킹 조회", notes = "누적 칼로리, 누적 거리, 누적 시간을 기준으로 랭킹을 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -271,14 +272,14 @@ public class ArticleController {
     })
     public ResponseEntity<Map<String, Object>> getRankings(
             @RequestParam @ApiParam(value = "지역", required = true) String area,
-            @PathVariable @ApiParam(value = "유저 닉네임", required = true) String nickname) {
+            @PathVariable @ApiParam(value = "유저 닉네임", required = true) String nickName) {
 
         Map<String, Object> result = new HashMap<>();
         List<Integer> rankings = null;
         HttpStatus httpStatus = null;
 
         try {
-            rankings = userService.getRankings(nickname, area);
+            rankings = userService.getRankings(nickName, area);
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (NoSuchElementException e) {
@@ -294,6 +295,32 @@ public class ArticleController {
         result.put("rankingsByDistance", rankings.get(1));
         result.put("rankingByTime", rankings.get(2));
 
+        return new ResponseEntity<Map<String, Object>>(result, httpStatus);
+    }
+
+    @GetMapping("/search")
+    @ApiOperation(value = "게시글 검색", notes = "검색어로 게시글을 검색한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류"),
+    })
+    public ResponseEntity<Map<String, Object>> searchArticles(
+            @RequestParam @ApiParam(value = "검색어", required = true) String keyword) {
+
+        Map<String, Object> result = new HashMap<>();
+        List<ArticleResponseDto> articleList = null;
+        HttpStatus httpStatus = null;
+
+        try {
+            articleList = articleService.searchArticles(keyword);
+            httpStatus = HttpStatus.OK;
+            result.put("status", "SUCCESS");
+        } catch (RuntimeException e) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            result.put("status", "SERVER ERROR");
+        }
+
+        result.put("articleList", articleList);
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
 }
