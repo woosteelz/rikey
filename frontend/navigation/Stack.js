@@ -6,9 +6,11 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
-import RidingRecord from '../screens/RidingRecord';
-import Settings from '../screens/Settings';
-
+import MyArticle from '../screens/MyArticle';
+import MyComments from '../screens/MyComments';
+import MyReviews from '../screens/MyReviews';
+import MyRecords from '../screens/MyRecords';
+import MyInfo from '../screens/MyInfo';
 
 import LogoTitle from '../components/Header/LogoTitle'
 import ProfileIcon from '../assets/icons/ProfileIcon.jpg'
@@ -16,6 +18,7 @@ import 'react-native-gesture-handler';
 
 const HomeStack = createStackNavigator();
 const HomeScreen = () => {
+  
   return (
     <HomeStack.Navigator initialRouteName='Home'
       screenOptions={{ 
@@ -40,18 +43,19 @@ const HomeScreen = () => {
               style = {{ width:20, height:28, marginBottom: "3%" }}
             />
           </TouchableOpacity>
-          
           ),
         })}
       />
       <Stack.Screen name="Profile" component={Profile}/>
-      <Stack.Screen name="RidingRecord" component={RidingRecord}/>
-      <Stack.Screen name="Settings" component={Settings}/>
-
+      <Stack.Screen name="MyArticle" component={MyArticle}/>
+      <Stack.Screen name="MyComments" component={MyComments}/>
+      <Stack.Screen name="MyReviews" component={MyReviews}/>
+      <Stack.Screen name="MyRecords" component={MyRecords}/>
+      <Stack.Screen name="MyInfo" component={MyInfo}/>
     </HomeStack.Navigator>
+
   )
 }
-
 
 const Stack = createStackNavigator();
 const StackNavigation = () => {
