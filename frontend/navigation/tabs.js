@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 import Map from '../screens/Map';
-import Profile from '../screens/Profile';
+import Chat from '../screens/Chat';
 import Record from '../screens/Record';
 import Community from '../screens/Community';
 import { HomeScreen,CommunityScreen }  from './Stack'
@@ -133,7 +133,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={Chat}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

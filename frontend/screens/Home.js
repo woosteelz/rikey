@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, ScrollView, Image } from 'react-native';
-import { useStore } from '../states';
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -14,7 +13,7 @@ import ExclamationMark from '../assets/images/ExclamationMark.png'
 import RidingMan from '../assets/images/RidingMan.png'
 
 const Home = ({ navigation }) => {
-  
+
   const [weather, setWeather] = useState('맑음');
   const [temp, setTemp] = useState('');
   const [humidity, setHumidity] = useState('');
@@ -27,7 +26,6 @@ const Home = ({ navigation }) => {
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
-  // const InstructDetailList = []
 
   const API_KEY = "4ed0ebc28fd6064863095c9cd2c107e1"
 
@@ -51,7 +49,6 @@ const Home = ({ navigation }) => {
     try {
       const url = await getLocation();
       const response = await axios.get(url)
-      console.log(response);
       setWeather(response.data.weather[0].description);
       setTemp( Math.ceil(response.data.main.temp * 10) / 10);
       setHumidity(response.data.main.humidity);
@@ -76,20 +73,11 @@ const Home = ({ navigation }) => {
     setHours(theHour);
     setMinutes(date.getMinutes());
   }
-  // setInterval(getClock, 1000);
 
   useEffect(() => {
     getWeather();
     getClock();
-    // console.log(weather, "날씨")
-    // console.log(temp, "온도")
-    // console.log(humidity, "습도")
-    // console.log(windSpeed, "바람")
-    // console.log(clouds, "구름")
   }, [])
-
-  const { userId } = useStore();
-
 
   return (
     
