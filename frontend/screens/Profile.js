@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import WeeklyInnerBox from '../components/Profile/WeeklyInnerBox';
 import MyHistory from '../components/Profile/MyHistory';
 
 import Kirby from '../assets/images/Kirby.png'
+import Edit from '../assets/images/Edit.png'
 import Fire from '../assets/images/Fire.png'
 import Bicycle from '../assets/images/Bicycle.png'
 import Clock from '../assets/images/Clock.png'
@@ -17,8 +19,7 @@ import RightArrow from '../assets/images/RightArrow.png'
 import API from '../api/API'
 import { useStore } from '../states';
 
-const Profile = () => {
-
+const Profile = ({ navigation }) => {
   const [nickName, setNickName] = useState("무면허 라이더");
   const [instruction, setInstruction] = useState("안녕하세요!");
   const [area, setArea] = useState("서울");
@@ -45,21 +46,37 @@ const Profile = () => {
   return (
 
     <TheBox>
-
       <TopBox>
-        <ProfileImgBox>
-          <ProfileImage source={Kirby}/>
-        </ProfileImgBox>
+        <UpperBox>
+
+          <ProfileImgBox>
+            <ProfileBackBox>
+              <ProfileImgInnerBox>
+                <ProfileImage source={Kirby}/>
+              </ProfileImgInnerBox>
+            </ProfileBackBox>
+          </ProfileImgBox>
+
+          <EditBox>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("MyInfo")}
+            >
+              <ProfileEditImage source={Edit}/>
+            </TouchableOpacity>
+          </EditBox>
+
+        </UpperBox>
 
         <ProfileDetailBox>
           <NickNameText>{nickName}</NickNameText>
           <InstructionText>{instruction}</InstructionText>
           <AreaText>{area}</AreaText>
         </ProfileDetailBox>
+
       </TopBox>
 
       <BotBox>
-
+        
         <WeeklyBox>
           <WeeklyInnerBox title={"누적 칼로리"} imageLink={Fire} measurand={`${kcal} kcal`} />
           <WeeklyInnerBox title={"누적 거리"} imageLink={Bicycle} measurand={`${distance} km`}/>
@@ -67,14 +84,12 @@ const Profile = () => {
         </WeeklyBox>
 
         <MyBox>
-
           <MyInnerBox>
-            <MyHistory content={"내가 쓴 글"} logo={MyPencil} arrow={RightArrow}/>
-            <MyHistory content={"내가 쓴 댓글"} logo={MyComment} arrow={RightArrow} />
-            <MyHistory content={"내가 쓴 코스 후기"} logo={MyReview} arrow={RightArrow} />
-            <MyHistory content={"나의 주행 기록"} logo={MyRidingRecord} arrow={RightArrow} />
+            <MyHistory content={"내가 쓴 글"} logo={MyPencil} arrow={RightArrow} navigation={navigation} location={"MyArticle"} />
+            <MyHistory content={"내가 쓴 댓글"} logo={MyComment} arrow={RightArrow} navigation={navigation} location={"MyComments"} />
+            <MyHistory content={"내가 쓴 코스 후기"} logo={MyReview} arrow={RightArrow} navigation={navigation} location={"MyReviews"} />
+            <MyHistory content={"나의 주행 기록"} logo={MyRidingRecord} arrow={RightArrow} navigation={navigation} location={"MyRecords"} />
           </MyInnerBox>
-
         </MyBox>
 
       </BotBox>
@@ -91,7 +106,6 @@ const TheBox = styled.View`
   justify-content: center;
   align-items: center;
 `
-
 const TopBox = styled.View`
   flex: 1.2;
   justify-content: center;
@@ -100,20 +114,51 @@ const TopBox = styled.View`
   width: 82.5%;
   border-radius: 20px;
 `
+const UpperBox = styled.View`
+  flex:1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2.5%;
+`
 const ProfileImgBox = styled.View`
-  flex : 1;
+  flex: 3;
   justify-content: center;
   align-items: center;
-  width: 25%;
-  height: 25%;
+  margin-left: 22%;
+  margin-top: 6%;
+`
+const ProfileBackBox = styled.View`
+  justify-content: center;
+  align-items: center;
   background-color: white;
   border-radius: 50px;
+  width : 80px;
+  height: 80px;
+`
+const ProfileImgInnerBox = styled.View`
+  justify-content: center;
+  align-items: center;
+  width : 55px;
+  height: 55px;
 `
 const ProfileImage = styled.Image`
   flex: 1;
   resize-mode: contain;
-  margin-top: 10%;
+  // margin-top: 5%;
 `
+const EditBox = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 4.5%;
+  margin-bottom: 12.5%;
+`
+const ProfileEditImage = styled.Image`
+  width: 15px;
+  height: 15px;
+`
+
 const ProfileDetailBox = styled.View`
   flex: 1.2;
   justify-content: center;

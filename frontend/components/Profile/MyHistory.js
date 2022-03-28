@@ -1,10 +1,14 @@
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import styled from "styled-components";
 
-const MyHistory = ({ content, logo, arrow }) => {
+const MyHistory = ({ content, logo, arrow, navigation, location }) => {
 
   return (
-    <Box>
+   
+    <Box
+      onPress={() => navigation.navigate(location)}
+    >
       <LeftBox>
         <ImageBox>
           <MyImage source={logo}/>
@@ -20,8 +24,7 @@ const MyHistory = ({ content, logo, arrow }) => {
 }
 
 export default MyHistory;
-
-const Box = styled.View`
+const Box = styled.TouchableOpacity`
   flex: 1;
   flex-direction: row;
   width: 85%;
