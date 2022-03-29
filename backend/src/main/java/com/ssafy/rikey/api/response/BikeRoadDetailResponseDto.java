@@ -26,6 +26,9 @@ public class BikeRoadDetailResponseDto {
     @ApiModelProperty(value = "소요 분", example = "30")
     private int minute;
 
+    @ApiModelProperty(value = "리뷰 점수", example = "3.3")
+    private float score;
+
     @ApiModelProperty(value = "자전거길 소개", example = "한강을 타고 이어지는..")
     private String introduce;
 
@@ -54,6 +57,7 @@ public class BikeRoadDetailResponseDto {
         name = bikeRoad.getName();
         hour = bikeRoad.getHour();
         minute = bikeRoad.getMinute();
+        score = (float)bikeRoad.getScore() / bikeRoad.getCnt();
         introduce = bikeRoad.getIntroduce();
         reviewList = reviewResponseDtos;
         centerList = centerResponseDtos;
