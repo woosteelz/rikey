@@ -48,39 +48,161 @@ const Boardvarious = () => {
 
 
 const WritePage = ( { navigation } ) => {
+  let imagedata = new FormData()
+
 
   // 이미지에 관해
-  const [realpostman, setRealpostman] = React.useState([]);
+
+  const uploadprocess = () => {
+    images.map((item, index) => {
+      imagedata.append("uploadFiles", {
+        uri: 'file://' + item.realPath,
+        type: item.mime,
+        name: item.fileName,
+      });
+    });
+    console.log("내놔제발 ㅠㅠ", imagedata)
+    console.log(JSON.stringify(imagedata))
+
+    // 가보즈아~~
+
+    fetch('http://j6c208.p.ssafy.io/api/users/upload',{
+      method : "post" ,
+      body: imagedata
+    }).then(res => res.json())
+    .then(res => {
+      console.log(res)
+      alert("Success")
+    })
+    .catch(err => {
+      console.log("이게들어갔음", imagedata)
+      console.error("error uploading images: ", err);
+    });
+
+    // console.log(JSON.stringify(imagedata));
+  }
+
+
+
+  const newtry = async() => {
+    console.log(images)
+    const formData = new FormData();
+
+    formData.append("uploadFile", {
+      uri : images[0].realPath,
+      name: images[0].fileName,
+      type: images[0].mime,
+      headers: {
+        Accept: "application/json",
+        "Content-Type" : "multipart/form-data"
+      }
+    });
+    console.log(formData)
+    const options = {
+      method : "POST",
+      body : formData
+    };
+
+    try {
+      const response = await fetch(
+        'http://j6c208.p.ssafy.io/api/users/upload',
+        options
+
+      );
+      if (response) {
+        console.warn("response", response);
+      }
+    } catch (error) {
+      console.warn("에러", error);
+    }
+    };
+
+
+
+
+
+
+  const sooArticle = async() => {
+    const uploadFiles = new FormData();
+    images.forEach((image, i) => {
+      uploadFiles.append('uploadFiles', {
+        
+        uri : image.realPath,
+        name: image.fileName,
+        type: image.mime ,
+      });
+    });
+    const writeurl = 'http://j6c208.p.ssafy.io/api/articles/upload'
+    axios({
+      method : "post",
+      url : writeurl,
+      data : uploadFiles,
+    })
+  }
+
+const sendImages =() => {
+    
+    let formData = new FormData();
+    for(var i=0;i<images.length;i++) {
+      formData.append("uploadFiles", 
+      {
+        uri : images[i].realPath,
+        name : images[i].fileName,
+        type: images[i].mime
+      });
+    }
+    console.log(formData)
+    const url = "http://j6c208.p.ssafy.io/api/articles/upload";
+    const body = formData;
+    const header = {
+      "Content-Type": "multipart/form-data",
+    };
+    try {
+      axios
+        .post(url, body, header)
+        .then((response) => console.log(response))
+        .catch((e) => console.log(e.message));
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
   const newAritcle = async() => {
     
     console.log(typeof(images))
     console.log(images)
     let newArticleForm = new FormData();
+    let pipi = new Array();
     
-    console.log(realpostman)
+   
     
-    images.forEach(image=> setRealpostman(image))
-    // images.map( (picture,index) => {
-    //   var photo = {
-    //     uri : picture.realPath,
-    //     type : picture.mime,
-    //     name: picture.fileName
-    //   }
-    //   setRealpostman(photo)
+    // images.forEach(image=> setRealpostman(image))
+    
+    images.map( (picture,index) => {
+      var photo = {
+        uri : picture.realPath,
+        type : picture.mime,
+        name: picture.fileName
+      }
+      console.log(photo)
+      newArticleForm.append('uploadFile',photo)
 
-    // })
-    newArticleForm.append('uploadFiles', realpostman)
+    })
+    
     console.log(newArticleForm)
     
-    const writeturl = 'http://j6c208.p.ssafy.io/api/articles/upload'
+    const writeturl = 'http://j6c208.p.ssafy.io/api/users/upload'
     axios({
       method : "post",
       url : writeturl,
-      body : newArticleForm,
-      
+      data : newArticleForm,
+      // headers: {
+      //   'Content-Type': 'multipart/form-data'
+      // },
     // })
     })
   }
+  
   
   // 강현스
   // const uploadData = async () => {
@@ -140,6 +262,14 @@ const WritePage = ( { navigation } ) => {
           // console.log(qimages)
           console.log(images)
           
+          image.map((item, index) => {
+            imagedata.append("doc[]", {
+              uri: item.realPath,
+              type: item.mime,
+              name: item.fileName,
+            });
+          });
+          console.log("내놔", imagedata)
       } catch (e) {
           console.log('error', e);
       } finally {
@@ -175,7 +305,7 @@ const WritePage = ( { navigation } ) => {
           <Button 
           title="작성"
           color="#00C689"
-          onPress={() => newAritcle()}
+          onPress={() => uploadprocess()}
           />
           </View>
           </View>
