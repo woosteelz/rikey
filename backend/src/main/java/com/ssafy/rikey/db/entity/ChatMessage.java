@@ -21,9 +21,6 @@ public class ChatMessage {
     @Column(name = "chat_message_id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private MessageType type;
-
     private String content;
 
     @CreatedDate
@@ -39,8 +36,7 @@ public class ChatMessage {
     private User user;
 
     @Builder
-    public ChatMessage(MessageType type, String content, Chat chat, User user) {
-        this.type = type;
+    public ChatMessage(String content, Chat chat, User user) {
         this.content = content;
         this.chat = chat;
         this.user = user;
