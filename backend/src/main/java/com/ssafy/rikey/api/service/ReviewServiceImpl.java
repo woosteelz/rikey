@@ -40,6 +40,7 @@ public class ReviewServiceImpl implements ReviewService{
 
         try {
             BikeRoad bikeRoad = bikeRoadRepository.findById(reviewInfo.getBikeRoadId()).get();
+            bikeRoad.update(bikeRoad.getScore() + reviewInfo.getScore(), bikeRoad.getCnt() + 1);
             Review review = Review.builder()
                     .content(reviewInfo.getContent())
                     .score(reviewInfo.getScore())
@@ -58,6 +59,8 @@ public class ReviewServiceImpl implements ReviewService{
 
         try {
             Review review = reviewRepository.findById(reviewId).get();
+            BikeRoad bikeRoad = review.getBikeRoad();
+            bikeRoad.update(bikeRoad.getScore() - review.getScore() + reviewInfo.getScore(), bikeRoad.getCnt());
             review.update(reviewInfo.getContent(), reviewInfo.getScore());
         } catch (Exception e) {
             throw e;
@@ -70,6 +73,8 @@ public class ReviewServiceImpl implements ReviewService{
 
         try {
             Review review = reviewRepository.findById(reviewId).get();
+            BikeRoad bikeRoad = review.getBikeRoad();
+            bikeRoad.update(bikeRoad.getScore() - review.getScore(), bikeRoad.getCnt() - 1);
             reviewRepository.delete(review);
         } catch (Exception e) {
             throw e;

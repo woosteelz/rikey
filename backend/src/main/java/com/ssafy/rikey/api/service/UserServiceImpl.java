@@ -100,8 +100,6 @@ public class UserServiceImpl implements UserService {
         List<User> usersByCalorie = userRepository.findAllByAreaOrderByCumulCalorieDesc(Area.valueOf(area));
         int rankingByCalorie = usersByCalorie.indexOf(user);
         rankingList.add(rankingByCalorie + 1);
-        System.out.println("usersByCalorie" + usersByCalorie);
-        System.out.println("rankingByCalorie" + rankingByCalorie);
 
         List<User> usersByDistance = userRepository.findAllByAreaOrderByCumulDistanceDesc(Area.valueOf(area));
         int rankingByDistance = usersByDistance.indexOf(user);
