@@ -16,7 +16,7 @@ import java.util.Map;
 @Api(tags = "ChatMessage", value = "채팅메시지 API")
 @CrossOrigin(origins = {"*"})
 @RestController
-@RequestMapping("/chats")
+@RequestMapping("/chats/send")
 @RequiredArgsConstructor
 public class ChatMessageController {
 
