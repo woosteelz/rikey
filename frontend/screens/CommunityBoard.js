@@ -10,6 +10,7 @@ import API from "../api/API";
 
 
 const CommunityBoard = ( { navigation } ) => {
+  const [tempboard, setTempboard] = useState([]);
   useEffect(() => {
     async function get() {
       const res = await API.get(
@@ -44,15 +45,13 @@ const CommunityBoard = ( { navigation } ) => {
     console.log('템프보드')
   }
   
-  if (tempboard) {
-  const variousboard = 
-    
-    tempboard.map( (item,key) => {
+
+  const variousboard = tempboard.map( (item,key) => {
     console.log(tempboard)
     console.log('뭐양')
     return <View key={key} style={{marginLeft : "8%", marginBottom: "4%"}}>
-      <Text style={{fontSize:16, fontWeight:'bold', color:'black'}}>{item.title}</Text>
-      <Text style={{fontSize:13,color:'black'}} ellipsizeMode='tail' numberOfLines={1}>{item.content}</Text>
+      <Text style={{fontSize:15, fontWeight:'bold', color:'#424242', marginBottom: 3}}>{item.title}</Text>
+      <Text style={{fontSize:13,color:'#363636'}} ellipsizeMode='tail' numberOfLines={1}>{item.content}</Text>
       {/* 내용이 길면 ...으로대체하는 로직을 작성할것 */}
       <Text style={{fontSize:12}}>{item.author}</Text>
       {/* <View
@@ -66,14 +65,12 @@ const CommunityBoard = ( { navigation } ) => {
       </View>
 
       
-  })}
-  else {
-    const variousboard = '준비중입니다'
-  }
+  })
 
 
 
-  const [tempboard, setTempboard] = useState([]);
+
+  
   const [service, setService] = React.useState("All");
   useEffect(() => {
     console.log(service)
@@ -101,6 +98,7 @@ const CommunityBoard = ( { navigation } ) => {
   };
 
     return (
+      
       <View>
       
         <View>
@@ -125,27 +123,34 @@ const CommunityBoard = ( { navigation } ) => {
 
         </View>
         
-        <View style={{backgroundColor: "green", marginTop: "5%", marginLeft:"5%", width: "90%", height: "73%"}}>
-          {/* <View>{variousboard}</View> */}
-          <View><Text>쇼미 왓츄갓</Text></View>
+        <View style={{ marginTop: "5%", width: "90%", height: "73%"}}>
+        <ScrollView showsVerticalScrollIndicator={false} >
+          <View>{variousboard}</View>
+        </ScrollView>
         </View>
         
         {/* 글쓰기 버튼 */}
         <View style={{flex:1}}>
-        <View style={{marginRight:"15%",marginBottom:"7%", position:'absolute',bottom:0,alignSelf:'flex-end'}}>
+
+        <View style={{marginRight:"5%",marginBottom:"2%", position:'absolute',bottom:0,alignSelf:'flex-end'}}>
           <TouchableOpacity style={styles.writebutton} onPress={() => navigation.navigate('Writepage')}> 
                 <Image style={{resizeMode: "cover", height:60, width: 60}} source={writebutton} />
           </TouchableOpacity>
+        
         </View>
+
       </View>
         </View>
         
         </View>
+        
     );
   }
 
 
 const styles = StyleSheet.create({
+  
+  
   writebutton : {
     elevation : 5
   },

@@ -40,8 +40,8 @@ const Community = ( { navigation } ) => {
 
     const elements = minioverview.map( (item,key) => {
       return <View key={key} style={{marginLeft : "8%",marginBottom: "4%"}}>
-        <Text style={{fontSize:16, fontWeight:'bold', color:'black'}}>{item.title}</Text>
-        <Text style={{fontSize:13,color:'black'}} ellipsizeMode='tail' numberOfLines={1}>{item.content}</Text>
+        <Text style={{fontSize:15, fontWeight:'bold', color:'#363636', marginBottom: 2}}>{item.title}</Text>
+        <Text style={{fontSize:13,color:'#424242', marginBottom: 3}} ellipsizeMode='tail' numberOfLines={1}>{item.content}</Text>
        {/* 내용이 길면 ...으로대체하는 로직을 작성할것 */}
         <Text style={{fontSize:12}}>{item.author}</Text>
         {/* <View
