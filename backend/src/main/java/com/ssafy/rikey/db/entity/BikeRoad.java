@@ -28,6 +28,10 @@ public class BikeRoad {
 
     private int minute;
 
+    private int score;
+
+    private int cnt;
+
     @Column(length = 5000)
     private String introduce;
 
@@ -41,4 +45,10 @@ public class BikeRoad {
 
     @OneToMany(mappedBy = "bikeRoad", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
+    // 평점 수정을 위한 편의 함수
+    public void update(int score, int cnt) {
+        this.score = score;
+        this.cnt = cnt;
+    }
 }

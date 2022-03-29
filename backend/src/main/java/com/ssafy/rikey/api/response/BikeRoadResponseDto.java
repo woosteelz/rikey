@@ -20,9 +20,13 @@ public class BikeRoadResponseDto {
     @ApiModelProperty(value = "리뷰 개수", example = "2")
     private int reviewCnt;
 
+    @ApiModelProperty(value = "리뷰 점수", example = "3.3")
+    private float score;
+
     public BikeRoadResponseDto(BikeRoad bikeRoad) {
         bikeroadId = bikeRoad.getId();
         name = bikeRoad.getName();
         reviewCnt = bikeRoad.getReviews().size();
+        score = (float)bikeRoad.getScore() / bikeRoad.getCnt();
     }
 }
