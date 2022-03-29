@@ -89,10 +89,18 @@ public class ArticleServiceImpl implements ArticleService {
         return new ArticleDetailResponseDto(isLike, article, commentResponseDtos);
     }
 
+    // 내 게시글 조회
     @Override
     public List<ArticleResponseDto> getMyArticles(String nickname) {
         User user = userRepository.findByNickName(nickname);
-        List<Article> articles = articleRepository.findByAuthor(user);
+        List<Article> articles = articleRepository.findByAuthorOrderByIdDesc(user);
+        return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
+    }
+
+    // 게시글 검색
+    @Override
+    public List<ArticleResponseDto> searchArticles(String keyword) {
+        List<Article> articles = articleRepository.findByTitleContainingOrContentContainingOrderByIdDesc(keyword, keyword);
         return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
     }
 
@@ -114,6 +122,7 @@ public class ArticleServiceImpl implements ArticleService {
         return saveArticle.getId();
     }
 
+    //사진 업로드
     @Override
     public List<String> uploadImage(List<MultipartFile> uploadFiles) throws Exception {
         List<String> urls = new ArrayList<>();
@@ -129,7 +138,7 @@ public class ArticleServiceImpl implements ArticleService {
                 throw new FileUploadException("파일 확장자가 jpg나 png가 아닙니다.");
             }
             //파일이름 랜덤으로 만들기
-            String url="/articles/";
+            String url="/article/";
             String saveFileName = UUID.randomUUID().toString() + originFilename.substring(originFilename.lastIndexOf(".")); //랜덤이름+확장자
             String saveFileName2 = url+saveFileName;
 

@@ -2,7 +2,6 @@ package com.ssafy.rikey.api.service;
 
 import com.ssafy.rikey.api.response.BikeRoadDetailResponseDto;
 import com.ssafy.rikey.api.response.BikeRoadResponseDto;
-import com.ssafy.rikey.api.response.CvsResponseDto;
 
 import java.util.List;
 

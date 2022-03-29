@@ -22,7 +22,6 @@ import org.springframework.http.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -126,7 +125,7 @@ public class UserServiceImpl implements UserService {
             throw new FileUploadException("파일 확장자가 jpg나 png가 아닙니다.");
         }
         //파일이름 랜덤으로 만들기
-        String url="/user/";
+        String url="/profile/";
         String saveFileName = UUID.randomUUID().toString() + originFilename.substring(originFilename.lastIndexOf(".")); //랜덤이름+확장자
         String saveFileName2 = url+saveFileName;
 

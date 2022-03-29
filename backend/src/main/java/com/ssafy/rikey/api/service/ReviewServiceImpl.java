@@ -27,8 +27,8 @@ public class ReviewServiceImpl implements ReviewService{
 
     // 내 리뷰 조회
     @Override
-    public List<ReviewResponseDto> getMyReviews(String nickname) {
-        User user = userRepository.findByNickName(nickname);
+    public List<ReviewResponseDto> getMyReviews(String nickName) {
+        User user = userRepository.findByNickName(nickName);
         List<Review> reviews = reviewRepository.findByUser(user);
         return reviews.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
     }

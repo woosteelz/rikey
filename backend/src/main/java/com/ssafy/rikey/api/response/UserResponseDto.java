@@ -4,13 +4,10 @@ import com.ssafy.rikey.db.entity.Area;
 import com.ssafy.rikey.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ElementCollection;
-import java.util.List;
-
-@Getter
+@Data
 @NoArgsConstructor
 @ApiModel("UserResponseDto")
 public class UserResponseDto {
@@ -39,6 +36,12 @@ public class UserResponseDto {
     @ApiModelProperty(value = "유저 지역", example = "서울")
     private Area area;
 
+    @ApiModelProperty(value = "유저 키", example = "180")
+    private int height;
+
+    @ApiModelProperty(value = "유저 몸무게", example = "80")
+    private int weight;
+
     public UserResponseDto(User user) {
         id = user.getId();
         nickName = user.getNickName();
@@ -48,5 +51,7 @@ public class UserResponseDto {
         weeklyDistance = user.getCumulDistance();
         weeklyTime = user.getCumulTime();
         area = user.getArea();
+        height = user.getHeight();
+        weight = user.getWeight();
     }
 }

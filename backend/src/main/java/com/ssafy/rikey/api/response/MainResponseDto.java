@@ -4,9 +4,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@ApiModel("MainResponseDto")
 @Data
+@NoArgsConstructor
+@ApiModel("MainResponseDto")
 public class MainResponseDto {
 
     @ApiModelProperty(name = "지역", example = "서울")
