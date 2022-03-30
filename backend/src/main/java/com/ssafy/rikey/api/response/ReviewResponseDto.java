@@ -3,13 +3,12 @@ package com.ssafy.rikey.api.response;
 import com.ssafy.rikey.db.entity.Review;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Data
 @NoArgsConstructor
 @ApiModel("ReviewResponseDto")
 public class ReviewResponseDto {

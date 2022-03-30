@@ -3,12 +3,12 @@ package com.ssafy.rikey.api.response;
 import com.ssafy.rikey.db.entity.ChatMessage;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Data
 @NoArgsConstructor
 @ApiModel("ChatResponseDto")
 public class ChatResponseDto {

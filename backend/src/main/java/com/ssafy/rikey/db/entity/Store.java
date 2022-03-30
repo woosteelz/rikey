@@ -2,7 +2,6 @@ package com.ssafy.rikey.db.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 

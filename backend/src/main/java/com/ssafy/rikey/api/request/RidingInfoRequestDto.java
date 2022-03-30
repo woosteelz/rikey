@@ -2,12 +2,10 @@ package com.ssafy.rikey.api.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
-@Getter
+@Data
 @NoArgsConstructor
 @ApiModel("RidingInfoRequestDto")
 public class RidingInfoRequestDto {
