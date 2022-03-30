@@ -13,8 +13,10 @@ const useStore = create(set => ({
     }),
 
   userId: '',
-  setUserId: (givenId) => set({ userId : givenId }),
-
+  setUserId: givenId =>
+    set({
+      userId: givenId,
+    }),
 }));
 
 const useUserInput = create(set => ({

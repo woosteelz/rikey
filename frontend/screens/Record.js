@@ -133,28 +133,24 @@ function Record({ navigation }) {
 
   // 내 위치정보 가져오기
   const getMyPosition = () => {
-    requestPermission().then(result => {
-      if (result === 'granted') {
-        setGranted(true);
-        Geolocation.getCurrentPosition(
-          pos => {
-            const { latitude, longitude } = pos.coords;
-            console.log('내 위치', latitude, longitude);
-            setLocation({ latitude, longitude });
-            if (wayPoint.length === 0) {
-              setWayPoint([{ latitude, longitude }]);
-              console.log(wayPoint);
-            }
-          },
-          error => {
-            console.log(error);
-          },
-          { enableHighAccuracy: true, timeout: 3600, maximumAge: 3600 },
-        );
-      } else {
+    setGranted(true);
+    Geolocation.getCurrentPosition(
+      pos => {
+        const { latitude, longitude } = pos.coords;
+        console.log('내 위치', latitude, longitude);
+        setLocation({ latitude, longitude });
+        if (wayPoint.length === 0) {
+          setWayPoint([{ latitude, longitude }]);
+          console.log(wayPoint);
+        }
+      },
+      error => {
+        console.log(error);
+        console.log('내 위치를 불러올수 없습니다');
         setGranted(false);
-      }
-    });
+      },
+      { enableHighAccuracy: true, timeout: 3600, maximumAge: 3600 },
+    );
   };
 
   // 위치기록 시작하기 + Stopwatch 시작
@@ -192,15 +188,15 @@ function Record({ navigation }) {
     <View style={styles.container}>
       <View style={styles.mapContainer}>
         <MapView
-          // provider={PROVIDER_GOOGLE} //
+          provider={PROVIDER_GOOGLE} //
           showsUserLocation={true}
           showsMyLocationButton={true} // 현재위치 업데이트 버튼은 Google Map일 경우만 렌더링 됨
           style={styles.map}
           region={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
+            latitude: 37.4217432,
+            longitude: -122.0841487,
+            latitudeDelta: 3,
+            longitudeDelta: 4,
           }}>
           <Polyline
             coordinates={wayPoint} //specify our coordinates
