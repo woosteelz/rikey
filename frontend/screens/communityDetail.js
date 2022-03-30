@@ -12,7 +12,7 @@ const CommunityDetail = ( { route, navigation} ) => {
     const articleAuthor = route.params.author;
 
     // 글 제목,내용등
-    const [articleCotnent, setArticleContent] = useState('');
+    const [articleContent, setArticleContent] = useState('내용 입력중');
     const [articleTitle, setArticleTitle] = useState('제목 입력중');
 
     const articleCall = async() => {
@@ -20,10 +20,11 @@ const CommunityDetail = ( { route, navigation} ) => {
       console.log(response.data.article.content)
       setArticleContent(response.data.article.content)
       setArticleTitle(response.data.article.title)
-        
+      console.log(response.data.article.createdTime)
     }
     useEffect( () => {
       articleCall()
+      
     },[])
     
 
@@ -40,7 +41,7 @@ const CommunityDetail = ( { route, navigation} ) => {
           <View style={{marginRight : "15%"}}></View>
           </View>
 
-        <View style={{ flexDirection: "row", marginLeft: "5%"}}> 
+        <View style={{ flexDirection: "row", marginLeft: "6%"}}> 
         <Image style={{ resizeMode: "cover", height: 60, width: 60, borderRadius: 50}} source={guywoo} />
         <View>
           <Text style={{fontWeight: "bold",fontSize:20, color:"black", marginLeft: "12%",marginBottom: 0}}>{articleAuthor}</Text>
@@ -50,8 +51,9 @@ const CommunityDetail = ( { route, navigation} ) => {
         </View>
         
         <View style={{marginTop: "5%", marginLeft:"5%", width: "90%", height: "60%"}}>
-          <Text>{articleTitle}</Text>
-          <Text>제목나와야됨</Text>
+          <Text style={{marginLeft:"4%" , marginBottom: "5%" , fontSize: 22, color:"black"}}>{articleTitle}</Text>
+          <Text style={{marginLeft:"4%" ,fontSize: 14, color:"#484848"}}>{articleContent}</Text>
+
         </View>
         
           <SafeAreaView>

@@ -25,7 +25,7 @@ import axios from "axios";
 
 
 const WritePage = ( { navigation } ) => {
-  const { userId } = useStore()
+  const { userId, userNickName } = useStore()
   const [cvalue, setCValue] = React.useState("FREE");
   const Boardvarious = () => {
     
@@ -207,6 +207,7 @@ const WritePage = ( { navigation } ) => {
         }
       );
       if (response) {
+        navigation.navigate('CommunityDetail', {articleId: response.data.article, author : userNickName})
         console.log(response)
       } else {
         alert("오류발생")
