@@ -31,5 +31,6 @@ public class BikeRoadResponseDto {
         name = bikeRoad.getName();
         reviewCnt = bikeRoad.getReviews().size();
         score = (float)bikeRoad.getScore() / bikeRoad.getCnt();
+        image = bikeRoad.getImage();
     }
 }
