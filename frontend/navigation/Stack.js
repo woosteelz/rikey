@@ -8,7 +8,7 @@ import SignUp from '../screens/SignUp';
 
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
-import MyArticle from '../screens/MyArticle';
+import MyArticles from '../screens/MyArticles';
 import MyComments from '../screens/MyComments';
 import MyReviews from '../screens/MyReviews';
 import MyRecords from '../screens/MyRecords';
@@ -24,7 +24,6 @@ import Writepage from '../screens/WritePage';
 
 const HomeStack = createStackNavigator();
 const HomeScreen = () => {
-  
   return (
     <HomeStack.Navigator initialRouteName='Home'
       screenOptions={{ 
@@ -53,13 +52,12 @@ const HomeScreen = () => {
         })}
       />
       <Stack.Screen name="Profile" component={Profile}/>
-      <Stack.Screen name="MyArticle" component={MyArticle}/>
+      <Stack.Screen name="MyArticles" component={MyArticles}/>
       <Stack.Screen name="MyComments" component={MyComments}/>
       <Stack.Screen name="MyReviews" component={MyReviews}/>
       <Stack.Screen name="MyRecords" component={MyRecords}/>
       <Stack.Screen name="MyInfo" component={MyInfo}/>
     </HomeStack.Navigator>
-
   )
 }
 

@@ -81,9 +81,6 @@ const WritePage = ( { navigation } ) => {
 
     // console.log(JSON.stringify(imagedata));
   }
-
-
-
   const newtry = async() => {
     console.log(images)
     const formData = new FormData();
@@ -116,12 +113,6 @@ const WritePage = ( { navigation } ) => {
       console.warn("에러", error);
     }
     };
-
-
-
-
-
-
   const sooArticle = async() => {
     const uploadFiles = new FormData();
     images.forEach((image, i) => {
@@ -139,7 +130,6 @@ const WritePage = ( { navigation } ) => {
       data : uploadFiles,
     })
   }
-
 const sendImages =() => {
     
     let formData = new FormData();
@@ -166,7 +156,6 @@ const sendImages =() => {
       console.log(e.message);
     }
   }
-
   const newAritcle = async() => {
     
     console.log(typeof(images))
@@ -202,44 +191,6 @@ const sendImages =() => {
     // })
     })
   }
-  
-  
-  // 강현스
-  // const uploadData = async () => {
-  //   // 폼데이터 생성
-  //   const body = new FormData();
-  //   const serverUrl ='http://j6c208.p.ssafy.io/api/articles/upload'
-  //   // 현재 사용자가 불러온 이미지 리스트들 => 각각 폼데이터에 넣어준다.
-  //   images.map( (image,index) =>{
-  //   var photo = {
-  //     uri: image.realPath ,
-  //     type: image.mime,
-  //     name: image.fileName
-  //     }
-  //   body.append('uploadFiles', photo);
-  //   })
-  //   console.log(body)
-  //   axios({
-  //     method:"post",
-  //     url : serverUrl,
-  //     data: body,
-      
-  //   })
-  // }
-    
-    
-    
-    // let newArticleForm = new FormData();
-    // {
-    //   newArticleForm.append("articleRequestDto", new Blob([JSON.stringify({
-    //     content : onChangeContent,
-    //     title : onChangeTitle,
-    //     category : value,
-    //     pics : pass,
-  
-    //   })]))
-    // }
-  
   
   const [images, setImages] = React.useState([])
    const handleImagePicker = async () => {
