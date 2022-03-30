@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Image } from 'react-native';
 import styled from 'styled-components';
 import WeeklyInnerBox from '../components/Profile/WeeklyInnerBox';
 import MyHistory from '../components/Profile/MyHistory';
@@ -21,8 +21,9 @@ import { useStore } from '../states';
 
 const Profile = ({ navigation }) => {
   const [nickName, setNickName] = useState("무면허 라이더");
-  const [instruction, setInstruction] = useState("안녕하세요!");
+  const [greeting, setGreeting] = useState("안녕하세요!");
   const [area, setArea] = useState("서울");
+  const [getImage, setGetImage] = useState('https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4arX/image/FToC1jQw1U0mAhJYnEmTPg7ZQD8.jpg');
 
   const [kcal, setKcal] = useState("0 kcal")
   const [distance, setdistance] = useState("0 km")
@@ -34,12 +35,13 @@ const Profile = ({ navigation }) => {
     API.get(`/users/${userNickName}`)
     .then((response) => {
       setNickName(response.data.user.nickName)
-      setInstruction(response.data.user.greeting)
+      setGreeting(response.data.user.greeting)
       setArea(response.data.user.area.name)
 
       setKcal(response.data.user.weeklyCalories)
       setdistance(response.data.user.weeklyDistance)
       setTime(response.data.user.weeklyTime)
+      setGetImage(response.data.user.profilePic)
     })
   })
 
@@ -51,9 +53,7 @@ const Profile = ({ navigation }) => {
 
           <ProfileImgBox>
             <ProfileBackBox>
-              <ProfileImgInnerBox>
-                <ProfileImage source={Kirby}/>
-              </ProfileImgInnerBox>
+              <ProfileImage source={{uri : getImage}}/>
             </ProfileBackBox>
           </ProfileImgBox>
 
@@ -69,12 +69,11 @@ const Profile = ({ navigation }) => {
 
         <ProfileDetailBox>
           <NickNameText>{nickName}</NickNameText>
-          <InstructionText>{instruction}</InstructionText>
+          <InstructionText>{greeting}</InstructionText>
           <AreaText>{area}</AreaText>
         </ProfileDetailBox>
 
       </TopBox>
-
       <BotBox>
         
         <WeeklyBox>
@@ -85,7 +84,7 @@ const Profile = ({ navigation }) => {
 
         <MyBox>
           <MyInnerBox>
-            <MyHistory content={"내가 쓴 글"} logo={MyPencil} arrow={RightArrow} navigation={navigation} location={"MyArticle"} />
+            <MyHistory content={"내가 쓴 글"} logo={MyPencil} arrow={RightArrow} navigation={navigation} location={"MyArticles"} />
             <MyHistory content={"내가 쓴 댓글"} logo={MyComment} arrow={RightArrow} navigation={navigation} location={"MyComments"} />
             <MyHistory content={"내가 쓴 코스 후기"} logo={MyReview} arrow={RightArrow} navigation={navigation} location={"MyReviews"} />
             <MyHistory content={"나의 주행 기록"} logo={MyRidingRecord} arrow={RightArrow} navigation={navigation} location={"MyRecords"} />
@@ -136,16 +135,10 @@ const ProfileBackBox = styled.View`
   width : 80px;
   height: 80px;
 `
-const ProfileImgInnerBox = styled.View`
-  justify-content: center;
-  align-items: center;
-  width : 55px;
-  height: 55px;
-`
 const ProfileImage = styled.Image`
-  flex: 1;
-  resize-mode: contain;
-  // margin-top: 5%;
+  width: 74px;
+  height: 74px;
+  border-radius: 50px;
 `
 const EditBox = styled.View`
   flex: 1;
