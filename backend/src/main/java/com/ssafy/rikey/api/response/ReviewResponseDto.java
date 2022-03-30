@@ -26,13 +26,13 @@ public class ReviewResponseDto {
     private String author;
 
     @ApiModelProperty(value = "리뷰 작성일", example = "2022-02-01-23:59:59")
-    private LocalDateTime createedTime;
+    private LocalDateTime createdTime;
 
     public ReviewResponseDto(Review review) {
         reviewId = review.getId();
         content = review.getContent();
         score = review.getScore();
         author = review.getUser().getNickName();
-        createedTime = review.getCreatedTime();
+        createdTime = review.getCreatedTime();
     }
 }

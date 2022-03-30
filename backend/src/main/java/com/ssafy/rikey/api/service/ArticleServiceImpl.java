@@ -83,7 +83,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         article.increaseHits();
-        List<Comment> comments = commentRepository.findByArticle(article);
+        List<Comment> comments = commentRepository.findByArticleOrderByIdDesc(article);
         List<CommentResponseDto> commentResponseDtos = comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
 
         return new ArticleDetailResponseDto(isLike, article, commentResponseDtos);
