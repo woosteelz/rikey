@@ -26,7 +26,7 @@ public class Review extends com.ssafy.rikey.db.entity.BaseEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bike_road_id")
+    @JoinColumn(name = "bikeroad_id")
     private BikeRoad bikeRoad;
 
     @Builder
