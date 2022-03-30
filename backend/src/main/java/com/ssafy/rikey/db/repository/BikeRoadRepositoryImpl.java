@@ -32,7 +32,7 @@ public class BikeRoadRepositoryImpl implements BikeRoadRepositoryCustom {
         String pointFormat = String.format("'LINESTRING(%f %f, %f %f)')", x1, y1, x2, y2);
         // 출발지, 도착지를 기준으로
         Query query = em.createNativeQuery("SELECT b.bikeroad_id, b.departure, b.destination, "
-                        + "b.name, b.hour, b.minute, b.introduce, "
+                        + "b.name, b.hour, b.minute, b.introduce, b.cnt, b.score, b.image, "
                         + "b.start_latitude, b.start_longitude, b.end_latitude, b.end_longitude "
                         + "FROM bikeroad AS b "
                         + "WHERE MBRContains(ST_LINESTRINGFROMTEXT(" + pointFormat + ", POINT(b.start_latitude, b.start_longitude)) "
