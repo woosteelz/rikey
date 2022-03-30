@@ -62,6 +62,7 @@ public class BikeRoadDetailResponseDto {
         minute = bikeRoad.getMinute();
         score = (float)bikeRoad.getScore() / bikeRoad.getCnt();
         introduce = bikeRoad.getIntroduce();
+        image = bikeRoad.getImage();
         reviewList = reviewResponseDtos;
         centerList = centerResponseDtos;
         cvsList = cvsResponseDtos;
