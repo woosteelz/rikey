@@ -50,6 +50,7 @@ const CommunityBoard = ( { navigation } ) => {
     console.log(tempboard)
     console.log('뭐양')
     return <View key={key} style={{marginLeft : "8%", marginBottom: "4%"}}>
+      <TouchableOpacity onPress={ ()=> navigation.navigate('CommunityDetail', {articleId : item.articleId , author : item.author})}>
       <Text style={{fontSize:15, fontWeight:'bold', color:'#424242', marginBottom: 3}}>{item.title}</Text>
       <Text style={{fontSize:13,color:'#363636'}} ellipsizeMode='tail' numberOfLines={1}>{item.content}</Text>
       {/* 내용이 길면 ...으로대체하는 로직을 작성할것 */}
@@ -62,6 +63,7 @@ const CommunityBoard = ( { navigation } ) => {
           borderBottomWidth: 0.5,
         }}
       /> */}
+      </TouchableOpacity>
       </View>
 
       
