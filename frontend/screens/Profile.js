@@ -24,10 +24,11 @@ const Profile = ({ navigation }) => {
   const [greeting, setGreeting] = useState("안녕하세요!");
   const [area, setArea] = useState("서울");
   const [getImage, setGetImage] = useState('https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4arX/image/FToC1jQw1U0mAhJYnEmTPg7ZQD8.jpg');
+  const [defaultImage, setDefaultImage] = useState('https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4arX/image/FToC1jQw1U0mAhJYnEmTPg7ZQD8.jpg');
 
-  const [kcal, setKcal] = useState("0 kcal")
-  const [distance, setdistance] = useState("0 km")
-  const [time, setTime] = useState("0시간")
+  const [kcal, setKcal] = useState("0")
+  const [distance, setdistance] = useState("0")
+  const [time, setTime] = useState("0")
 
   const { userNickName } = useStore();
 
@@ -43,7 +44,7 @@ const Profile = ({ navigation }) => {
       setTime(response.data.user.weeklyTime)
       setGetImage(response.data.user.profilePic)
     })
-  })
+  }, [])
 
   return (
 
@@ -53,7 +54,7 @@ const Profile = ({ navigation }) => {
 
           <ProfileImgBox>
             <ProfileBackBox>
-              <ProfileImage source={{uri : getImage}}/>
+              <ProfileImage source={ getImage ? { uri : getImage } : { uri : defaultImage }}/>
             </ProfileBackBox>
           </ProfileImgBox>
 

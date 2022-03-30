@@ -75,6 +75,15 @@ const CommunityScreen = () => {
     </CommunityStack.Navigator>
   )
 }
+const CourseStack = createStackNavigator();
+const CourseScreen = () => {
+  return (
+    <CourseStack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Course" component={Course} />
+      <Stack.Screen name="CourseDetail" component={CourseDetail} />
+    </CourseStack.Navigator>
+  );
+};
 
 const Stack = createStackNavigator();
 const StackNavigation = () => {
@@ -92,14 +101,5 @@ const StackNavigation = () => {
   );
 };
 
-const CourseStack = createStackNavigator();
-const CourseScreen = () => {
-  return (
-    <CourseStack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Course" component={Course} />
-      <Stack.Screen name="CourseDetail" component={CourseDetail} />
-    </CourseStack.Navigator>
-  );
-};
 
 export { StackNavigation, HomeScreen, CommunityScreen, CourseScreen };

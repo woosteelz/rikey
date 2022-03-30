@@ -25,7 +25,7 @@ import axios from "axios";
 
 
 const WritePage = ( { navigation } ) => {
-  const { userId } = useStore()
+  const { userId, userNickName } = useStore()
   const [cvalue, setCValue] = React.useState("FREE");
   const Boardvarious = () => {
     
@@ -52,7 +52,9 @@ const WritePage = ( { navigation } ) => {
 
   // 이미지에 관해
   const uploadprocess = () => {
-    return new Promise( (resolove) => {
+
+    if (images.length !== 0){
+    return new Promise( (resolve) => {
     images.map((item, index) => {
       imagedata.append("uploadFiles", {
         uri: 'file://' + item.realPath,
@@ -75,7 +77,7 @@ const WritePage = ( { navigation } ) => {
       
       alert("Success")
       console.log("업로드시", res.urls)
-      resolove(res.urls)
+      resolve(res.urls)
     })
     .catch(err => {
       console.log("이게들어갔음", imagedata)
@@ -83,118 +85,48 @@ const WritePage = ( { navigation } ) => {
     });
     
   })
+  }else {
+    console.log("빈이미지")
   }
-  const newtry = async() => {
-    console.log(images)
-    const formData = new FormData();
-
-    formData.append("uploadFile", {
-      uri : images[0].realPath,
-      name: images[0].fileName,
-      type: images[0].mime,
-      headers: {
-        Accept: "application/json",
-        "Content-Type" : "multipart/form-data"
-      }
-    });
-    console.log(formData)
-    const options = {
-      method : "POST",
-      body : formData
-    };
-
-    try {
-      const response = await fetch(
-        'http://j6c208.p.ssafy.io/api/users/upload',
-        options
-
-      );
-      if (response) {
-        console.warn("response", response);
-      }
-    } catch (error) {
-      console.warn("에러", error);
-    }
-    };
-  const sooArticle = async() => {
-    const uploadFiles = new FormData();
-    images.forEach((image, i) => {
-      uploadFiles.append('uploadFiles', {
-        
-        uri : image.realPath,
-        name: image.fileName,
-        type: image.mime ,
-      });
-    });
-    const writeurl = 'http://j6c208.p.ssafy.io/api/articles/upload'
-    axios({
-      method : "post",
-      url : writeurl,
-      data : uploadFiles,
-    })
   }
-const sendImages =() => {
-    
-    let formData = new FormData();
-    for(var i=0;i<images.length;i++) {
-      formData.append("uploadFiles", 
-      {
-        uri : images[i].realPath,
-        name : images[i].fileName,
-        type: images[i].mime
-      });
-    }
-    console.log(formData)
-    const url = "http://j6c208.p.ssafy.io/api/articles/upload";
-    const body = formData;
-    const header = {
-      "Content-Type": "multipart/form-data",
-    };
-    try {
-      axios
-        .post(url, body, header)
-        .then((response) => console.log(response))
-        .catch((e) => console.log(e.message));
-    } catch (e) {
-      console.log(e.message);
-    }
-  }
-  const newAritcle = async() => {
-    
-    console.log(typeof(images))
-    console.log(images)
-    let newArticleForm = new FormData();
-    let pipi = new Array();
-    
-   
-    
-    // images.forEach(image=> setRealpostman(image))
-    
-    images.map( (picture,index) => {
-      var photo = {
-        uri : picture.realPath,
-        type : picture.mime,
-        name: picture.fileName
-      }
-      console.log(photo)
-      newArticleForm.append('uploadFile',photo)
 
-    })
-    
-    console.log(newArticleForm)
-    
-    const writeturl = 'http://j6c208.p.ssafy.io/api/users/upload'
-    axios({
-      method : "post",
-      url : writeturl,
-      data : newArticleForm,
-      // headers: {
-      //   'Content-Type': 'multipart/form-data'
-      // },
-    // })
-    })
-  }
+
+
+  // const newtry = async() => {
+  //   console.log(images)
+  //   const formData = new FormData();
+
+  //   formData.append("uploadFile", {
+  //     uri : images[0].realPath,
+  //     name: images[0].fileName,
+  //     type: images[0].mime,
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type" : "multipart/form-data"
+  //     }
+  //   });
+  //   console.log(formData)
+  //   const options = {
+  //     method : "POST",
+  //     body : formData
+  //   };
+
+  //   try {
+  //     const response = await fetch(
+  //       'http://j6c208.p.ssafy.io/api/users/upload',
+  //       options
+
+  //     );
+  //     if (response) {
+  //       console.warn("response", response);
+  //     }
+  //   } catch (error) {
+  //     console.warn("에러", error);
+  //   }
+  //   };
+
   
+  let imageList = [];
   const [images, setImages] = React.useState([])
   // const [boardimages, setBoardImages] = React.useState([])
   // useEffect(()=> {
@@ -267,6 +199,7 @@ const sendImages =() => {
   };
     // 글쓰기버튼 클릭
     const writeprocessTemp = async() => {
+      console.log("여기는지낫나요")
       const urls = await uploadprocess()
       console.log("글쓰기시", urls)
       const response = await axios.post(
@@ -280,6 +213,7 @@ const sendImages =() => {
         }
       );
       if (response) {
+        navigation.navigate('CommunityDetail', {articleId: response.data.article, author : userNickName})
         console.log(response)
       } else {
         alert("오류발생")
