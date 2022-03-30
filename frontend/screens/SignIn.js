@@ -31,20 +31,14 @@ const naverLogin = props => {
   return new Promise((resolve, reject) => {
     NaverLogin.login(props, (err, token) => {
       console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
-      
       if (err) {
         reject(err);
         return;
       }
-      
       resolve(token);
     });
   });
 };
-
-// useEffect(() => {
-  
-// }, [])
 
 const getUserProfile = async (token) => {
   const profileResult = await getProfile(token);
@@ -52,7 +46,6 @@ const getUserProfile = async (token) => {
     Alert.alert("로그인 실패", profileResult.message);
     throw Error();
   } else {
-    // console.log("profileResult", profileResult);
     return profileResult.response.id;
   }
 }; 
@@ -63,9 +56,9 @@ const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 
 // naverLogin: token => getUserProfile(token): naverId
 const SignIn = ({ navigation }) => {
-  const [naverToken, setNaverToken] = useState('');
-  const [userNaverId, setUserNaverId] = useState('');
-  const { setUserId } = useStore();
+  // const [naverToken, setNaverToken] = useState('');
+  // const [userNaverId, setUserNaverId] = useState('');
+  const { setUserId, setUserNickName } = useStore();
 
   const naverLogout = () => {
     NaverLogin.logout();
@@ -78,40 +71,31 @@ const SignIn = ({ navigation }) => {
     try {
       const token = await naverLogin(initials)
       const id = await getUserProfile(token.accessToken);
-      
-      setNaverToken(token);
-      setUserNaverId(id)
-      
       // 네이버 로그인 실패
       if (id == undefined) {
         console.log("네이버 로그인 실패");
         return
       }
-
       API.post('/users/login', {
         "authId": id
       })
       .then((response) => {
-
         const result = response.data.profile;
         if (result === null) {
           // 아이디가 유효하면서 정보가 없다면?
           // 반환되는게 null이면 회원가입으로 redirect
           navigation.navigate('SignUp', {id : id});
         } 
-
         else {
           // 반환 success면 Home으로 가기
           setUserId(result.id);
+          setUserNickName(result.nickName);
           navigation.navigate('Tabs');
         }
-        
       })
       .catch((error) => {
         console.log(error);
-        console.log("API 에러")
       })
-
     }
     catch(e)  {
     }
