@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-const Map = ({ navigation }) => {
+const Chat = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Map</Text>
+      <Text>Profile</Text>
       <Button
         title="click"
         onPress={() => {
@@ -15,7 +15,7 @@ const Map = ({ navigation }) => {
   );
 };
 
-export default Map;
+export default Chat;
 
 const styles = StyleSheet.create({
   container: {

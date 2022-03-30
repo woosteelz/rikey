@@ -12,8 +12,12 @@ const useStore = create(set => ({
       cnt: state.cnt - 1;
     }),
 
+  // 사용자 id
   userId: '',
   setUserId: (givenId) => set({ userId : givenId }),
+  // 사용자 nickName
+  userNickName: '',
+  setUserNickName: (givenNickName) => set({ userNickName : givenNickName }),
 
 }));
 

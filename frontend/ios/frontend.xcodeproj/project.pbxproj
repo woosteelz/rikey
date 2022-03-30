@@ -15,6 +15,10 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8632CF8327E1B2DC00D5F42B /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8632CF8227E1B2DC00D5F42B /* File.swift */; };
 		AEE72CAF9AD228745336D724 /* libPods-frontend.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 890F84398767A289A8060230 /* libPods-frontend.a */; };
+		EEDB80FD0CE2473A8ED5322A /* ONE Mobile POP OTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = DBC0E7A7B7BD4907B81FC219 /* ONE Mobile POP OTF.otf */; };
+		69504FF7CFDF4D97A7A3B5FD /* ONE Mobile POP.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7010FDEFC6E4442EA5647243 /* ONE Mobile POP.ttf */; };
+		28CF48102F954533B42C1023 /* ONEMobilePOP.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83154A199ECD4C649B110E43 /* ONEMobilePOP.ttf */; };
+		8C4A2A32ABFB40BE9551EE79 /* SuncheonR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 305A8CFB05104BC2BA8FDC65 /* SuncheonR.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		890F84398767A289A8060230 /* libPods-frontend.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-frontend.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD1235254CF3210E922CDDB /* Pods-frontend.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-frontend.release.xcconfig"; path = "Target Support Files/Pods-frontend/Pods-frontend.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		DBC0E7A7B7BD4907B81FC219 /* ONE Mobile POP OTF.otf */ = {isa = PBXFileReference; name = "ONE Mobile POP OTF.otf"; path = "../assets/fonts/ONE Mobile POP OTF.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7010FDEFC6E4442EA5647243 /* ONE Mobile POP.ttf */ = {isa = PBXFileReference; name = "ONE Mobile POP.ttf"; path = "../assets/fonts/ONE Mobile POP.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		83154A199ECD4C649B110E43 /* ONEMobilePOP.ttf */ = {isa = PBXFileReference; name = "ONEMobilePOP.ttf"; path = "../assets/fonts/ONEMobilePOP.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		305A8CFB05104BC2BA8FDC65 /* SuncheonR.ttf */ = {isa = PBXFileReference; name = "SuncheonR.ttf"; path = "../assets/fonts/SuncheonR.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +146,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				5E6AE7ABCDC4BEBBEF6A156D /* Pods */,
+				DBABFB8922914BCE8ECA3277 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -152,6 +161,18 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		DBABFB8922914BCE8ECA3277 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				DBC0E7A7B7BD4907B81FC219 /* ONE Mobile POP OTF.otf */,
+				7010FDEFC6E4442EA5647243 /* ONE Mobile POP.ttf */,
+				83154A199ECD4C649B110E43 /* ONEMobilePOP.ttf */,
+				305A8CFB05104BC2BA8FDC65 /* SuncheonR.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -249,6 +270,10 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				EEDB80FD0CE2473A8ED5322A /* ONE Mobile POP OTF.otf in Resources */,
+				69504FF7CFDF4D97A7A3B5FD /* ONE Mobile POP.ttf in Resources */,
+				28CF48102F954533B42C1023 /* ONEMobilePOP.ttf in Resources */,
+				8C4A2A32ABFB40BE9551EE79 /* SuncheonR.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
