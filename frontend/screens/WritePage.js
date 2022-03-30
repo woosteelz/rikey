@@ -1,40 +1,17 @@
 import React, { Component, useState, useEffect } from "react";
 import { KeyboardAvoidingView,Image, StyleSheet, View, Text,Dimensions,TouchableOpacity,
-  TextInput, Keyboard, TouchableWithoutFeedback, Button,SafeAreaView,ScrollView,Container } from "react-native";
-import { Radio, NativeBaseProvider, TextArea, Box, Center,Select, CheckIcon} from "native-base";
+  TextInput, Keyboard, TouchableWithoutFeedback, Button,SafeAreaView,ScrollView } from "react-native";
+import { Radio, NativeBaseProvider,Center,} from "native-base";
 
 import Rikey from '../assets/rikey.png'
 import WooSteel from '../assets/defaultimage.jpg'
-import { color } from "native-base/lib/typescript/theme/styled-system";
+import { useStore } from "../states";
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 import axios from "axios";
 
 
 
-const Boardvarious = () => {
-  const [value, setValue] = React.useState("FREE");
-  const ref = React.useRef(null);
-  React.useEffect(() => {
-    console.log(value); // ref.current.setNativeProps({
-    //   backgroundColor: 'red',
-    // });
-    // ref.current.setNativeProps({
-    //   backgroundColor: 'red',
-    // });
 
-    ref.current.focus();
-  }, [value]);
-  return <Radio.Group name="myRadioGroup" accessibilityLabel="favorite number" value={value} onChange={nextValue => {
-    setValue(nextValue);
-  }}>
-      <Radio value="FREE" size="sm" my={1} >
-        자유 게시판
-      </Radio>
-      <Radio value="RECRUIT" size="sm" my={1} ref={ref}>
-        라이더 모집
-      </Radio>
-    </Radio.Group>;
-};
 // const Textout = ( ) => {
 //   return <Box alignItems="center" w="100%">
 //       <TextArea h={410} placeholder="Text Area Placeholder" w="100%" maxW="100%" borderColor="black"/>
@@ -48,12 +25,34 @@ const Boardvarious = () => {
 
 
 const WritePage = ( { navigation } ) => {
+  const { userId } = useStore()
+  const [cvalue, setCValue] = React.useState("FREE");
+  const Boardvarious = () => {
+    
+    const ref = React.useRef(null);
+    React.useEffect(() => {
+   
+  
+      ref.current.focus();
+    }, [cvalue]);
+    return <Radio.Group name="myRadioGroup" accessibilityLabel="favorite number" value={cvalue} onChange={nextValue => {
+      setCValue(nextValue);
+    }}>
+        <Radio value="FREE" size="sm" my={1} >
+          자유 게시판
+        </Radio>
+        <Radio value="RECRUIT" size="sm" my={1} ref={ref}>
+          라이더 모집
+        </Radio>
+      </Radio.Group>;
+  };
+
   let imagedata = new FormData()
 
 
   // 이미지에 관해
-
   const uploadprocess = () => {
+    return new Promise( (resolove) => {
     images.map((item, index) => {
       imagedata.append("uploadFiles", {
         uri: 'file://' + item.realPath,
@@ -63,23 +62,27 @@ const WritePage = ( { navigation } ) => {
     });
     console.log("내놔제발 ㅠㅠ", imagedata)
     console.log(JSON.stringify(imagedata))
-
+    
     // 가보즈아~~
-
-    fetch('http://j6c208.p.ssafy.io/api/users/upload',{
+    
+    fetch('http://j6c208.p.ssafy.io/api/articles/upload',{
       method : "post" ,
       body: imagedata
     }).then(res => res.json())
     .then(res => {
-      console.log(res)
+      
+
+      
       alert("Success")
+      console.log("업로드시", res.urls)
+      resolove(res.urls)
     })
     .catch(err => {
       console.log("이게들어갔음", imagedata)
       console.error("error uploading images: ", err);
     });
-
-    // console.log(JSON.stringify(imagedata));
+    
+  })
   }
   const newtry = async() => {
     console.log(images)
@@ -193,11 +196,36 @@ const sendImages =() => {
   }
   
   const [images, setImages] = React.useState([])
+  // const [boardimages, setBoardImages] = React.useState([])
+  // useEffect(()=> {
+  //   if (images.length === 0) {
+    
+  //   console.log("아직")
+  //   }else {
+  //     console.log("도착했다!!")
+  //     uploadprocess()
+  //     console.log('보드이미지',boardimages)
+      
+  //   }
+  // },[images])
+
+  // 이미지 프리뷰제공 코드
+  const imagepreview = images.map( (item,key) => {
+    return <View key={key}>
+      {/* <Text>하잉</Text> */}
+      <Image style={{height: 100, width: 100 , marginRight: "7%"}} source={{uri: "file://"+ item.realPath}} />
+    </View>
+  })
+
+
+  //////////////////
    const handleImagePicker = async () => {
       try {
+        
           const image = await MultipleImagePicker.openPicker({
               mediaType: "image",
               usedCameraButton: true,
+              isPreview: true,
               isExportThumbnail: true,
               maxSelectedAssets: 3,
               selectedAssets: 3,
@@ -210,17 +238,26 @@ const sendImages =() => {
           console.log(image)
 
           setImages(image)
-          // console.log(qimages)
+
+          image.map(imag => {
+            imageList.push({
+              filename: imag.fileName,
+              path: imag.path,
+              data: imag.data,
+
+            })
+          })
+          console.log('모야')
+          
+          console.log("이미지리스트임", imageList)
           console.log(images)
           
-          image.map((item, index) => {
-            imagedata.append("doc[]", {
-              uri: item.realPath,
-              type: item.mime,
-              name: item.fileName,
-            });
-          });
-          console.log("내놔", imagedata)
+
+          
+      
+          // console.log(JSON.stringify(imagedata));
+        
+        
       } catch (e) {
           console.log('error', e);
       } finally {
@@ -228,7 +265,26 @@ const sendImages =() => {
          
       }
   };
-  
+    // 글쓰기버튼 클릭
+    const writeprocessTemp = async() => {
+      const urls = await uploadprocess()
+      console.log("글쓰기시", urls)
+      const response = await axios.post(
+        "http://j6c208.p.ssafy.io/api/articles",
+        {
+          content : onChangeContent,
+          title : onChangeTitle,
+          category : cvalue,
+          pics : urls,
+          userId : userId
+        }
+      );
+      if (response) {
+        console.log(response)
+      } else {
+        alert("오류발생")
+      }
+    };
 
 
     // 텍스트 박스에관해
@@ -256,7 +312,7 @@ const sendImages =() => {
           <Button 
           title="작성"
           color="#00C689"
-          onPress={() => uploadprocess()}
+          onPress={() => writeprocessTemp()}
           />
           </View>
           </View>
@@ -266,12 +322,12 @@ const sendImages =() => {
               </Center>
             </NativeBaseProvider>
 
-          
+            {/* for 문으로 image 한개씩띄워야됨 */}
 
-
+              
+            
           <SafeAreaView>
           
-            
             <TextInput
               style={styles.inputTitle}
               onChangeText={setonChangeTitle}
@@ -288,6 +344,7 @@ const sendImages =() => {
               value={onChangeContent}
               placeholder="내용"
             />
+            
             {/* <NativeBaseProvider>
               <Center flex={1} px="3">
                   <Textout />
@@ -300,12 +357,26 @@ const sendImages =() => {
             style={{marginLeft: "5%"}}
             onPress={handleImagePicker}
           >
-          <Image style={{height: 100, width: 100}}source={WooSteel} />
+          {
+            images.length !== 0 ?
+          <View style={{ flexDirection: "row" }}>
+
+            {imagepreview}
+
+          </View>
+          : 
+          <Image style={{height: 100, width: 100}} source={WooSteel} />
+          }
+
+         
           </TouchableOpacity>
+          
+
+
         </View>
 
           </SafeAreaView>
-        
+          
 
         </View>
         
@@ -338,7 +409,7 @@ const styles = StyleSheet.create({
     textAlign:"left",
     textAlignVertical: "top",
     borderRadius: 7,
-    height: "60%",
+    height: "50%",
     margin: 12,
     borderWidth: 1,
     borderBottomColor: "grey",

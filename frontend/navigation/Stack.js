@@ -9,6 +9,8 @@ import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import MyArticles from '../screens/MyArticles';
+import Course from '../screens/Course';
+import CourseDetail from '../screens/CourseDetail';
 import MyComments from '../screens/MyComments';
 import MyReviews from '../screens/MyReviews';
 import MyRecords from '../screens/MyRecords';
@@ -17,6 +19,7 @@ import LogoTitle from '../components/Header/LogoTitle'
 import ProfileIcon from '../assets/icons/ProfileIcon.jpg'
 import 'react-native-gesture-handler';
 
+import CommunityDetail from '../screens/CommunityDetail';
 import CommunityBoard from '../screens/CommunityBoard';
 import Community from '../screens/Community';
 import Writepage from '../screens/WritePage';
@@ -67,6 +70,7 @@ const CommunityScreen = () => {
     <CommunityStack.Navigator screenOptions={{ headerShown : false }} initialRouteName='Community'>
       <Stack.Screen name="Community" component={Community}/>
       <Stack.Screen name="CommunityBoard" component={CommunityBoard}/>
+      <Stack.Screen name="CommunityDetail" component={CommunityDetail}/>
       <Stack.Screen name="Writepage" component={Writepage} />
     </CommunityStack.Navigator>
   )
@@ -86,6 +90,16 @@ const StackNavigation = () => {
       <Stack.Screen name="Tabs" component={Tabs}/>
     </Stack.Navigator>
   );
-}
+};
 
-export { StackNavigation, HomeScreen, CommunityScreen };
+const CourseStack = createStackNavigator();
+const CourseScreen = () => {
+  return (
+    <CourseStack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Course" component={Course} />
+      <Stack.Screen name="CourseDetail" component={CourseDetail} />
+    </CourseStack.Navigator>
+  );
+};
+
+export { StackNavigation, HomeScreen, CommunityScreen, CourseScreen };

@@ -2,11 +2,12 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-import Map from '../screens/Map';
+
+import Course from '../screens/Course';
 import Chat from '../screens/Chat';
 import Record from '../screens/Record';
 import Community from '../screens/Community';
-import { HomeScreen,CommunityScreen }  from './Stack'
+import { HomeScreen,CommunityScreen, CourseScreen }  from './Stack'
 
 const CustomTabBarButton = ({ children, onPress }) => {
   return (
@@ -30,7 +31,6 @@ const CustomTabBarButton = ({ children, onPress }) => {
     </TouchableOpacity>
   );
 };
-const recordStart = () => {};
 
 const Tab = createBottomTabNavigator();
 
@@ -111,8 +111,8 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Map"
-        component={Map}
+        name="Course"
+        component={CourseScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
