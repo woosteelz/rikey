@@ -43,6 +43,8 @@ public class BikeRoad {
 
     private Double endLongitude;
 
+    private String image;
+
     @OneToMany(mappedBy = "bikeRoad", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 

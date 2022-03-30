@@ -32,6 +32,9 @@ public class BikeRoadDetailResponseDto {
     @ApiModelProperty(value = "자전거길 소개", example = "한강을 타고 이어지는..")
     private String introduce;
 
+    @ApiModelProperty(value = "코스 이미지", example = "http://j6c208.p.ssafy.io/images/course/1.jpg")
+    private String image;
+
     @ApiModelProperty(value = "자전거길 리뷰 리스트")
     @ElementCollection
     private List<ReviewResponseDto> reviewList;
