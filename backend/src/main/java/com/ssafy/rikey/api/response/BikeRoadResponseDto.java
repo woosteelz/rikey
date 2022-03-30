@@ -23,6 +23,9 @@ public class BikeRoadResponseDto {
     @ApiModelProperty(value = "리뷰 점수", example = "3.3")
     private float score;
 
+    @ApiModelProperty(value = "코스 이미지", example = "http://j6c208.p.ssafy.io/images/course/1.jpg")
+    private String image;
+
     public BikeRoadResponseDto(BikeRoad bikeRoad) {
         bikeroadId = bikeRoad.getId();
         name = bikeRoad.getName();
