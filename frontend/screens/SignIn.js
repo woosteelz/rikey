@@ -56,16 +56,14 @@ const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 
 // naverLogin: token => getUserProfile(token): naverId
 const SignIn = ({ navigation }) => {
-  // const [naverToken, setNaverToken] = useState('');
-  // const [userNaverId, setUserNaverId] = useState('');
   const { setUserId, setUserNickName } = useStore();
 
-  const naverLogout = () => {
-    NaverLogin.logout();
-    setNaverToken("");
-    setUserNaverId('');
-    console.log('로그아웃 완료')
-  };
+  // const naverLogout = () => {
+  //   NaverLogin.logout();
+  //   setNaverToken("");
+  //   setUserNaverId('');
+  //   console.log('로그아웃 완료')
+  // };
 
   const naverLoginProcess = async () => {
     try {
