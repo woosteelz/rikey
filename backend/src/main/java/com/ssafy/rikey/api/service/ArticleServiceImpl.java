@@ -55,11 +55,23 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articles = null;
 
         if (category.equals("ALL")) {
+            articles = articleRepository.findAllByOrderByIdDesc();
+        } else {
+            articles = articleRepository.findByCategoryOrderByIdDesc(Category.valueOf(category));
+        }
+
+        return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
+    }
+
+    //인기 게시글 조회
+    @Override
+    public List<ArticleResponseDto> getHitArticles(String category) {
+        List<Article> articles = null;
+
+        if (category.equals("ALL")) {
             articles = articleRepository.findRecentlyOrderByHIts();
-            articles.addAll(articleRepository.findAllByOrderByIdDesc());
         } else {
             articles = articleRepository.findRecentlyByCategoryOrderByHIts(category);
-            articles.addAll(articleRepository.findByCategoryOrderByIdDesc(Category.valueOf(category)));
         }
 
         return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());

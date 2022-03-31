@@ -63,9 +63,11 @@ public class ArticleController {
 
         Map<String, Object> result = new HashMap<>();
         List<ArticleResponseDto> articleList = null;
+        List<ArticleResponseDto> hitArticleList = null;
         HttpStatus httpStatus = null;
 
         try {
+            hitArticleList = articleService.getHitArticles(category);
             articleList = articleService.getArticles(category);
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
@@ -74,6 +76,7 @@ public class ArticleController {
             result.put("status", "SERVER ERROR");
         }
 
+        result.put("hitArticleList", hitArticleList);
         result.put("articleList", articleList);
         return new ResponseEntity<Map<String, Object>>(result, httpStatus);
     }
