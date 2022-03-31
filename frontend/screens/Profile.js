@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import WeeklyInnerBox from '../components/Profile/WeeklyInnerBox';
 import MyHistory from '../components/Profile/MyHistory';
 
-import Kirby from '../assets/images/Kirby.png'
 import Edit from '../assets/images/Edit.png'
 import Fire from '../assets/images/Fire.png'
 import Bicycle from '../assets/images/Bicycle.png'
@@ -152,7 +151,6 @@ const ProfileEditImage = styled.Image`
   width: 15px;
   height: 15px;
 `
-
 const ProfileDetailBox = styled.View`
   flex: 1.2;
   justify-content: center;
@@ -174,7 +172,6 @@ const AreaText = styled.Text`
   color: #979797;
   margin-top: 1%;
 `
-
 const BotBox = styled.View`
   flex: 3.5;
   margin-top: 5%;
