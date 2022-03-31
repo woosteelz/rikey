@@ -67,6 +67,6 @@ const BotImage = styled.Image`
 const BotText = styled.Text`
   margin-top: 7%;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 15px;
   color: black;
 `
