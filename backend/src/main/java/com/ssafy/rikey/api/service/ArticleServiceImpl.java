@@ -55,10 +55,10 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articles = null;
 
         if (category.equals("ALL")) {
-            articles = articleRepository.findTop3ByOrderByHitsDesc();
+            articles = articleRepository.findRecentlyOrderByHIts();
             articles.addAll(articleRepository.findAllByOrderByIdDesc());
         } else {
-            articles = articleRepository.findTop3ByCategoryOrderByHitsDesc(Category.valueOf(category));
+            articles = articleRepository.findRecentlyByCategoryOrderByHIts(category);
             articles.addAll(articleRepository.findByCategoryOrderByIdDesc(Category.valueOf(category)));
         }
 
@@ -66,6 +66,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     // 게시글 상세 조회
+    @Transactional
     @Override
     public ArticleDetailResponseDto getArticle(String nickName, Long articleId) {
         Article article = articleRepository.findById(articleId).get();
@@ -88,6 +89,21 @@ public class ArticleServiceImpl implements ArticleService {
         return new ArticleDetailResponseDto(isLike, article, commentResponseDtos);
     }
 
+    // 내 게시글 조회
+    @Override
+    public List<ArticleResponseDto> getMyArticles(String nickname) {
+        User user = userRepository.findByNickName(nickname);
+        List<Article> articles = articleRepository.findByAuthorOrderByIdDesc(user);
+        return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
+    }
+
+    // 게시글 검색
+    @Override
+    public List<ArticleResponseDto> searchArticles(String keyword) {
+        List<Article> articles = articleRepository.findByTitleContainingOrContentContainingOrderByIdDesc(keyword, keyword);
+        return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
+    }
+
     // 게시글 등록
     @Transactional
     @Override
@@ -106,6 +122,7 @@ public class ArticleServiceImpl implements ArticleService {
         return saveArticle.getId();
     }
 
+    //사진 업로드
     @Override
     public List<String> uploadImage(List<MultipartFile> uploadFiles) throws Exception {
         List<String> urls = new ArrayList<>();
@@ -121,7 +138,7 @@ public class ArticleServiceImpl implements ArticleService {
                 throw new FileUploadException("파일 확장자가 jpg나 png가 아닙니다.");
             }
             //파일이름 랜덤으로 만들기
-            String url="/articles/";
+            String url="/article/";
             String saveFileName = UUID.randomUUID().toString() + originFilename.substring(originFilename.lastIndexOf(".")); //랜덤이름+확장자
             String saveFileName2 = url+saveFileName;
 

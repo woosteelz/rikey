@@ -4,22 +4,23 @@ import styled from 'styled-components';
 import API from '../api/API'
 import { useStore } from '../states'
 
-const MyComments = () => {
-  const [comments, setComments] = useState([]);
+const MyArticles = () => {
+  const [articles, setArticles] = useState([]);
   const { userNickName } = useStore();
 
   useEffect(() => {
-    API.get(`comments/${userNickName}`)
+    API.get(`articles/profile/${userNickName}`)
     .then((response) => {
-      const show = response.data.commentList.map((el, key) => {
+      console.log(response);
+      const show = response.data.articleList.map((el, key) => {
         return(
           <SeparateBox key={key}>
-            <BoxTitle>{el.content}</BoxTitle>
+            <BoxTitle>{el.title}</BoxTitle>
             <WrittenDate>{el.createdTime.slice(0, 10)}</WrittenDate>
           </SeparateBox>
         )
       })
-      setComments(show)
+      setArticles(show)
     })
   }, [])
 
@@ -29,7 +30,7 @@ const MyComments = () => {
       <InnerContainer>
         <InnerScroll>
           <InsideScrollContainer>
-            {comments}
+            {articles}
           </InsideScrollContainer>  
         </InnerScroll>
       </InnerContainer>
@@ -37,7 +38,7 @@ const MyComments = () => {
   )
 }
 
-export default MyComments;
+export default MyArticles;
 const Container = styled.View`
   flex: 1;
   justify-content: center;

@@ -12,6 +12,7 @@ import java.util.List;
  */
 public interface CommentService {
 
+    List<CommentResponseDto> getMyComments(String nickName);
     Comment getComment(Long commentId);
     Long createComment(CreateCommentRequestDto commentInfo);
     void updateComment(CreateCommentRequestDto commentInfo, Long commentId);

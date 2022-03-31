@@ -25,7 +25,7 @@ import axios from "axios";
 
 
 const WritePage = ( { navigation } ) => {
-  const { userId } = useStore()
+  const { userId, userNickName } = useStore()
   const [cvalue, setCValue] = React.useState("FREE");
   const Boardvarious = () => {
     
@@ -52,7 +52,9 @@ const WritePage = ( { navigation } ) => {
 
   // 이미지에 관해
   const uploadprocess = () => {
-    return new Promise( (resolove) => {
+
+    if (images.length !== 0){
+    return new Promise( (resolve) => {
     images.map((item, index) => {
       imagedata.append("uploadFiles", {
         uri: 'file://' + item.realPath,
@@ -75,7 +77,7 @@ const WritePage = ( { navigation } ) => {
       
       alert("Success")
       console.log("업로드시", res.urls)
-      resolove(res.urls)
+      resolve(res.urls)
     })
     .catch(err => {
       console.log("이게들어갔음", imagedata)
@@ -83,6 +85,9 @@ const WritePage = ( { navigation } ) => {
     });
     
   })
+  }else {
+    console.log("빈이미지")
+  }
   }
 
 
@@ -194,6 +199,7 @@ const WritePage = ( { navigation } ) => {
   };
     // 글쓰기버튼 클릭
     const writeprocessTemp = async() => {
+      console.log("여기는지낫나요")
       const urls = await uploadprocess()
       console.log("글쓰기시", urls)
       const response = await axios.post(
@@ -207,6 +213,7 @@ const WritePage = ( { navigation } ) => {
         }
       );
       if (response) {
+        navigation.navigate('CommunityDetail', {articleId: response.data.article, author : userNickName})
         console.log(response)
       } else {
         alert("오류발생")

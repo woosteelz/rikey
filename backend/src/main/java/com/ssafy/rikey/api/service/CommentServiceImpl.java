@@ -24,6 +24,14 @@ public class CommentServiceImpl implements CommentService {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
 
+    // 내 댓글 조회
+    @Override
+    public List<CommentResponseDto> getMyComments(String nickName) {
+        User user = userRepository.findByNickName(nickName);
+        List<Comment> comments = commentRepository.findByUser(user);
+        return comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
+    }
+
     //댓글 조회
     @Override
     public Comment getComment(Long commentId) {

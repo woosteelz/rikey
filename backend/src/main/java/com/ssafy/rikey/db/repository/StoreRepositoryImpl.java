@@ -3,7 +3,6 @@ package com.ssafy.rikey.db.repository;
 import com.ssafy.rikey.Geometry.Direction;
 import com.ssafy.rikey.Geometry.GeometryUtil;
 import com.ssafy.rikey.Geometry.Location;
-import com.ssafy.rikey.db.entity.Cvs;
 import com.ssafy.rikey.db.entity.Store;
 import lombok.RequiredArgsConstructor;
 
