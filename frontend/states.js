@@ -14,11 +14,10 @@ const useStore = create(set => ({
 
   // 사용자 id
   userId: '',
-  setUserId: (givenId) => set({ userId : givenId }),
+  setUserId: givenId => set({ userId: givenId }),
   // 사용자 nickName
   userNickName: '',
-  setUserNickName: (givenNickName) => set({ userNickName : givenNickName }),
-
+  setUserNickName: givenNickName => set({ userNickName: givenNickName }),
 }));
 
 const useUserInput = create(set => ({

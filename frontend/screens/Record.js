@@ -7,11 +7,10 @@ import {
   Platform,
   Button,
   Pressable,
+  PermissionsAndroid,
 } from 'react-native';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import Geolocation from 'react-native-geolocation-service';
-import { useDisclose } from 'native-base';
-import { useTheme } from 'native-base';
 
 const WEIGHT = 70;
 
@@ -27,6 +26,11 @@ async function requestPermission() {
   try {
     if (Platform.OS === 'ios') {
       return await Geolocation.requestAuthorization('always');
+    }
+    if (Platform.OS === 'android') {
+      return await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
     }
   } catch (e) {
     console.log(e);
@@ -133,24 +137,29 @@ function Record({ navigation }) {
 
   // 내 위치정보 가져오기
   const getMyPosition = () => {
-    setGranted(true);
-    Geolocation.getCurrentPosition(
-      pos => {
-        const { latitude, longitude } = pos.coords;
-        console.log('내 위치', latitude, longitude);
-        setLocation({ latitude, longitude });
-        if (wayPoint.length === 0) {
-          setWayPoint([{ latitude, longitude }]);
-          console.log(wayPoint);
-        }
-      },
-      error => {
-        console.log(error);
-        console.log('내 위치를 불러올수 없습니다');
-        setGranted(false);
-      },
-      { enableHighAccuracy: true, timeout: 3600, maximumAge: 3600 },
-    );
+    requestPermission().then(res => {
+      console.log(res);
+      if (res === 'granted') {
+        setGranted(true);
+        Geolocation.getCurrentPosition(
+          pos => {
+            const { latitude, longitude } = pos.coords;
+            console.log('내 위치', latitude, longitude);
+            setLocation({ latitude, longitude });
+            if (wayPoint.length === 0) {
+              setWayPoint([{ latitude, longitude }]);
+              console.log(wayPoint);
+            }
+          },
+          error => {
+            console.log(error);
+            console.log('내 위치를 불러올수 없습니다');
+            setGranted(false);
+          },
+          { enableHighAccuracy: true, timeout: 3600, maximumAge: 3600 },
+        );
+      }
+    });
   };
 
   // 위치기록 시작하기 + Stopwatch 시작
@@ -193,16 +202,15 @@ function Record({ navigation }) {
           showsMyLocationButton={true} // 현재위치 업데이트 버튼은 Google Map일 경우만 렌더링 됨
           style={styles.map}
           region={{
-            latitude: 37.4217432,
-            longitude: -122.0841487,
-            latitudeDelta: 3,
-            longitudeDelta: 4,
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
           }}>
           <Polyline
             coordinates={wayPoint} //specify our coordinates
-            strokeColor={'#000'}
-            strokeWidth={1}
-            lineDashPattern={[0]}
+            strokeColor={'#00C689'}
+            strokeWidth={5}
           />
         </MapView>
       </View>

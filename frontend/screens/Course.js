@@ -24,31 +24,21 @@ const Course = ({ navigation }) => {
       url: 'http://j6c208.p.ssafy.io/api/bikeRoads',
       method: 'get',
       params: {
-        latitude: 33.44166668453058,
-        longitude: 126.28961433038387,
+        latitude: 37.504449335359766,
+        longitude: 126.98076992442245,
       },
     })
       .then(res => {
         console.log('success');
         console.log(res.data);
         setBikeCourse(res.data.bikeroadList);
-        axios({
-          url: `http://j6c208.p.ssafy.io/api/bikeRoads/${res.data.bikeroadList[0].bikeroadId}`,
-          method: 'get',
-        })
-          .then(res => {
-            console.log(res.data);
-          })
-          .catch(err => {
-            console.log(err);
-          });
       })
       .catch(err => {
         console.log(err);
       });
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getCourse();
   }, []);
 
@@ -70,12 +60,13 @@ const Course = ({ navigation }) => {
             </View>
           ) : (
             bikeCourse.map(bc => (
-              <View style={{ flex: 1, flexDirection: 'column' }}>
+              <View
+                key={bc.bikeroadId}
+                style={{ flex: 1, flexDirection: 'column' }}>
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate('CourseDetail', { id: bc.bikeroadId })
                   }
-                  key={bc.bikeroadId}
                   style={{
                     flex: 1,
                     flexDirection: 'row',
@@ -87,7 +78,9 @@ const Course = ({ navigation }) => {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    <Image source={logo} />
+                    <Image
+                      source={{ uri: `${bc.image}`, width: 64, height: 64 }}
+                    />
                   </View>
                   <View
                     style={{
@@ -122,7 +115,7 @@ const Course = ({ navigation }) => {
                       source={require('../assets/icons/star.png')}
                     />
                     <Text style={{ fontSize: 21, margin: 3, color: '#024430' }}>
-                      {bc.reviewCnt ? bc.score : 0}
+                      {bc.reviewCnt ? Math.round(bc.score * 10) / 10 : 0}
                     </Text>
                     <Text style={{ marginRight: 20, color: '#024430' }}>
                       {' '}
