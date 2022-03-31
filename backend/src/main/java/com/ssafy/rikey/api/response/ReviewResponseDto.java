@@ -25,6 +25,9 @@ public class ReviewResponseDto {
     @ApiModelProperty(value = "리뷰 작성자 닉네임", example = "yeongha")
     private String author;
 
+    @ApiModelProperty(value = "유저 사진 경로", example = "ftpServerUrl/pic.jpg")
+    private String profilePic;
+
     @ApiModelProperty(value = "리뷰 작성일", example = "2022-02-01-23:59:59")
     private LocalDateTime createdTime;
 
@@ -33,6 +36,7 @@ public class ReviewResponseDto {
         content = review.getContent();
         score = review.getScore();
         author = review.getUser().getNickName();
+        profilePic = review.getUser().getProfile_pic();
         createdTime = review.getCreatedTime();
     }
 }

@@ -22,6 +22,9 @@ public class CommentResponseDto {
     @ApiModelProperty(value = "댓글 작성자 닉네임", example = "영하")
     private String author;
 
+    @ApiModelProperty(value = "유저 사진 경로", example = "ftpServerUrl/pic.jpg")
+    private String profilePic;
+
     @ApiModelProperty(name="댓글 작성일", example="2022-02-01-23:59:59")
     private LocalDateTime createdTime;
 
@@ -29,6 +32,7 @@ public class CommentResponseDto {
         commentId = comment.getId();
         content = comment.getContent();
         author = comment.getUser().getNickName();
+        profilePic = comment.getUser().getProfile_pic();
         createdTime = comment.getCreatedTime();
     }
 }

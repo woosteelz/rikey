@@ -50,6 +50,9 @@ public class ArticleDetailResponseDto {
     @ApiModelProperty(value = "게시글 작성자 닉네임", example = "영하")
     private String author;
 
+    @ApiModelProperty(value = "유저 사진 경로", example = "ftpServerUrl/pic.jpg")
+    private String profilePic;
+
     @ApiModelProperty(value = "댓글 리스트")
     @ElementCollection
     private List<CommentResponseDto> commentList;
@@ -66,6 +69,7 @@ public class ArticleDetailResponseDto {
         category = article.getCategory();
         likeCnt = article.getLikeUsers().size();
         author = article.getAuthor().getNickName();
+        profilePic = article.getAuthor().getProfile_pic();
         this.isLike = isLike;
         commentList = commentResponseDtos;
     }
