@@ -19,7 +19,7 @@ import LogoTitle from '../components/Header/LogoTitle';
 import ProfileIcon from '../assets/icons/ProfileIcon.jpg';
 import 'react-native-gesture-handler';
 
-import CommunityDetail from '../screens/CommunityDetail';
+import CommunityDetail from '../screens/communityDetail';
 import CommunityBoard from '../screens/CommunityBoard';
 import Community from '../screens/Community';
 import Writepage from '../screens/WritePage';

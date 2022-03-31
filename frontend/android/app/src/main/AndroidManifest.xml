@@ -17,6 +17,10 @@
       android:requestLegacyExternalStorage="true"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <meta-data 
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBf-FOlytg3FI_7lU9z0ieLZWyF4tWUviE"/>
+      <uses-library android:name="org.apache.http.legacy" android:required="false"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -28,9 +32,7 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
-      <meta-data 
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCHmQgU9Uh7tFPbkjL2AgwuY62x-T_uPso"/>
+
     </application>
 
 
