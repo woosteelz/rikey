@@ -3,13 +3,14 @@ import { Image, StyleSheet, View, Text, ScrollView, Dimensions,LinearLayout,Touc
 import Rikey from '../assets/rikey.png'
 import writebutton from '../assets/writebutton.png'
 import { Select, Box, CheckIcon, Center, NativeBaseProvider } from "native-base";
-
+import { useIsFocused } from '@react-navigation/native';
 import API from "../api/API";
 
 
 
 
 const CommunityBoard = ( { navigation } ) => {
+  const isFocused = useIsFocused();
   const [tempboard, setTempboard] = useState([]);
   useEffect(() => {
     async function get() {
@@ -22,14 +23,15 @@ const CommunityBoard = ( { navigation } ) => {
     }
     get();
     return
-  },[])
-    
+  },[isFocused])
+  
     
 
   const screenWidth = Dimensions.get('window').width;
 
 
   
+
 
 
 
@@ -135,7 +137,7 @@ const CommunityBoard = ( { navigation } ) => {
         <View style={{flex:1}}>
 
         <View style={{marginRight:"5%",marginBottom:"2%", position:'absolute',bottom:0,alignSelf:'flex-end'}}>
-          <TouchableOpacity style={styles.writebutton} onPress={() => navigation.navigate('Writepage')}> 
+          <TouchableOpacity style={styles.writebutton} onPress={() => navigation.navigate('WritePage')}> 
                 <Image style={{resizeMode: "cover", height:60, width: 60}} source={writebutton} />
           </TouchableOpacity>
         
@@ -145,7 +147,7 @@ const CommunityBoard = ( { navigation } ) => {
         </View>
         
         </View>
-        
+      
     );
   }
 
