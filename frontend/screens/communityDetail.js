@@ -1,78 +1,403 @@
 import axios from "axios";
-import React, { Component, useState, useEffect } from "react";
-import { KeyboardAvoidingView,Image, StyleSheet, View, Text,Dimensions,TouchableOpacity,TextInput, SafeAreaView } from "react-native";
+import React, { Component, useState, useEffect, createRef } from "react";
+import { TouchableWithoutFeedback ,Alert, Button, Keyboard, ScrollView, KeyboardAvoidingView,Image, StyleSheet, View, Text,Dimensions,TouchableOpacity,TextInput, SafeAreaView } from "react-native";
+//사진
 import Rikey from '../assets/rikey.png'
-import guywoo from '../assets/정우.jpg'
+import commentbutton from '../assets/commentbutton.png'
+import hamburgerbutton from '../assets/hamburgerbutton.png'
+import defaultprofiepic from '../assets/images/Default.png'
+// 상태관리
+import { useStore } from "../states"
+import { useIsFocused } from '@react-navigation/native';
+// 시간관리
+import moment from 'moment'
+import 'moment/locale/ko';
+//API
+import API from "../api/API";
+// 하단시트모달
+import ActionSheet, { SheetManager } from "react-native-actions-sheet";
 
-const CommunityDetail = ( { route, navigation} ) => {
+
+
+
+const ActionSheetRef = createRef();
+const nonActionSheetRef = createRef();
+const articleActionSheetRef = createRef();
+let actionSheet;
+
+const CommunityDetail = ( { props, route, navigation} ) => {
+  const isFocused = useIsFocused();
+  const { userId,userNickName } = useStore()
+  const screenWidth = Dimensions.get('window').width;
+  const [text, onChangeText] = React.useState("");
+  const articleId = route.params.articleId;
+  const articleAuthor = route.params.author;
+
+  // 글 제목,내용등
+  const [articleContent, setArticleContent] = useState('');
+  const [articleTitle, setArticleTitle] = useState('');
+  const [articleTime, setArticleTime] = useState('');
+  const [articleComment, setArticleComment] = useState([]);
+  const [articleBoard, setArticleBoard] = useState('');
+  const [articlePics, setArticlePics] = useState([]);
+  const [articleProfilePic, setprofilePic] = useState('');
+  
+  
+  // 게시글을 API로 호출하는 함수
+  const articleCall = async() => {
+    const response = await axios.get(`http://j6c208.p.ssafy.io/api/articles/${articleId}?nickName=${userId}`)
+    console.log(response.data.article.content)
+    setArticleContent(response.data.article.content)
+    setArticleTitle(response.data.article.title)
+    setArticleComment(response.data.article.commentList)
+    setArticleBoard(response.data.article.category)
+    setArticlePics(response.data.article.pics)
+    setprofilePic(response.data.article.profilePic)
+    var detaildate = moment(response.data.article.createdTime).format("YYYY-MM-DD HH:mm:ss")
+    setArticleTime(moment(detaildate).fromNow())
+    console.log(articleComment)
+  }
+  useEffect( () => {
+    articleCall()
     
-    const screenWidth = Dimensions.get('window').width;
-    const [text, onChangeText] = React.useState("");
-    const articleId = route.params.articleId;
-    const articleAuthor = route.params.author;
+  },[isFocused])
+    
+    
 
-    // 글 제목,내용등
-    const [articleCotnent, setArticleContent] = useState('');
-    const [articleTitle, setArticleTitle] = useState('제목 입력중');
 
-    const articleCall = async() => {
-      const response = await axios.get(`http://j6c208.p.ssafy.io/api/articles/${articleId}?nickName=${articleAuthor}`)
-      console.log(response.data.article.content)
-      setArticleContent(response.data.article.content)
-      setArticleTitle(response.data.article.title)
+    // 댓글 삭제 로직
+    const removeComment = async (commentId) => {
+      const response = await API.delete(`/comments/${commentId}`,{
+
+        data : {
+          userId : userId
+        }
         
-    }
-    useEffect( () => {
+      })
       articleCall()
-    },[])
+    }
+
+    // 게시글 삭제 로직
+    const removeArticle = async() => {
+      const response = await API.delete(`/articles/${articleId}`,{
+
+        data : {
+          userId : userId
+        }
+        
+      })
+      console.log(response)
+      navigation.navigate('CommunityBoard')
+    }
+
+    // 댓글 표현하는 부분
+    const [tempremove, setTempremove] = useState('');
+    const sheetout = (sheet) => {
+      SheetManager.hideAll()
+    }
+    
+    // 댓글 생성될때마다 갱신되야되는데...시트모달갱신이안된다.."
+    // const commentboard = articleComment.map( (item,key) => {
+    //   const commentTime = moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss")
+    //   const gapCommentTime = moment(commentTime).fromNow()
+    //   console.log("아티클코맨트", articleComment)
+    //   console.log(item.commentId)
+      
+    //   return <View key={key} style={{marginBottom: "2%"}}>
+    //      <TouchableOpacity onPress={ () => {
+    //             if(userNickName === item.author) {
+    //             SheetManager.show(item.commentId);
+    //             }else{
+    //             SheetManager.show("nonuser_sheet");
+    //             }
+    //             // setModalVisible(true);
+    //             // setTempremove(item.commentId)
+    //           }}>
+    //     <View style={{flexDirection: "row"}}>
+    //       { item.profilePic ?
+    //         <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%" ,borderRadius: 15}} source={{uri : item.profilePic}}/>
+    //         :
+    //         <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%"}} source={defaultprofiepic}/>
+    //       }
+    //       <Text style={{fontWeight:"bold", color:'#282828',marginTop:"1%"}}>{item.author}</Text>
+    //       <Text style={{marginLeft: "5%", marginTop:"1%"}}>{gapCommentTime}</Text>
+    //       {
+    //         userNickName === item.author ?
+    //         <View>
+             
+    //           {/* <Image style={{ marginLeft: "auto" ,resizeMode: "cover", height: 20, width: 20}} source={hamburgerbutton} /> */}
+              
+
+    //           <ActionSheet id={item.commentId} ref={ActionSheetRef}>
+    //           <View style={{height: 120}}>
+    //                 <TouchableOpacity onPress={() => removeComment(item.commentId)}>
+    //                 <Text style={{fontSize: 20, margin:"4%"}}>삭제하기</Text>
+    //                 </TouchableOpacity>
+    //                 <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
+    //                 <TouchableOpacity onPress={() => sheetout("카")} >
+    //                 <Text style={{fontSize: 20 ,margin: "4%" }}>닫기</Text>   
+    //                 </TouchableOpacity>
+    //           </View>
+    //         </ActionSheet>
+            
+    //         </View>
+            
+
+            
+    //         :
+    //         <ActionSheet id="nonuser_sheet" ref={nonActionSheetRef}>
+    //           <View style={{height: 120}}>
+    //                 <TouchableOpacity onPress={() => {
+    //                   Alert.alert("신고완료", '신고되었습니다. 조속히 처리하겠습니다.')
+    //                   sheetout("nonuser_sheet")
+    //                 }}>
+    //                 <Text style={{fontSize: 20, margin:"4%"}}>신고하기</Text>
+    //                 </TouchableOpacity>
+    //                 <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
+    //                 <TouchableOpacity onPress={() => sheetout("nonuser_sheet")}>
+    //                 <Text style={{fontSize: 20 ,margin: "4%" }} >닫기</Text>  
+    //                 </TouchableOpacity> 
+    //           </View>
+    //         </ActionSheet>
+
+    //       }
+    //     </View>
+    //     <View style={{marginTop:"1%"}}>
+    //     <Text>{item.content}</Text>
+
+    //     </View>
+    //     </TouchableOpacity>
+        
+    //   </View>
+    // })
     
 
+    const CommentBox = ({props}) => {
+    console.log('프롭스에요',props)
+    console.log('프롭스주세요')
+    return(
+          <View style={{marginBottom: "2%"}}>
+         <TouchableOpacity onPress={ () => {
+                if(userNickName === props.author) {
+                SheetManager.show(props.commentId);
+                }else{
+                SheetManager.show("nonuser_sheet");
+                }
+                // setModalVisible(true);
+                // setTempremove(item.commentId)
+              }}>
+        <View style={{flexDirection: "row"}}>
+          { props.profilePic ?
+            <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%" ,borderRadius: 15}} source={{uri : props.item.profilePic}}/>
+            :
+            <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%"}} source={defaultprofiepic}/>
+          }
+          <Text style={{fontWeight:"bold", color:'#282828',marginTop:"1%"}}>{props.author}</Text>
+          {/* <Text style={{marginLeft: "5%", marginTop:"1%"}}>{props.gapCommentTime}</Text> */}
+          {
+            userNickName === props.author ?
+            <View>
+             
+              {/* <Image style={{ marginLeft: "auto" ,resizeMode: "cover", height: 20, width: 20}} source={hamburgerbutton} /> */}
+              
+
+              <ActionSheet id={props.commentId} ref={ActionSheetRef}>
+              <View style={{height: 120}}>
+                    <TouchableOpacity onPress={() => removeComment(props.commentId)}>
+                    <Text style={{fontSize: 20, margin:"4%"}}>삭제하기</Text>
+                    </TouchableOpacity>
+                    <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
+                    <TouchableOpacity onPress={() => sheetout("카")} >
+                    <Text style={{fontSize: 20 ,margin: "4%" }}>닫기</Text>   
+                    </TouchableOpacity>
+              </View>
+            </ActionSheet>
+            
+            </View>
+            
+
+            
+            :
+            <ActionSheet id="nonuser_sheet" ref={nonActionSheetRef}>
+              <View style={{height: 120}}>
+                    <TouchableOpacity onPress={() => {
+                      Alert.alert("신고완료", '신고되었습니다. 조속히 처리하겠습니다.')
+                      sheetout("nonuser_sheet")
+                    }}>
+                    <Text style={{fontSize: 20, margin:"4%"}}>신고하기</Text>
+                    </TouchableOpacity>
+                    <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
+                    <TouchableOpacity onPress={() => sheetout("nonuser_sheet")}>
+                    <Text style={{fontSize: 20 ,margin: "4%" }} >닫기</Text>  
+                    </TouchableOpacity> 
+              </View>
+            </ActionSheet>
+
+          }
+        </View>
+        <View style={{marginTop:"1%"}}>
+        <Text>{props.content}</Text>
+
+        </View>
+        </TouchableOpacity>
+        
+      </View>
+    )}
+    ////////////////////
+
+    // 댓글작성 로직
+    const WriteComment = async() => {
+      const response  =  await axios.post('http://j6c208.p.ssafy.io/api/comments/',{
+        articleId : articleId,
+        content : text,
+        userId : userId
+      })
+      onChangeText('')
+      articleCall()
+  
+      console.log(response)
+    }
+    
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+      <ScrollView>
+      
       <View>
 
         <View>
           <View style={{flexDirection: "row", justifyContent: "space-around"}}>
-          <TouchableOpacity style={styles.communityButton2} onPress={() => navigation.goBack()}> 
+          <TouchableOpacity style={styles.communityButton2} onPress={() => 
+            {(navigation.goBack() === navigation.navigate('WritePage')) || (navigation.goBack() === navigation.navigate('UpdatePage')) ?
+            navigation.navigate('CommunityBoard')
+            // navigation.goBack()
+            
+            :
+              navigation.goBack()
+            }
+          }> 
                 <Text> ← 뒤로 </Text>
           </TouchableOpacity>
           <Image style={{ resizeMode: "cover", height: 80, width: 160}} source={Rikey} />
           <View style={{marginRight : "15%"}}></View>
           </View>
 
-        <View style={{ flexDirection: "row", marginLeft: "5%"}}> 
-        <Image style={{ resizeMode: "cover", height: 60, width: 60, borderRadius: 50}} source={guywoo} />
+        <View style={{ flexDirection: "row", marginLeft: "6%"}}>
+        { (articleProfilePic) ?
+        <Image style={{ resizeMode: "cover", height: 60, width: 60, borderRadius: 50}} source={{uri : articleProfilePic}} />
+        :
+        <Image style={{ resizeMode: "cover", height: 60, width: 60}} source={defaultprofiepic} />
+        }
         <View>
-          <Text style={{fontWeight: "bold",fontSize:20, color:"black", marginLeft: "12%",marginBottom: 0}}>{articleAuthor}</Text>
-          <Text style={{marginLeft: "13%"}}>8 시간 전</Text>
+          <View style={{flexDirection: "row" ,justifyContent:"space-around"}}>
+          <Text style={{fontWeight: "bold", marginLeft:"5%",fontSize:20, color:"black"}}>{articleAuthor}</Text>
+          { (articleAuthor === userNickName) ?
+          <TouchableOpacity style={{flex:0.01, marginLeft:"27%",marginTop:"1%"}} onPress={()=> SheetManager.show("article_sheet")}>
+          <Image style={{resizeMode:"cover", width:20, height:20}} source={hamburgerbutton}/>
+          
+          <ActionSheet id="article_sheet" ref={articleActionSheetRef}>
+          <View style={{height: 170}}>
+                    <TouchableOpacity onPress={() => {
+                      sheetout()
+                      removeArticle()
+                    }}>
+                    <Text style={{fontSize: 20, margin:"4%"}}>글 삭제하기</Text>
+                    </TouchableOpacity>
+                    <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
+                    <TouchableOpacity onPress={() => {
+                    sheetout("article_sheet")
+                    navigation.navigate('UpdatePage', 
+                    {onChangeContent : articleContent, 
+                    onChangeTitle : articleTitle, 
+                    boardvarious : articleBoard,
+                    pictures : articlePics,
+                    GivenArticleId : articleId
+                    })
+                    
+                    }
+                    
+                    }>
+                    <Text style={{fontSize: 20, margin:"4%"}}>수정하기</Text>
+                    </TouchableOpacity>
+                    <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
+                    <TouchableOpacity onPress={() => sheetout("article_sheet")} >
+                    <Text style={{fontSize: 20 ,margin: "4%" }}>닫기</Text>   
+                    </TouchableOpacity>
+              </View>
+          </ActionSheet>
+          </TouchableOpacity>
+          :
+          <View style={{width: "68%"}}/>
+          }
+          </View>
+  
+          <Text style={{marginLeft: "8%"}}>{articleTime}</Text>
+   
         </View>
 
         </View>
         
-        <View style={{marginTop: "5%", marginLeft:"5%", width: "90%", height: "60%"}}>
-          <Text>{articleTitle}</Text>
-          <Text>제목나와야됨</Text>
-        </View>
-        
+        <View style={{marginTop: "5%", width: "100%", height: "100%"}}>
+          <Text style={{marginLeft:"6%" , marginBottom: "5%" , fontSize: 22, color:"black"}}>{articleTitle}</Text>
+          <Text style={{marginLeft:"6%" ,fontSize: 14, color:"#484848"}}>
+          {articleContent}  
+          </Text>
+          
+
+
+          <View style={{flexDirection: "row"}}>
+          <View style={{width:"90%",flex : 0.9}}>
+          
           <SafeAreaView>
             <TextInput
+              multiline
+              maxLength={100}
               style={styles.input}
               onChangeText={onChangeText}
               value={text}
-              placeholder="useless placeholder"
+              placeholder="댓글을 입력하세요.."
 
             />
+          
           </SafeAreaView>
+          </View>
+          <View style={{ backgroundColor: "#969696", marginTop:"9%", height:"57.5%",width:"10%", flex:0.1}} >
+          <TouchableOpacity onPress={() => WriteComment()}>
+            <View style={{position:'absolute' , marginLeft: "17%" ,marginTop: "25%", zIndex: 2}}>
+            <Image style={{ resizeMode: "cover", height: 25, width: 25, zIndex: 2}} source={commentbutton}/>
+            </View>
+          </TouchableOpacity>
+          </View>
+        </View>
+
+
+
+        <View style={{marginTop: "5%" ,marginLeft: "3%"}}>
+          {/* {commentboard} */}
+          {articleComment.map( (item,key) => {
+            return <CommentBox props={item} key={key}/>
+          })}
+        </View>
+          
             
         </View>
-      
+          
         </View>
+        </View>
+        </ScrollView>
         </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     );
   }
 
 
 const styles = StyleSheet.create({
+  input : {
+    paddingLeft: 15,
+    marginTop:"10%",
+    backgroundColor: "#969696",
+    zIndex: 1,
+  },
   writebutton : {
     elevation : 5
   },
