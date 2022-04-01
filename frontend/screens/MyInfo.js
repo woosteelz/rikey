@@ -232,7 +232,6 @@ const PlusButton = styled.Image`
 const InputFlex = styled.View`
   flex: 3.5;
   width : 85%;
-  height : 450px;
   justify-content: center;
   align-items: center;
 `
@@ -241,9 +240,9 @@ const InputBox = styled.View`
   width:100%;
   height: 100%;
   justify-content: center;
+  margin-bottom: 10%;
 `
 const InputLabel = styled.Text`
-  top: 30%;
   margin-bottom: 5%;
   font-size: 13px;
 `

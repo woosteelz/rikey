@@ -106,7 +106,7 @@ const TheBox = styled.View`
   align-items: center;
 `
 const TopBox = styled.View`
-  flex: 1.2;
+  flex: 1.3;
   justify-content: center;
   align-items: center;
   background-color : #EFF1F6;
@@ -132,12 +132,12 @@ const ProfileBackBox = styled.View`
   align-items: center;
   background-color: white;
   border-radius: 50px;
-  width : 80px;
-  height: 80px;
+  width : 65px;
+  height: 65px;
 `
 const ProfileImage = styled.Image`
-  width: 74px;
-  height: 74px;
+  width: 60px;
+  height: 60px;
   border-radius: 50px;
 `
 const EditBox = styled.View`
@@ -145,7 +145,7 @@ const EditBox = styled.View`
   flex-direction: row;
   justify-content: flex-end;
   margin-right: 4.5%;
-  margin-bottom: 12.5%;
+  margin-bottom: 13.5%;
 `
 const ProfileEditImage = styled.Image`
   width: 15px;
@@ -155,6 +155,7 @@ const ProfileDetailBox = styled.View`
   flex: 1.2;
   justify-content: center;
   align-items: center;
+  margin-bottom: 3%;
 `
 const NickNameText = styled.Text`
   font-weight: bold;
@@ -163,7 +164,6 @@ const NickNameText = styled.Text`
   margin-top: 1.5%;
 `
 const InstructionText = styled.Text`
-  font-weight: bold;
   color: black;
   font-size: 15px;
 `

@@ -19,10 +19,13 @@ import LogoTitle from '../components/Header/LogoTitle';
 import ProfileIcon from '../assets/icons/ProfileIcon.jpg';
 import 'react-native-gesture-handler';
 
-import CommunityDetail from '../screens/communityDetail';
+import CommunityDetail from '../screens/CommunityDetail';
 import CommunityBoard from '../screens/CommunityBoard';
 import Community from '../screens/Community';
 import Writepage from '../screens/WritePage';
+
+import ChatDetail from '../screens/ChatDetail';
+import ChatList from '../screens/ChatList';
 
 const HomeStack = createStackNavigator();
 const HomeScreen = () => {
@@ -85,6 +88,16 @@ const CourseScreen = () => {
   );
 };
 
+const ChatStack = createStackNavigator();
+const ChatScreen = () => {
+  return (
+    <ChatStack.Navigator>
+      <Stack.Screen name="ChatList" component={ChatList} />
+      <Stack.Screen name="ChatDetail" component={ChatDetail} />
+    </ChatStack.Navigator>
+  )
+}
+
 const Stack = createStackNavigator();
 const StackNavigation = () => {
   return (
@@ -100,4 +113,4 @@ const StackNavigation = () => {
   );
 };
 
-export { StackNavigation, HomeScreen, CommunityScreen, CourseScreen };
+export { StackNavigation, HomeScreen, CommunityScreen, CourseScreen, ChatScreen };

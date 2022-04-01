@@ -3,10 +3,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 import Course from '../screens/Course';
-import Chat from '../screens/Chat';
 import Record from '../screens/Record';
 import Community from '../screens/Community';
-import { HomeScreen, CommunityScreen, CourseScreen } from './Stack';
+import { HomeScreen, CommunityScreen, CourseScreen, ChatScreen } from './Stack';
 
 const CustomTabBarButton = ({ children, onPress }) => {
   return (
@@ -132,7 +131,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={Chat}
+        component={ChatScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
