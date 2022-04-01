@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { useIsFocused } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -9,18 +8,32 @@ import {
   Pressable,
   PermissionsAndroid,
 } from 'react-native';
-import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import MapView, {
+  Marker,
+  Polyline,
+  PROVIDER_GOOGLE,
+  PROVIDER_DEFAULT,
+} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import Geolocation from 'react-native-geolocation-service';
+import axios from 'axios';
+import { useStore } from '../states';
 
 const WEIGHT = 70;
 
 // 칼로라 소비 계수 -> 몸무게(KG) X 1000 X kcalConsumption[속도] X 시간(분)
 const kcalConsumption = [
-  0, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065,
+  0.035, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065,
   0.065, 0.065, 0.065, 0.0783, 0.0783, 0.0783, 0.0939, 0.0939, 0.0939, 0.113,
   0.113, 0.113, 0.124, 0.124, 0.136, 0.136, 0.149, 0.163, 0.163, 0.179, 0.179,
   0.196, 0.215, 0.215, 0.259, 0.259, 0.259, 0.311, 0.311, 0.311,
 ];
+
+function isEmptyObj(obj) {
+  if (obj.constructor === Object && Object.keys(obj).length === 0) {
+    return true;
+  }
+  return false;
+}
 
 async function requestPermission() {
   try {
@@ -43,6 +56,7 @@ function getKcal(d, t, weight) {
   if (speed > 40) {
     speed = 40;
   }
+  console.log(speed);
   console.log(d, t, kcalConsumption[speed], speed);
   return (weight * 1000 * kcalConsumption[speed] * t) / 60;
 }
@@ -66,6 +80,8 @@ function getDIstance(prevLat, prevLng, currLat, currLng) {
 }
 
 function Record({ navigation }) {
+  const { userId } = useStore();
+
   const [granted, setGranted] = useState(false); // 승인 여부
   const [location, setLocation] = useState({}); // 현재 위치
   const [wayPoint, setWayPoint] = useState([]); // 주행 기록
@@ -78,12 +94,16 @@ function Record({ navigation }) {
   const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState(0);
 
+  useEffect(() => {
+    getMyPosition();
+  }, []);
+
   // 위치기록 시작 / 중지 useEffect
   useEffect(() => {
     getMyPosition();
     let _watchId = null;
 
-    if (record) {
+    if (record && !isPaused) {
       _watchId = Geolocation.watchPosition(
         position => {
           const { latitude, longitude } = position.coords;
@@ -94,7 +114,7 @@ function Record({ navigation }) {
             wayPoint[0].longitude,
           );
           // console.log('변경위치: ', latitude, longitude);
-          console.log(distance, time);
+          console.log('거리, 시간', distance, time);
           setLocation({ latitude, longitude });
           setDistance(state => state + dis);
           setKcal(
@@ -116,7 +136,7 @@ function Record({ navigation }) {
         Geolocation.clearWatch(_watchId);
       };
     }
-  }, [record]);
+  }, [record, isActive, isPaused]);
 
   // Stopwatch용 useEffect
   useEffect(() => {
@@ -148,7 +168,7 @@ function Record({ navigation }) {
             setLocation({ latitude, longitude });
             if (wayPoint.length === 0) {
               setWayPoint([{ latitude, longitude }]);
-              console.log(wayPoint);
+              console.log('웨이포인트', wayPoint);
             }
           },
           error => {
@@ -171,6 +191,26 @@ function Record({ navigation }) {
 
   // 위치기록 중단하기
   const recordStop = () => {
+    axios({
+      url: 'http://j6c208.p.ssafy.io/api/ridings',
+      method: 'post',
+      data: {
+        userId,
+        ridingTime: time / 3600000,
+        ridingCalorie: Math.round(kcal * 10) / 10,
+        ridingDist: Math.round(distance * 10) / 10,
+        startTime: '2022-02-01 23:59:59.500',
+        endTime: '2022-02-01 23:59:59.500',
+      },
+    })
+      .then(res => {
+        alert('주행 정보가 성공적으로 기록되었습니다');
+        console.log(res);
+      })
+      .catch(err => {
+        alert('등록에 실패하였습니다');
+        console.log(err);
+      });
     setRecord(false);
     setIsActive(false);
     setDistance(0);
@@ -182,7 +222,7 @@ function Record({ navigation }) {
   // 위치기록 일시정지 / 재개
   const recordPause = () => {
     setIsPaused(!isPaused);
-    setRecord(!record);
+    // setRecord(!record);
   };
 
   // 로딩 중  화면
@@ -197,13 +237,13 @@ function Record({ navigation }) {
     <View style={styles.container}>
       <View style={styles.mapContainer}>
         <MapView
-          provider={PROVIDER_GOOGLE} //
+          provider={Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE} // ios일 경우 apple map 사용
           showsUserLocation={true}
           showsMyLocationButton={true} // 현재위치 업데이트 버튼은 Google Map일 경우만 렌더링 됨
           style={styles.map}
           region={{
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: !isEmptyObj(location) ? location.latitude : 37.510425,
+            longitude: !isEmptyObj(location) ? location.longitude : 126.996236,
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           }}>
@@ -216,11 +256,11 @@ function Record({ navigation }) {
       </View>
       <View style={styles.recordContainer}>
         <View style={{ flex: 1, marginVertical: 20 }}>
-          <Text style={{ fontWeight: 'bold' }}>
+          <Text style={{ fontWeight: 'bold', alignSelf: 'center' }}>
             {('0' + Math.floor((time / 60000) % 60)).slice(-2)} :{' '}
             {('0' + Math.floor((time / 1000) % 60)).slice(-2)} /{' '}
-            {Math.round((distance + Number.EPSILON) * 100) / 100}Km / {kcal}{' '}
-            Kcal
+            {Math.round((distance + Number.EPSILON) * 100) / 100}Km /{' '}
+            {Math.round(kcal * 100) / 100} Kcal
           </Text>
           <View style={{ flexDirection: 'row' }}>
             <Pressable
@@ -230,17 +270,13 @@ function Record({ navigation }) {
                 {record ? '기록 중단하기' : '기록 시작하기'}
               </Text>
             </Pressable>
-            {record && !isPaused ? (
+            {record ? (
               <Pressable style={styles.button} onPress={recordPause}>
                 <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                  일시정지
+                  {!isPaused ? '일시정지' : '재개'}
                 </Text>
               </Pressable>
-            ) : (
-              <Pressable style={styles.button} onPress={recordPause}>
-                <Text style={{ color: 'white', fontWeight: 'bold' }}>재개</Text>
-              </Pressable>
-            )}
+            ) : null}
           </View>
         </View>
       </View>
@@ -264,6 +300,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   button: {
     alignItems: 'center',
