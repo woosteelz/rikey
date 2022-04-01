@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@ApiModel("CreateChatRequestDto")
-public class CreateChatRequestDto {
+@ApiModel("CreateChatMessageDto")
+public class CreateChatMessageDto {
 
     @ApiModelProperty(value = "유저 ID", example = "유저 ID")
     private String userId;
 
-    @ApiModelProperty(value = "채팅 상대방 닉네임", example = "ssafykim")
-    private String nickName;
+    @ApiModelProperty(value = "채팅메시지 내용", example = "안녕하세요!")
+    private String content;
 }

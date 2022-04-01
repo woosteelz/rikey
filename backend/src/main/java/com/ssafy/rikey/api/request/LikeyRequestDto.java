@@ -2,10 +2,10 @@ package com.ssafy.rikey.api.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @NoArgsConstructor
 @ApiModel("LikeyRequestDto")
 public class LikeyRequestDto {

@@ -1,8 +1,6 @@
 package com.ssafy.rikey.api.service;
 
-import com.ssafy.rikey.api.response.CvsResponseDto;
 import com.ssafy.rikey.api.response.StoreResponseDto;
-import com.ssafy.rikey.db.entity.Cvs;
 import com.ssafy.rikey.db.entity.Store;
 import com.ssafy.rikey.db.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;

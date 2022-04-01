@@ -1,15 +1,14 @@
 package com.ssafy.rikey.api.request;
 
-import com.ssafy.rikey.db.entity.Category;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.ElementCollection;
 import java.util.List;
 
-@Getter
+@Data
 @NoArgsConstructor
 @ApiModel("ArticleRequestDto")
 public class ArticleRequestDto {

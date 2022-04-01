@@ -54,6 +54,7 @@ const Home = ({ navigation }) => {
       setHumidity(response.data.main.humidity);
       setWindSpeed( Math.ceil(response.data.wind.speed * 10) / 10 );
       setClouds(response.data.clouds.all);
+      // 아이콘 이미지 받아오기 구현
     }
     catch(e) {
     }

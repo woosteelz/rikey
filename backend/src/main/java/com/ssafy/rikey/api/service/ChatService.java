@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ChatService {
 
-    List<ChatResponseDto> getChats(String userId);
+    List<ChatResponseDto> getChats(String nickName);
     Long createChat(CreateChatRequestDto chatInfo);
     List<ChatDetailResponseDto> getChat(Long chatId);
 }

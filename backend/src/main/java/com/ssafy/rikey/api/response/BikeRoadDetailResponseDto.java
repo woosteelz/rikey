@@ -1,7 +1,6 @@
 package com.ssafy.rikey.api.response;
 
 import com.ssafy.rikey.db.entity.BikeRoad;
-import com.ssafy.rikey.db.entity.Center;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,8 +26,14 @@ public class BikeRoadDetailResponseDto {
     @ApiModelProperty(value = "소요 분", example = "30")
     private int minute;
 
+    @ApiModelProperty(value = "리뷰 점수", example = "3.3")
+    private float score;
+
     @ApiModelProperty(value = "자전거길 소개", example = "한강을 타고 이어지는..")
     private String introduce;
+
+    @ApiModelProperty(value = "코스 이미지", example = "http://j6c208.p.ssafy.io/images/course/1.jpg")
+    private String image;
 
     @ApiModelProperty(value = "자전거길 리뷰 리스트")
     @ElementCollection
@@ -55,7 +60,9 @@ public class BikeRoadDetailResponseDto {
         name = bikeRoad.getName();
         hour = bikeRoad.getHour();
         minute = bikeRoad.getMinute();
+        score = (float)bikeRoad.getScore() / bikeRoad.getCnt();
         introduce = bikeRoad.getIntroduce();
+        image = bikeRoad.getImage();
         reviewList = reviewResponseDtos;
         centerList = centerResponseDtos;
         cvsList = cvsResponseDtos;

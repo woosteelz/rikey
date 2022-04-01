@@ -2,18 +2,17 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-
 import Course from '../screens/Course';
 import Chat from '../screens/Chat';
 import Record from '../screens/Record';
 import Community from '../screens/Community';
-import { HomeScreen,CommunityScreen, CourseScreen }  from './Stack'
+import { HomeScreen, CommunityScreen, CourseScreen } from './Stack';
 
 const CustomTabBarButton = ({ children, onPress }) => {
   return (
     <TouchableOpacity
       style={{
-        top: -30,
+        top: -25,
         justifyContent: 'center',
         alignItems: 'center',
         ...styles.shadow,
@@ -21,8 +20,8 @@ const CustomTabBarButton = ({ children, onPress }) => {
       onPress={onPress}>
       <View
         style={{
-          width: 70,
-          height: 70,
+          width: 60,
+          height: 60,
           borderRadius: 35,
           backgroundColor: 'white',
         }}>
@@ -44,8 +43,8 @@ const Tabs = () => {
           position: 'absolute',
           elevation: 0,
           backgroundColor: '#ffffff',
-          borderRadius: 15,
-          height: 90,
+          borderTopStartRadius: 15,
+          height: 60,
           ...styles.shadow,
         },
       }}>

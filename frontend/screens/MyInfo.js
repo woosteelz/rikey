@@ -20,9 +20,6 @@ const MyInfo = ({ navigation }) => {
   const [image, setImage] = useState('');
 
   const [defaultImage, setDefaultImage] = useState('https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4arX/image/FToC1jQw1U0mAhJYnEmTPg7ZQD8.jpg');
-  const [defaultGreeting, setDefaultGreeting] = useState('');
-  const [defaultHeight, setDefaultHeight] = useState('');
-  const [defaultWeight, setDefaultWeight] = useState('');
 
   const { userId, userNickName, setUserNickName } = useStore();
 
@@ -106,12 +103,11 @@ const MyInfo = ({ navigation }) => {
   useEffect(() => {
     API.get(`/users/${userNickName}`)
     .then((response) => {
-      console.log(response);
-      setDefaultGreeting(response.data.user.greeting)
-      setArea(response.data.user.area.name)
-      setDefaultImage(response.data.user.profilePic)
-      setDefaultHeight(response.data.user.height)
-      setDefaultWeight(response.data.user.weight)
+      setNickName(response.data.user.nickName);
+      setGreeting(response.data.user.greeting)
+      setImage(response.data.user.profilePic)
+      setHeight(response.data.user.height)
+      setWeight(response.data.user.weight)
     })
   }, [])
 
@@ -135,8 +131,8 @@ const MyInfo = ({ navigation }) => {
             </Profileflex>
 
             <InputFlex>
-              <MyInfoInputBox title={"닉네임"} setState={setNickName} value={userNickName} />
-              <MyInfoInputBox title={"소개"} setState={setGreeting} value={defaultGreeting} />
+              <MyInfoInputBox title={"닉네임"} setState={setNickName} value={nickName} />
+              <MyInfoInputBox title={"소개"} setState={setGreeting} value={greeting} />
               <InputBox>
                 <InputLabel>지역을 선택해 주세요.</InputLabel>
                   <Select selectedValue={area} minWidth="120" height="50" marginTop="5%" borderaccessibilityLabel="지역" placeholder="지역" 
@@ -164,8 +160,8 @@ const MyInfo = ({ navigation }) => {
 
                   </Select>
               </InputBox>
-              <MyInfoInputBox title={"키"} setState={setHeight} value={String(defaultHeight)} />
-              <MyInfoInputBox title={"몸무게"} setState={setWeight} value={String(defaultWeight)} />
+              <MyInfoInputBox title={"키"} setState={setHeight} value={String(height)} />
+              <MyInfoInputBox title={"몸무게"} setState={setWeight} value={String(weight)} />
 
 
               <ButtonContainer>

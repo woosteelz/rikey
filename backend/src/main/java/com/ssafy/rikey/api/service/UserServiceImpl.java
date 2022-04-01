@@ -22,7 +22,6 @@ import org.springframework.http.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -79,20 +78,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto getUserProfile(String nickName) {
         User user = userRepository.findByNickName(nickName);
-
-        List<Article> articles = user.getArticles();
-        List<ArticleResponseDto> articleResponseDtos = articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
-
-        List<Comment> comments = user.getComments();
-        List<CommentResponseDto> commentResponseDtos = comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
-
-        List<Review> reviews = user.getReviews();
-        List<ReviewResponseDto> reviewResponseDtos = reviews.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
-
-        List<RidingInfo> ridingInfos = user.getRidingInfos();
-        List<RidingInfoResponseDto> ridingInfoResponseDtos = ridingInfos.stream().map(RidingInfoResponseDto::new).collect(Collectors.toList());
-
-        return new UserResponseDto(user, articleResponseDtos, commentResponseDtos, reviewResponseDtos, ridingInfoResponseDtos);
+        return new UserResponseDto(user);
     }
 
     // 회원 탈퇴
@@ -114,8 +100,6 @@ public class UserServiceImpl implements UserService {
         List<User> usersByCalorie = userRepository.findAllByAreaOrderByCumulCalorieDesc(Area.valueOf(area));
         int rankingByCalorie = usersByCalorie.indexOf(user);
         rankingList.add(rankingByCalorie + 1);
-        System.out.println("usersByCalorie" + usersByCalorie);
-        System.out.println("rankingByCalorie" + rankingByCalorie);
 
         List<User> usersByDistance = userRepository.findAllByAreaOrderByCumulDistanceDesc(Area.valueOf(area));
         int rankingByDistance = usersByDistance.indexOf(user);
@@ -139,7 +123,7 @@ public class UserServiceImpl implements UserService {
             throw new FileUploadException("파일 확장자가 jpg나 png가 아닙니다.");
         }
         //파일이름 랜덤으로 만들기
-        String url="/user/";
+        String url="/profile/";
         String saveFileName = UUID.randomUUID().toString() + originFilename.substring(originFilename.lastIndexOf(".")); //랜덤이름+확장자
         String saveFileName2 = url+saveFileName;
 

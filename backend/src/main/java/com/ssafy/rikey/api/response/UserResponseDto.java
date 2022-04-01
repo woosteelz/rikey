@@ -4,13 +4,10 @@ import com.ssafy.rikey.db.entity.Area;
 import com.ssafy.rikey.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ElementCollection;
-import java.util.List;
-
-@Getter
+@Data
 @NoArgsConstructor
 @ApiModel("UserResponseDto")
 public class UserResponseDto {
@@ -39,28 +36,13 @@ public class UserResponseDto {
     @ApiModelProperty(value = "유저 지역", example = "서울")
     private Area area;
 
-    @ApiModelProperty(value = "유저가 작성한 게시글 리스트")
-    @ElementCollection
-    private List<ArticleResponseDto> myArticles;
+    @ApiModelProperty(value = "유저 키", example = "180")
+    private int height;
 
-    @ApiModelProperty(value = "유저가 작성한 댓글 리스트")
-    @ElementCollection
-    private List<CommentResponseDto> myComments;
+    @ApiModelProperty(value = "유저 몸무게", example = "80")
+    private int weight;
 
-    @ApiModelProperty(value = "유저가 작성한 리뷰 리스트")
-    @ElementCollection
-    private List<ReviewResponseDto> myReviews;
-
-    @ApiModelProperty(value = "유저의 주행 리스트")
-    @ElementCollection
-    private List<RidingInfoResponseDto> myRidings;
-
-
-    public UserResponseDto(User user,
-                           List<ArticleResponseDto> articles,
-                           List<CommentResponseDto> comments,
-                           List<ReviewResponseDto> reviews,
-                           List<RidingInfoResponseDto> ridings) {
+    public UserResponseDto(User user) {
         id = user.getId();
         nickName = user.getNickName();
         profilePic = user.getProfile_pic();
@@ -69,9 +51,7 @@ public class UserResponseDto {
         weeklyDistance = user.getCumulDistance();
         weeklyTime = user.getCumulTime();
         area = user.getArea();
-        myArticles = articles;
-        myComments = comments;
-        myReviews = reviews;
-        myRidings = ridings;
+        height = user.getHeight();
+        weight = user.getWeight();
     }
 }
