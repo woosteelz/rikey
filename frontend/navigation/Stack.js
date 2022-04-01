@@ -19,10 +19,14 @@ import LogoTitle from '../components/Header/LogoTitle';
 import ProfileIcon from '../assets/icons/ProfileIcon.jpg';
 import 'react-native-gesture-handler';
 
+<<<<<<< HEAD
+=======
+import UpdatePage  from '../screens/UpdatePage';
+>>>>>>> 40f2acd529ad2f186800b9064e3d6404fe64de38
 import CommunityDetail from '../screens/CommunityDetail';
 import CommunityBoard from '../screens/CommunityBoard';
 import Community from '../screens/Community';
-import Writepage from '../screens/WritePage';
+import WritePage from '../screens/WritePage';
 
 import ChatDetail from '../screens/ChatDetail';
 import ChatList from '../screens/ChatList';
@@ -68,13 +72,12 @@ const HomeScreen = () => {
 const CommunityStack = createStackNavigator();
 const CommunityScreen = () => {
   return (
-    <CommunityStack.Navigator
-      screenOptions={{ headerShown: false }}
-      initialRouteName="Community">
-      <Stack.Screen name="Community" component={Community} />
-      <Stack.Screen name="CommunityBoard" component={CommunityBoard} />
-      <Stack.Screen name="CommunityDetail" component={CommunityDetail} />
-      <Stack.Screen name="Writepage" component={Writepage} />
+    <CommunityStack.Navigator screenOptions={{ headerShown : false }} initialRouteName='Community'>
+      <Stack.Screen name="Community" component={Community}/>
+      <Stack.Screen name="CommunityBoard" component={CommunityBoard}/>
+      <Stack.Screen name="CommunityDetail" component={CommunityDetail}/>
+      <Stack.Screen name="WritePage" component={WritePage} />
+      <Stack.Screen name="UpdatePage" component={UpdatePage} />
     </CommunityStack.Navigator>
   );
 };
