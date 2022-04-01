@@ -97,12 +97,14 @@ const Tabs = () => {
         options={{
           tabBarIcon: () => (
             <Image
-              source={require('../assets/icons/play-button.png')}
+              source={require('../assets/icons/bike.png')}
               resizeMode="contain"
               style={{
-                width: 60,
-                height: 60,
+                width: 45,
+                height: 45,
                 tintColor: '#00C689',
+                borderRadius: 10,
+                borderWidth: 10,
               }}
             />
           ),

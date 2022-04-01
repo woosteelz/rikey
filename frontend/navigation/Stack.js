@@ -11,6 +11,7 @@ import Profile from '../screens/Profile';
 import MyArticles from '../screens/MyArticles';
 import Course from '../screens/Course';
 import CourseDetail from '../screens/CourseDetail';
+import Facilities from '../screens/Facilities';
 import MyComments from '../screens/MyComments';
 import MyReviews from '../screens/MyReviews';
 import MyRecords from '../screens/MyRecords';
@@ -81,6 +82,7 @@ const CourseScreen = () => {
     <CourseStack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Course" component={Course} />
       <Stack.Screen name="CourseDetail" component={CourseDetail} />
+      <Stack.Screen name="Facilities" component={Facilities} />
     </CourseStack.Navigator>
   );
 };
