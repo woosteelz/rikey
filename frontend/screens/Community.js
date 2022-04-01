@@ -3,12 +3,13 @@ import { Image, StyleSheet, View, Text, ScrollView, Dimensions,LinearLayout,Touc
 import Rikey from '../assets/rikey.png'
 import writebutton from '../assets/writebutton.png'
 import { Select, Box, CheckIcon, Center, NativeBaseProvider } from "native-base";
-
+import { useIsFocused } from '@react-navigation/native';
 import API from "../api/API";
 
 
 
 const Community = ( { navigation } ) => {
+  const isFocused = useIsFocused();
   useEffect(() =>{
     console.log('됫냐')
     async function get() {
@@ -33,13 +34,14 @@ const Community = ( { navigation } ) => {
     
     
 
-  },[])
+  },[isFocused])
     const [minioverview, setminioverview] = useState([])
     const screenWidth = Dimensions.get('window').width;
     const [overView, setOverview] = useState(true)
 
     const elements = minioverview.map( (item,key) => {
       return <View key={key} style={{marginLeft : "8%",marginBottom: "4%"}}>
+        <TouchableOpacity onPress={ ()=> navigation.navigate('CommunityDetail', {articleId : item.articleId , author : item.author})}>
         <Text style={{fontSize:15, fontWeight:'bold', color:'#363636', marginBottom: 2}}>{item.title}</Text>
         <Text style={{fontSize:13,color:'#424242', marginBottom: 3}} ellipsizeMode='tail' numberOfLines={1}>{item.content}</Text>
        {/* 내용이 길면 ...으로대체하는 로직을 작성할것 */}
@@ -52,6 +54,7 @@ const Community = ( { navigation } ) => {
             borderBottomWidth: 0.5,
           }}
         /> */}
+        </TouchableOpacity>
         </View>
     })
     const onBoardOverview = () => {

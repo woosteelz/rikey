@@ -24,8 +24,20 @@ import axios from "axios";
 
 
 
-const WritePage = ( { navigation } ) => {
+const UpdatePage = ( { navigation,route } ) => {
+  // 받아온 프롭들
+  const articleContent = route.params.onChangeContent
+  const articleTitle = route.params.onChangeTitle
+  const boardvarious = route.params.boardvarious
+  const pictures = route.params.pictures
+  const GivenArticleId = route.params.GivenArticleId
+  ////////////
   const { userId, userNickName } = useStore()
+  // const [cvalue, setCValue] = React.useState(boardvarious);
+
+  // 사진표시를 위한 Flag생성
+  const [flag, setFlag] = useState(false);
+
   const [cvalue, setCValue] = React.useState("FREE");
   const Boardvarious = () => {
     return<Radio.Group defaultValue="FREE" name="exampleGroup" value={cvalue} onChange={value => {setCValue(value)}} accessibilityLabel="favorite colorscheme">
@@ -38,34 +50,13 @@ const WritePage = ( { navigation } ) => {
       </Radio>
     </Radio.Group>;
 };
-  
-  // const Boardvarious = () => {
-    
-  //   const ref = React.useRef(null);
-  //   React.useEffect(() => {
-   
-  
-  //     ref.current.focus();
-  //   }, [cvalue]);
-  //   return <Radio.Group name="myRadioGroup" accessibilityLabel="favorite number" value={cvalue} onChange={nextValue => {
-  //     setCValue(nextValue);
-  //   }}>
-  //       <Radio value="FREE" size="sm" my={1} >
-  //         자유 게시판
-  //       </Radio>
-  //       <Radio value="RECRUIT" size="sm" my={1} ref={ref}>
-  //         라이더 모집
-  //       </Radio>
-  //     </Radio.Group>;
-  // };
 
   let imagedata = new FormData()
 
 
   // 이미지에 관해
   const uploadprocess = () => {
-
-    if (images.length !== 0){
+    if (images.length !== 0 ){
     return new Promise( (resolve) => {
     images.map((item, index) => {
       imagedata.append("uploadFiles", {
@@ -139,7 +130,7 @@ const WritePage = ( { navigation } ) => {
 
   
   let imageList = [];
-  const [images, setImages] = React.useState([])
+  const [images, setImages] = React.useState(pictures)
   // const [boardimages, setBoardImages] = React.useState([])
   // useEffect(()=> {
   //   if (images.length === 0) {
@@ -158,6 +149,13 @@ const WritePage = ( { navigation } ) => {
     return <View key={key}>
       {/* <Text>하잉</Text> */}
       <Image style={{height: 100, width: 100 , marginRight: "7%"}} source={{uri: "file://"+ item.realPath}} />
+    </View>
+  })
+
+  const givenimage = pictures.map( (item,key) => {
+    return <View key={key}>
+      {/* <Text>하잉</Text> */}
+      <Image style={{height: 100, width: 100 , marginRight: "7%"}} source={{uri: item}} />
     </View>
   })
 
@@ -182,7 +180,7 @@ const WritePage = ( { navigation } ) => {
           console.log(image)
 
           setImages(image)
-
+          
           image.map(imag => {
             imageList.push({
               filename: imag.fileName,
@@ -201,7 +199,7 @@ const WritePage = ( { navigation } ) => {
       
           // console.log(JSON.stringify(imagedata));
         
-        
+          setFlag(true)
       } catch (e) {
           console.log('error', e);
       } finally {
@@ -209,13 +207,17 @@ const WritePage = ( { navigation } ) => {
          
       }
   };
+    const [urls, setUrls] = useState(pictures)
     // 글쓰기버튼 클릭
     const writeprocessTemp = async() => {
       console.log("여기는지낫나요")
-      const urls = await uploadprocess()
-      console.log("글쓰기시", urls)
-      const response = await axios.post(
-        "http://j6c208.p.ssafy.io/api/articles",
+      console.log(pictures)
+      if (flag) {
+      setUrls(await uploadprocess())
+      }
+      console.log("글수정시", urls)
+      const response = await axios.put(
+        `http://j6c208.p.ssafy.io/api/articles/${GivenArticleId}`,
         {
           content : onChangeContent,
           title : onChangeTitle,
@@ -224,8 +226,9 @@ const WritePage = ( { navigation } ) => {
           userId : userId
         }
       );
+
       if (response) {
-        navigation.navigate('CommunityDetail', {articleId: response.data.article, author : userNickName})
+        navigation.navigate('CommunityDetail', {articleId: GivenArticleId, author : userNickName})
         console.log(response)
       } else {
         alert("오류발생")
@@ -237,8 +240,8 @@ const WritePage = ( { navigation } ) => {
 
     
     const screenWidth = Dimensions.get('window').width;
-    const [onChangeTitle, setonChangeTitle] = React.useState("");
-    const [onChangeContent, setonChangeContent] = React.useState("");
+    const [onChangeTitle, setonChangeTitle] = React.useState(articleTitle);
+    const [onChangeContent, setonChangeContent] = React.useState(articleContent);
 
 
 
@@ -304,14 +307,16 @@ const WritePage = ( { navigation } ) => {
             onPress={handleImagePicker}
           >
           {
-            images.length !== 0 ?
+            (flag) ?
           <View style={{ flexDirection: "row" }}>
 
             {imagepreview}
 
           </View>
           : 
-          <Image style={{height: 100, width: 100}} source={WooSteel} />
+          <View style={{ flexDirection: "row"}} >
+            {givenimage}
+          </View>
           }
 
          
@@ -363,4 +368,4 @@ const styles = StyleSheet.create({
   },
   
 });
-export default WritePage;
+export default UpdatePage;

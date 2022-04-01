@@ -19,10 +19,11 @@ import LogoTitle from '../components/Header/LogoTitle'
 import ProfileIcon from '../assets/icons/ProfileIcon.jpg'
 import 'react-native-gesture-handler';
 
+import UpdatePage  from '../screens/UpdatePage';
 import CommunityDetail from '../screens/CommunityDetail';
 import CommunityBoard from '../screens/CommunityBoard';
 import Community from '../screens/Community';
-import Writepage from '../screens/WritePage';
+import WritePage from '../screens/WritePage';
 
 
 const HomeStack = createStackNavigator();
@@ -71,7 +72,8 @@ const CommunityScreen = () => {
       <Stack.Screen name="Community" component={Community}/>
       <Stack.Screen name="CommunityBoard" component={CommunityBoard}/>
       <Stack.Screen name="CommunityDetail" component={CommunityDetail}/>
-      <Stack.Screen name="Writepage" component={Writepage} />
+      <Stack.Screen name="WritePage" component={WritePage} />
+      <Stack.Screen name="UpdatePage" component={UpdatePage} />
     </CommunityStack.Navigator>
   )
 }
