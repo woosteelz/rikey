@@ -1,6 +1,9 @@
 import React, { Component, useState, useEffect } from "react";
 import { Image, StyleSheet, View, Text, ScrollView, Dimensions,LinearLayout,TouchableOpacity,Button  } from "react-native";
-import Rikey from '../assets/rikey.png'
+
+import TitleBack from '../assets/images/TitleBack.png'
+import Pencil from '../assets/images/Pencil.png'
+import HandsUp from '../assets/images/Handsup.png'
 import writebutton from '../assets/writebutton.png'
 import { Select, Box, CheckIcon, Center, NativeBaseProvider } from "native-base";
 import { useIsFocused } from '@react-navigation/native';
@@ -95,76 +98,72 @@ const Community = ( { navigation } ) => {
      
         
 
-      
+
        <View>
-          <Text style={styles.myrank}>🚴🏻‍♂️내 랭킹</Text>
-
- 
-            <ScrollView 
-            horizontal={true} 
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              flexGrow :1
-            }}     
-            style= {{
-              width: "100%",
-              height: "20%"
-            }}
-            >
-
-              
-
-            <View style={{ flexDirection: "row", marginTop:"5%" }}> 
-                <View style={{ width: "25%" }}>
-                  <Text style={{marginLeft: "20%"}}> 주간 소비 칼로리</Text> 
-                  <View style={ styles.box }>
-                  </View>
-                </View>
-
-                <View style={{ width: "25%" , marginLeft: 50 }}>
-                  <Text> 주간 주행 거리</Text> 
-                  <View style={ styles.box }>
-                  </View>
-                </View>
-
-                <View style={{ width: "25%" , marginLeft: 50 }}>
-                  <Text> 주간 주행 거리</Text> 
-                  <View style={ styles.box }>
-                  </View>
-                </View>
-
-                <View style={{ width: "25%" , marginLeft: 50 }}>
-                  <Text> 주간 주행 거리</Text> 
-                  <View style={ styles.box }>
-                  </View>
-                </View>
-
+       <View style={{flexDirection:"row"}}>
+            <Image style={{ resizeMode:"cover", width: 25, height : 25 ,marginTop:"4%",marginLeft:"7%"}} source={HandsUp} />
+            <Image style={{ position:"absolute", width: 25, height: "5%" ,marginTop:"5.9%", marginLeft:"14.5%"}} source={TitleBack} />
+            <Text style={{marginLeft: "3%",marginTop: "4%",fontSize: 16, fontWeight:'bold'}}>내 랭킹</Text>
             </View>
-            </ScrollView>
-            <Text style={{marginLeft: "5%",marginTop: "5%"}}>📋 커뮤니티 최근글</Text>
-            <View style={{marginTop: "5%",width: "90%", height: "51%"}}>
+
+        </View>
+                <View style={{flexDirection: "row",marginTop:"6%"}}>
+                <Text style={{marginLeft:"5%"}}>주간 소비 칼로리</Text>
+                <Text style={{marginLeft:"9%"}}>주간 주행 거리</Text>
+                <Text style={{marginLeft:"11%"}}>주간 누적 시간</Text>
+                </View>
+            <View style={{ flexDirection: "row", height:"20%" }}> 
+                
+                <View style={{ width: "25.5%", marginLeft: 2 }}>
+
+                  <View style={ styles.box }>
+                  </View>
+                </View>
+
+                <View style={{ width: "25.5%" , marginLeft: 30 }}>
+ 
+                  <View style={ styles.box }>
+                  </View>
+                </View>
+
+                <View style={{ width: "25.5%" , marginLeft: 30 }}>
+ 
+                  <View style={ styles.box }>
+                  </View>
+                </View>
+
+            
+            </View>
+
+            <View style={{flexDirection:"row"}}>
+            <Image style={{ resizeMode:"cover", width: 25, height : 25 ,marginTop:"3%",marginLeft:"7%"}} source={Pencil} />
+            <Image style={{ position:"absolute", width: 90, height: "15%" ,marginTop:"5%", marginLeft:"14.5%"}} source={TitleBack} />
+            <Text style={{marginLeft: "3%",marginTop: "2%",fontSize: 16, fontWeight:'bold'}}>커뮤니티 최근글</Text>
+            </View>
+            <View style={{marginTop: "5%",width: "90%", height: "45%"}}>
                
                 <View>{elements}</View>
 
             </View>
             <TouchableOpacity style={styles.communityButton} onPress={() => navigation.navigate('CommunityBoard')}> 
-              <Text>커뮤니티 모든 글 보러가기 > </Text>
-            </TouchableOpacity>
+              <Text>커뮤니티 모든 글 보기 > </Text>
+            </TouchableOpacity> 
         </View>
 
-       
-        </View>
+
     );
   }
 
 
 const styles = StyleSheet.create({
   writebutton : {
+
     elevation : 5
   },
   communityButton : {
     marginLeft: "auto", 
-    margin: "4%",
+    margin: "3%",
+    marginTop: "8%",
     
   },
   communityButton2 : { 
@@ -173,9 +172,10 @@ const styles = StyleSheet.create({
     
   },
   myrank: {
-    marginLeft : "5%",
-    marginTop : "5%",
-    fontWeight: 'bold'
+    marginLeft : "14%",
+    marginTop : "8%",
+    fontWeight: 'bold',
+    fontSize : 17
   },
   myrankProfile: {
     width: "100%",
