@@ -44,11 +44,37 @@ const Course = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <TouchableOpacity
+          style={styles.communityButton2}
+          onPress={() => navigation.navigate('Community')}>
+          <Text> ← 뒤로 </Text>
+        </TouchableOpacity>
+        <Image
+          style={{ resizeMode: 'cover', height: 80, width: 160 }}
+          source={require('../assets/rikey.png')}
+        />
+        <TouchableOpacity
+          style={styles.communityButton2}
+          onPress={() => navigation.navigate('Facilities')}>
+          <Image
+            source={require('../assets/icons/shop.png')}
+            style={{
+              resizeMode: 'cover',
+              height: 24,
+              width: 24,
+              marginLeft: 40,
+              tintColor: 'grey',
+            }}
+          />
+        </TouchableOpacity>
+      </View>
       <View
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
+          marginTop: -20,
         }}>
         <Text style={{ fontSize: 18 }}>내 주변 자전거길을 소개합니다!</Text>
       </View>
@@ -108,8 +134,8 @@ const Course = ({ navigation }) => {
                     }}>
                     <Image
                       style={{
-                        width: 25,
-                        height: 25,
+                        width: 18,
+                        height: 18,
                       }}
                       resizeMode="contain"
                       source={require('../assets/icons/star.png')}
@@ -138,5 +164,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  communityButton2: {
+    marginTop: '8%',
+    width: '20%',
   },
 });
