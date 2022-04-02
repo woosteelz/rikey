@@ -22,6 +22,48 @@ function isEmptyObj(obj) {
   return false;
 }
 
+const CustomCommentList = ({ reviewList }) => {
+  console.log(reviewList);
+  return (
+    <FlatList
+      style={styles.root}
+      data={reviewList}
+      //   extraData={this.state}
+      ItemSeparatorComponent={() => {
+        return <View style={styles.separator} />;
+      }}
+      keyExtractor={item => {
+        return item.reviewId;
+      }}
+      renderItem={item => {
+        return (
+          <View style={styles.container}>
+            <TouchableOpacity onPress={() => {}}>
+              <Image
+                style={styles.image}
+                source={
+                  item.item.profilePic
+                    ? { uri: item.item.profilePic }
+                    : require('../assets/icons/user-profile.png')
+                }
+              />
+            </TouchableOpacity>
+            <View style={styles.content}>
+              <View style={styles.contentHeader}>
+                <Text style={styles.name}>{item.item.author}</Text>
+                <Text style={styles.time}>
+                  {item.item.createdTime.slice(0, 10)}
+                </Text>
+              </View>
+              <Text rkType="primary3 mediumLine">{item.item.content}</Text>
+            </View>
+          </View>
+        );
+      }}
+    />
+  );
+};
+
 const CourseDetail = ({ route, navigation }) => {
   const [detail, setDetail] = useState({});
   const [size, setSize] = useState({});
@@ -35,48 +77,6 @@ const CourseDetail = ({ route, navigation }) => {
   const starImgCorner = require('../assets/icons/starcorner.png');
 
   const { userId } = useStore();
-
-  const CustomCommentList = ({ reviewList }) => {
-    console.log(reviewList);
-    return (
-      <FlatList
-        style={styles.root}
-        data={reviewList}
-        //   extraData={this.state}
-        ItemSeparatorComponent={() => {
-          return <View style={styles.separator} />;
-        }}
-        keyExtractor={item => {
-          return item.reviewId;
-        }}
-        renderItem={item => {
-          return (
-            <View style={styles.container}>
-              <TouchableOpacity onPress={() => {}}>
-                <Image
-                  style={styles.image}
-                  source={
-                    item.item.profilePic
-                      ? { uri: item.item.profilePic }
-                      : require('../assets/icons/user-profile.png')
-                  }
-                />
-              </TouchableOpacity>
-              <View style={styles.content}>
-                <View style={styles.contentHeader}>
-                  <Text style={styles.name}>{item.item.author}</Text>
-                  <Text style={styles.time}>
-                    {item.item.createdTime.slice(0, 10)}
-                  </Text>
-                </View>
-                <Text rkType="primary3 mediumLine">{item.item.content}</Text>
-              </View>
-            </View>
-          );
-        }}
-      />
-    );
-  };
 
   const CustomRatingBar = () => {
     return (
@@ -176,7 +176,23 @@ const CourseDetail = ({ route, navigation }) => {
           </View>
         </View>
       </Modal>
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: 'white' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <TouchableOpacity
+            style={styles.communityButton2}
+            onPress={() => navigation.navigate('Course')}>
+            <Text> ← 뒤로 </Text>
+          </TouchableOpacity>
+          <Image
+            style={{
+              resizeMode: 'cover',
+              height: 80,
+              width: 160,
+              marginLeft: 30,
+            }}
+            source={require('../assets/rikey.png')}
+          />
+        </View>
         <View
           style={{
             flex: 1,
@@ -234,7 +250,7 @@ const CourseDetail = ({ route, navigation }) => {
               라이더 리뷰 {!isEmptyObj(detail) ? detail.reviewList.length : 0}개
             </Text>
           </View>
-          <Text style={{ color: 'black', letterSpacing: -1 }}>
+          <Text style={{ color: 'grey', letterSpacing: -1 }}>
             ________________________________________________________________
           </Text>
         </View>
@@ -242,15 +258,17 @@ const CourseDetail = ({ route, navigation }) => {
           <Text style={{ fontSize: 18, margin: 10, color: 'black' }}>
             코스 정보
           </Text>
-          <Text style={{ fontSize: 16, margin: 3, marginLeft: 10 }}>
+          <Text
+            style={{ fontSize: 16, margin: 3, marginLeft: 10, color: 'black' }}>
             코스 거리 : 200Km
           </Text>
-          <Text style={{ fontSize: 16, margin: 3, marginLeft: 10 }}>
+          <Text
+            style={{ fontSize: 16, margin: 3, marginLeft: 10, color: 'black' }}>
             예상 소요시간 : {!isEmptyObj(detail) ? detail.hour : 0}시간{' '}
             {!isEmptyObj(detail) ? detail.minute : 0}분
           </Text>
           <Text
-            style={{ color: 'black', letterSpacing: -1, alignSelf: 'center' }}>
+            style={{ color: 'grey', letterSpacing: -1, alignSelf: 'center' }}>
             ________________________________________________________________
           </Text>
         </View>
@@ -420,5 +438,10 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  communityButton2: {
+    marginTop: '8%',
+    width: '20%',
+    marginLeft: -100,
   },
 });
