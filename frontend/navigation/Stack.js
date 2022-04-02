@@ -29,7 +29,6 @@ const HomeStack = createStackNavigator();
 const HomeScreen = () => {
   return (
     <HomeStack.Navigator
-      initialRouteName="Home"
       screenOptions={{
         cardStyle: { backgroundColor: '#ffffff' },
         headerTitleAlign: 'center',
@@ -54,10 +53,48 @@ const HomeScreen = () => {
           // ),
         })}
       />
-      <Stack.Screen name="Profile" 
+    </HomeStack.Navigator>
+  );
+};
+
+const CommunityStack = createStackNavigator();
+const CommunityScreen = () => {
+  return (
+    <CommunityStack.Navigator screenOptions={{ headerShown : false }} initialRouteName='Community'>
+      <Stack.Screen name="Community" component={Community}/>
+      <Stack.Screen name="CommunityBoard" component={CommunityBoard}/>
+      <Stack.Screen name="CommunityDetail" component={CommunityDetail}/>
+      <Stack.Screen name="WritePage" component={WritePage} />
+      <Stack.Screen name="UpdatePage" component={UpdatePage} />
+    </CommunityStack.Navigator>
+  );
+};
+const CourseStack = createStackNavigator();
+const CourseScreen = () => {
+  return (
+    <CourseStack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Course" component={Course} />
+      <Stack.Screen name="CourseDetail" component={CourseDetail} />
+    </CourseStack.Navigator>
+  );
+};
+
+const ProfileStack = createStackNavigator();
+const ProfileScreen = () => {
+  return (
+    <ProfileStack.Navigator
+      screenOptions={{
+        cardStyle: { backgroundColor: '#ffffff' },
+        headerTitleAlign: 'center',
+      }}
+    >
+      <Stack.Screen name="Profile"
         component={Profile}
         options={{
-          headerTitle: "프로필"
+          headerTitle: "프로필",
+          headerTitleAlign: 'center',
+          cardStyle: { backgroundColor: '#ffffff' },
+          headerLeft: null,
         }}
       />
       <Stack.Screen name="MyArticles"
@@ -90,46 +127,6 @@ const HomeScreen = () => {
           headerTitle: "내 정보"
         }}
       />
-    </HomeStack.Navigator>
-  );
-};
-
-const CommunityStack = createStackNavigator();
-const CommunityScreen = () => {
-  return (
-    <CommunityStack.Navigator screenOptions={{ headerShown : false }} initialRouteName='Community'>
-      <Stack.Screen name="Community" component={Community}/>
-      <Stack.Screen name="CommunityBoard" component={CommunityBoard}/>
-      <Stack.Screen name="CommunityDetail" component={CommunityDetail}/>
-      <Stack.Screen name="WritePage" component={WritePage} />
-      <Stack.Screen name="UpdatePage" component={UpdatePage} />
-    </CommunityStack.Navigator>
-  );
-};
-const CourseStack = createStackNavigator();
-const CourseScreen = () => {
-  return (
-    <CourseStack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Course" component={Course} />
-      <Stack.Screen name="CourseDetail" component={CourseDetail} />
-    </CourseStack.Navigator>
-  );
-};
-
-const ProfileStack = createStackNavigator();
-const ProfileScreen = () => {
-  return (
-    <ProfileStack.Navigator>
-      <Stack.Screen name="Profile"
-        component={Profile}
-        options={{
-          headerTitle: "프로필",
-          headerTitleAlign: 'center',
-          cardStyle: { backgroundColor: '#ffffff' },
-          headerLeft: null,
-        }}
-      />
-      <Stack.Screen name="CommunityDetail" component={CommunityDetail}/>
     </ProfileStack.Navigator>
   )
 }

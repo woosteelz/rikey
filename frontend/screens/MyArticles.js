@@ -16,8 +16,9 @@ const MyArticles = ({ navigation }) => {
         return(
           <SeparateTouch
             onPress={() => navigation.navigate('CommunityDetail', {articleId : el.articleId , author : el.author})}
+            key={key}
           >
-            <SeparateBox key={key}>
+            <SeparateBox>
               <BoxTitle>{el.title}</BoxTitle>
               <WrittenDate>{el.createdTime.slice(0, 10)}</WrittenDate>
             </SeparateBox>
