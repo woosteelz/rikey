@@ -71,7 +71,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Community"
+        name="CommunityScreen"
         component={CommunityScreen}
         options={{
           tabBarIcon: ({ focused }) => (

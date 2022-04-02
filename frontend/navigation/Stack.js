@@ -67,7 +67,7 @@ const HomeScreen = () => {
 const CommunityStack = createStackNavigator();
 const CommunityScreen = () => {
   return (
-    <CommunityStack.Navigator screenOptions={{ headerShown : false }} initialRouteName='Community'>
+    <CommunityStack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#ffffff' }, headerShown : false }} initialRouteName='Community'>
       <Stack.Screen name="Community" component={Community}/>
       <Stack.Screen name="CommunityBoard" component={CommunityBoard}/>
       <Stack.Screen name="CommunityDetail" component={CommunityDetail}/>

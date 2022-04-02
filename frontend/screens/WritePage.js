@@ -3,8 +3,11 @@ import { KeyboardAvoidingView,Image, StyleSheet, View, Text,Dimensions,Touchable
   TextInput, Keyboard, TouchableWithoutFeedback, Button,SafeAreaView,ScrollView } from "react-native";
 import { Radio, NativeBaseProvider,Center,} from "native-base";
 
+//사진 임포트한 부분
+import Back from '../assets/images/Back.png'
 import Rikey from '../assets/rikey.png'
 import WooSteel from '../assets/defaultimage.jpg'
+/////
 import { useStore } from "../states";
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 import axios from "axios";
@@ -249,13 +252,15 @@ const WritePage = ( { navigation } ) => {
       
 
         <View>
-          <View style={{flexDirection: "row", justifyContent: "space-around"}}>
+          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
           <TouchableOpacity style={styles.communityButton2} onPress={() => navigation.goBack() }>
-                <Text> ← 뒤로 </Text>
+          <Image style={{ resizeMode: "center", height: 20, width: 20, marginLeft:"20%"}} source={Back} />
           </TouchableOpacity>
-          <Image style={{ resizeMode: "cover", height: 80, width: 160}} source={Rikey}  />
-          <View style={{ marginTop: "6%"}}>
-          <Button 
+          <Text style={{fontSize: 25, fontWeight: 'bold',marginTop:'6%',marginRight:"5%"}}>글쓰기</Text>
+          {/* <Image style={{ resizeMode: "cover", height: 60, width: 120, marginTop:"3%"}} source={Rikey}  /> */}
+          <View style={{ marginRight: "5%", marginTop: "6.5%"}}>
+          <Button
+          
           title="작성"
           color="#00C689"
           onPress={() => writeprocessTemp()}
@@ -288,7 +293,7 @@ const WritePage = ( { navigation } ) => {
               style={styles.inputContent}
               onChangeText={setonChangeContent}
               value={onChangeContent}
-              placeholder="내용"
+              placeholder="내용을 입력하세요..."
             />
             
             {/* <NativeBaseProvider>
@@ -300,18 +305,18 @@ const WritePage = ( { navigation } ) => {
          <View>
           <TouchableOpacity
 
-            style={{marginLeft: "5%"}}
+            style={{backgroundColor:"#DDDDDD"}}
             onPress={handleImagePicker}
           >
           {
             images.length !== 0 ?
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ marginLeft: "5%", flexDirection: "row"}}>
 
             {imagepreview}
 
           </View>
           : 
-          <Image style={{height: 100, width: 100}} source={WooSteel} />
+          <Image style={{marginLeft: "5%", height: 100, width: 100}} source={WooSteel} />
           }
 
          
@@ -357,7 +362,6 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     height: "50%",
     margin: 12,
-    borderWidth: 1,
     borderBottomColor: "grey",
     padding: 5,
   },
