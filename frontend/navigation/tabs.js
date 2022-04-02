@@ -2,32 +2,34 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-import Map from '../screens/Map';
-import Profile from '../screens/Profile';
+import Course from '../screens/Course';
 import Record from '../screens/Record';
-import Communinty from '../screens/Community';
-import { HomeScreen }  from './Stack'
+import Profile from '../screens/Profile'
+import Community from '../screens/Community';
+import { HomeScreen, CommunityScreen, CourseScreen, ProfileScreen } from './Stack';
 
-const CustomTabBarButton = ({ children, onPress }) => (
-  <TouchableOpacity
-    style={{
-      top: -30,
-      justifyContent: 'center',
-      alignItems: 'center',
-      ...styles.shadow,
-    }}
-    onPress={onPress}>
-    <View
+const CustomTabBarButton = ({ children, onPress }) => {
+  return (
+    <TouchableOpacity
       style={{
-        width: 70,
-        height: 70,
-        borderRadius: 35,
-        backgroundColor: 'white',
-      }}>
-      {children}
-    </View>
-  </TouchableOpacity>
-);
+        top: -25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        ...styles.shadow,
+      }}
+      onPress={onPress}>
+      <View
+        style={{
+          width: 60,
+          height: 60,
+          borderRadius: 35,
+          backgroundColor: 'white',
+        }}>
+        {children}
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -39,13 +41,10 @@ const Tabs = () => {
         headerShown: false,
         tabBarStyle: {
           position: 'absolute',
-          //   bottom: 25,
-          //   left: 20,
-          //   right: 20,
           elevation: 0,
           backgroundColor: '#ffffff',
-          borderRadius: 15,
-          height: 90,
+          borderTopStartRadius: 15,
+          height: 60,
           ...styles.shadow,
         },
       }}>
@@ -72,8 +71,8 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Community"
-        component={Communinty}
+        name="CommunityScreen"
+        component={CommunityScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -96,14 +95,16 @@ const Tabs = () => {
         name="Record"
         component={Record}
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <Image
-              source={require('../assets/icons/play-button.png')}
+              source={require('../assets/icons/bike.png')}
               resizeMode="contain"
               style={{
-                width: 60,
-                height: 60,
+                width: 45,
+                height: 45,
                 tintColor: '#00C689',
+                borderRadius: 10,
+                borderWidth: 10,
               }}
             />
           ),
@@ -111,8 +112,8 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Map"
-        component={Map}
+        name="Course"
+        component={CourseScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -133,7 +134,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -147,7 +148,7 @@ const Tabs = () => {
                   height: 30,
                   tintColor: focused ? '#00C689' : 'grey',
                 }}
-                source={require('../assets/icons/bubble-chat.png')}></Image>
+                source={require('../assets/icons/Profile.png')}></Image>
             </View>
           ),
         }}

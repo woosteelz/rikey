@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        buildToolsVersion = "30.0.2"
+        buildToolsVersion = "29.0.2"
         minSdkVersion = 21
         compileSdkVersion = 30
         targetSdkVersion = 30
@@ -43,4 +43,14 @@ allprojects {
         jcenter()
         maven { url 'https://www.jitpack.io' }
     }
+}
+
+ext {
+    // compileSdkVersion   = "xxx"
+    // targetSdkVersion    = "xxx"
+    // buildToolsVersion   = "xxx"
+    // minSdkVersion       = "xxx"
+    // supportLibVersion   = "xxx"
+    playServicesVersion = "17.0.0" // or find latest version
+    // androidMapsUtilsVersion = "xxx"
 }

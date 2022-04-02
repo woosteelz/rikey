@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, ScrollView } from 'react-native';
-import { useStore } from '../states';
+import { View, Text, Button, ScrollView, Image } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import styled from 'styled-components';
 
+import ClearSky from '../assets/images/ClearSky.png'
+import TemperImg from '../assets/images/TemperImg.png'
+import HumidImg from '../assets/images/HumidImg.png'
+import WindImg from '../assets/images/WindImg.png'
+import CloudImg from '../assets/images/CloudImg.png'
+import ExclamationMark from '../assets/images/ExclamationMark.png'
+import RidingMan from '../assets/images/RidingMan.png'
+
 const Home = ({ navigation }) => {
-  
+
   const [weather, setWeather] = useState('맑음');
   const [temp, setTemp] = useState('');
   const [humidity, setHumidity] = useState('');
   const [windSpeed, setWindSpeed] = useState('');
   const [clouds, setClouds] = useState('');
+  const [icon, setIcon] = useState('');
   
   const [dayNight, setDayNight] = useState('');
   const [hours, setHours] = useState('');
@@ -43,11 +51,13 @@ const Home = ({ navigation }) => {
       const url = await getLocation();
       const response = await axios.get(url)
       console.log(response);
+      setIcon(response.data.weather[0].icon);
       setWeather(response.data.weather[0].description);
-      setTemp(response.data.main.temp);
+      setTemp( Math.ceil(response.data.main.temp * 10) / 10);
       setHumidity(response.data.main.humidity);
-      setWindSpeed(response.data.wind.speed);
+      setWindSpeed( Math.ceil(response.data.wind.speed * 10) / 10 );
       setClouds(response.data.clouds.all);
+      // 아이콘 이미지 받아오기 구현
     }
     catch(e) {
     }
@@ -67,20 +77,12 @@ const Home = ({ navigation }) => {
     setHours(theHour);
     setMinutes(date.getMinutes());
   }
-  // setInterval(getClock, 1000);
 
   useEffect(() => {
     getWeather();
     getClock();
-    // console.log(weather, "날씨")
-    // console.log(temp, "온도")
-    // console.log(humidity, "습도")
-    // console.log(windSpeed, "바람")
-    // console.log(clouds, "구름")
+    console.log(icon);
   }, [])
-
-  const { userId } = useStore();
-
 
   return (
     
@@ -89,31 +91,79 @@ const Home = ({ navigation }) => {
 
         <WeatherBox>
           <TopBox>
-            <Text> {year}년 {month}월 {day}일 {dayNight} {hours}시 {minutes}분 </Text>
-            <Text> 날씨 : {weather} </Text>
+            <WeatherImage source={{ uri : `http://openweathermap.org/img/wn/${icon}@2x.png` }} />
+            {/* <Image source={ClearSky} /> */}
+            {/* <Text>{weather}</Text> */}
+            <WeatherTextBox>
+              <WeatherText>{year}년 {month}월 {day}일</WeatherText>
+              <WeatherText>{dayNight} {hours}시 {minutes}분 </WeatherText>
+            </WeatherTextBox>
           </TopBox>
 
           <BottomBox>
-            <Text>{temp}</Text>
-            <Text>{humidity}</Text>
-            <Text>{windSpeed}</Text>
-            <Text>{clouds}</Text>
+
+            <GapBox />
+
+            <RowBox>
+              <DescriptionImageBox>
+                <DescriptionImage source={TemperImg} />
+              </DescriptionImageBox>
+              <DescriptionText>기온</DescriptionText>
+              <DescriptionText>{temp}ºC</DescriptionText>
+            </RowBox>
+
+            <RowBox>
+              <DescriptionImageBox>
+                <DescriptionImage source={HumidImg} />
+              </DescriptionImageBox>
+              <DescriptionText>습도</DescriptionText>
+              <DescriptionText>{humidity}%</DescriptionText>
+            </RowBox>
+            
+            <RowBox>
+              <DescriptionImageBox>
+                <DescriptionImage source={WindImg} />
+              </DescriptionImageBox>
+              <DescriptionText>풍속</DescriptionText>
+              <DescriptionText>{windSpeed}m/s</DescriptionText>
+            </RowBox>
+
+            <RowBox>
+              <DescriptionImageBox>
+                <DescriptionImage source={CloudImg} />
+              </DescriptionImageBox>
+              <DescriptionText>구름</DescriptionText>
+              <DescriptionText>{clouds}%</DescriptionText>
+            </RowBox>
+
+            <GapBox />
+
           </BottomBox>
 
         </WeatherBox>
 
         <SafeBox>
-          <TitleBox></TitleBox>
-          <ImageBox></ImageBox>
-          <DetailBox></DetailBox>
+
+          <TitleBox>
+            <Image source={ExclamationMark} />
+
+            <TitleTextBox>
+              <TitleText><RIKEYText>RIKEY</RIKEYText>와 함께하는</TitleText>
+              <TitleText>오늘의 자전거 안전 수칙</TitleText>
+            </TitleTextBox>
+
+            <RiderView>
+              <RiderImage source={RidingMan} />
+            </RiderView>
+          </TitleBox>
+
+          <InstructBox>
+            <InstructTitle>자전거 도로 주행은 이렇게!</InstructTitle>
+            <InstructDetail>자전거도로가 설치된 경우 자전거 도로로, 자전거 도로가 없는 경우 도로 우측 가장자리에 붙어서 이용</InstructDetail>
+          </InstructBox>
+
         </SafeBox>
 
-        {/* <Button
-          title="click"
-          onPress={() => {
-            navigation.navigate('Profile');
-          }}
-        /> */}
       </Box>
     </ScrollView>
 
@@ -124,18 +174,115 @@ export default Home;
 
 const Box = styled.View`
   flex: 1;
+  background-color: white;
 `
+
 const WeatherBox = styled.View`
+  flex: 1;
+  margin-top: 5%;
+  justify-content : center;
+  align-items: center;
 `
+const WeatherText = styled.Text`
+  color: #979797;
+  font-weight: bold;
+  font-size: 15px;
+`
+
 const TopBox = styled.View`
+  flex: 1;
+  justify-content : center;
+  align-items: center;
+`
+const WeatherImage = styled.Image`
+  width: 55px;
+  height: 55px;
+`
+const WeatherTextBox = styled.View`
+  margin-top: 2.5%;
+  justify-content : center;
+  align-items: center;
 `
 const BottomBox = styled.View`
+  flex: 1;
+  flex-direction : row;
+  margin-top: 5%;
+  background-color: #EFF1F6;
+  border-radius: 20px;
+  width: 80%;
+  height: 120px;
 `
+const GapBox = styled.View`
+  flex: 0.2;
+`
+const RowBox = styled.View`
+  flex: 1;
+  justify-content : center;
+  align-items: center;
+`
+const DescriptionImageBox = styled.View`
+  width:  50px;
+  height: 50px;
+  justify-content : center;
+  align-items: center;
+`
+const DescriptionImage = styled.Image`
+  resize-mode: contain;
+  height: 65%;
+  width: 65%;
+`
+const DescriptionText = styled.Text`
+  font-weight: bold;
+  color : black;
+`
+
 const SafeBox = styled.View`
+  flex: 1.4;
+  margin-top: 8%;
 `
 const TitleBox = styled.View`
+  justify-content : center;
+  align-items: center;
 `
-const ImageBox = styled.View`
+const TitleTextBox = styled.View`
+  margin-top: 3%;
+  justify-content : center;
+  align-items: center;
 `
-const DetailBox = styled.View`
+const RIKEYText = styled.Text`
+  color : #03B190;
+`
+const TitleText = styled.Text`
+  font-weight: bold;
+  font-size: 20px;
+  color: black;
+`
+const RiderView = styled.View`
+  margin-top: 5%;
+  height: 215px;
+  width: 350px;
+`
+const RiderImage = styled.Image`
+  resize-mode: contain;
+  height: 100%;
+  width: 100%;
+  border-radius: 35px;
+`
+const InstructBox = styled.View`
+  margin-top: 5%;
+  margin-bottom: 30%;
+  justify-content : center;
+  align-items: center;
+`
+const InstructTitle = styled.Text`
+  font-weight: bold;
+  color: black;
+  font-size: 16px;
+`
+const InstructDetail = styled.Text`
+  margin-top: 3%;
+  width: 85%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
 `

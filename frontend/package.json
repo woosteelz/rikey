@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@baronha/react-native-multiple-image-picker": "^0.4.10",
     "@fortawesome/fontawesome-svg-core": "^1.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.0.0",
     "@fortawesome/react-native-fontawesome": "^0.2.7",
@@ -18,17 +19,26 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "@react-navigation/stack": "^6.1.1",
+    "@stomp/stompjs": "^6.1.2",
     "axios": "^0.26.1",
+    "expo-location": "^14.0.2",
+    "moment": "^2.29.1",
     "native-base": "^3.3.7",
     "react": "17.0.2",
     "react-native": "0.67.3",
+    "react-native-actions-sheet": "^0.6.0",
     "react-native-geolocation-service": "^5.3.0-beta.4",
     "react-native-gesture-handler": "^2.3.2",
     "react-native-maps": "0.30.1",
+    "react-native-paper": "^4.12.0",
     "react-native-safe-area-context": "^4.1.3",
     "react-native-screens": "^3.13.1",
+    "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.3.0",
     "react-paypal-express-checkout": "^1.0.5",
+    "sockjs": "^0.3.24",
+    "sockjs-client": "^1.6.0",
+    "stompjs": "^2.3.3",
     "styled-components": "^5.3.3",
     "zustand": "^3.7.1"
   },
@@ -44,5 +54,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }
