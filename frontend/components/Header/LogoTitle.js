@@ -6,7 +6,7 @@ const LogoTitle = () => {
 
   return (
 
-    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: "38%", marginTop: "7%", marginBottom: "3%" }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: "12%", marginTop: "7%", marginBottom: "3%" }}>
       <Image 
         source={RIKEY_LOGO}
         style = {{ width:165, height:80 }}

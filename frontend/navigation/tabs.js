@@ -4,8 +4,9 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 import Course from '../screens/Course';
 import Record from '../screens/Record';
+import Profile from '../screens/Profile'
 import Community from '../screens/Community';
-import { HomeScreen, CommunityScreen, CourseScreen, ChatScreen } from './Stack';
+import { HomeScreen, CommunityScreen, CourseScreen, ProfileScreen } from './Stack';
 
 const CustomTabBarButton = ({ children, onPress }) => {
   return (
@@ -131,7 +132,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ChatScreen}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -145,7 +146,7 @@ const Tabs = () => {
                   height: 30,
                   tintColor: focused ? '#00C689' : 'grey',
                 }}
-                source={require('../assets/icons/bubble-chat.png')}></Image>
+                source={require('../assets/icons/Profile.png')}></Image>
             </View>
           ),
         }}

@@ -89,13 +89,18 @@ const MyInfo = ({ navigation }) => {
 
   const ReSign = () => {
     API.delete('/users', {
-      "userId" : userId
+      data: {
+        "userId" : userId
+      }
     })
     .then((response) => {
       console.log(response);
+      alert("회원 정보가 삭제되었습니다.")
+      navigation.navigate("SignIn")
     })
     .catch((error) => {
       console.log(error, "회원탈퇴");
+      console.log(userId);
     })
   }
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Text, ScrollView } from 'react-native';
+import { Image, Text, ScrollView, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import API from '../api/API'
 import { useStore } from '../states'
 
-const MyArticles = () => {
+const MyArticles = ({ navigation }) => {
   const [articles, setArticles] = useState([]);
   const { userNickName } = useStore();
 
@@ -14,10 +14,14 @@ const MyArticles = () => {
       console.log(response);
       const show = response.data.articleList.map((el, key) => {
         return(
-          <SeparateBox key={key}>
-            <BoxTitle>{el.title}</BoxTitle>
-            <WrittenDate>{el.createdTime.slice(0, 10)}</WrittenDate>
-          </SeparateBox>
+          <SeparateTouch
+            onPress={() => navigation.navigate('CommunityDetail', {articleId : el.articleId , author : el.author})}
+          >
+            <SeparateBox key={key}>
+              <BoxTitle>{el.title}</BoxTitle>
+              <WrittenDate>{el.createdTime.slice(0, 10)}</WrittenDate>
+            </SeparateBox>
+          </SeparateTouch>
         )
       })
       setArticles(show)
@@ -39,6 +43,7 @@ const MyArticles = () => {
 }
 
 export default MyArticles;
+
 const Container = styled.View`
   flex: 1;
   justify-content: center;
@@ -59,7 +64,7 @@ const InnerContainer = styled.View`
   align-items: center;
   padding-top: 20px;
 `
-const SeparateBox = styled.View`
+const SeparateTouch = styled.TouchableOpacity`
   background-color: white;
   width: 85%;
   height: 65px;
@@ -68,6 +73,8 @@ const SeparateBox = styled.View`
   padding-left: 4%;
   justify-content: center;
   margin-bottom: 5%;
+`
+const SeparateBox = styled.View`
 `
 const BoxTitle = styled.Text`
   font-weight: bold;

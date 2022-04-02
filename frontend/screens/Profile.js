@@ -28,7 +28,8 @@ const Profile = ({ navigation }) => {
   const [kcal, setKcal] = useState("0")
   const [distance, setdistance] = useState("0")
   const [time, setTime] = useState("0")
-
+  const [moreHour, setMoreHour] = useState('');
+  const [moreMinute, setMoreMinute] = useState('');
   const { userNickName } = useStore();
 
   useEffect(() => {
@@ -40,10 +41,14 @@ const Profile = ({ navigation }) => {
 
       setKcal(response.data.user.weeklyCalories)
       setdistance(response.data.user.weeklyDistance)
+      const theHour = theTime / 60
+      const theMinute = response.data.user.weeklyTime % 60
+      setMoreHour(theHour);
+      setMoreMinute(theMinute);
       setTime(response.data.user.weeklyTime)
       setGetImage(response.data.user.profilePic)
     })
-  }, [])
+  })
 
   return (
 
@@ -79,15 +84,15 @@ const Profile = ({ navigation }) => {
         <WeeklyBox>
           <WeeklyInnerBox title={"누적 칼로리"} imageLink={Fire} measurand={`${kcal} kcal`} />
           <WeeklyInnerBox title={"누적 거리"} imageLink={Bicycle} measurand={`${distance} km`}/>
-          <WeeklyInnerBox title={"누적 시간"} imageLink={Clock} measurand={`${time} 분`} />
+          <WeeklyInnerBox title={"누적 시간"} imageLink={Clock} measurand={time > 60 ? `${moreHour}시간 ${moreMinute}분` : `${time} 분`} />
         </WeeklyBox>
 
         <MyBox>
           <MyInnerBox>
+            <MyHistory content={"나의 주행 기록"} logo={MyRidingRecord} arrow={RightArrow} navigation={navigation} location={"MyRecords"} />
             <MyHistory content={"내가 쓴 글"} logo={MyPencil} arrow={RightArrow} navigation={navigation} location={"MyArticles"} />
             <MyHistory content={"내가 쓴 댓글"} logo={MyComment} arrow={RightArrow} navigation={navigation} location={"MyComments"} />
             <MyHistory content={"내가 쓴 코스 후기"} logo={MyReview} arrow={RightArrow} navigation={navigation} location={"MyReviews"} />
-            <MyHistory content={"나의 주행 기록"} logo={MyRidingRecord} arrow={RightArrow} navigation={navigation} location={"MyRecords"} />
           </MyInnerBox>
         </MyBox>
 

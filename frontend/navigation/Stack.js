@@ -19,17 +19,11 @@ import LogoTitle from '../components/Header/LogoTitle';
 import ProfileIcon from '../assets/icons/ProfileIcon.jpg';
 import 'react-native-gesture-handler';
 
-<<<<<<< HEAD
-=======
 import UpdatePage  from '../screens/UpdatePage';
->>>>>>> 40f2acd529ad2f186800b9064e3d6404fe64de38
 import CommunityDetail from '../screens/CommunityDetail';
 import CommunityBoard from '../screens/CommunityBoard';
 import Community from '../screens/Community';
 import WritePage from '../screens/WritePage';
-
-import ChatDetail from '../screens/ChatDetail';
-import ChatList from '../screens/ChatList';
 
 const HomeStack = createStackNavigator();
 const HomeScreen = () => {
@@ -38,6 +32,7 @@ const HomeScreen = () => {
       initialRouteName="Home"
       screenOptions={{
         cardStyle: { backgroundColor: '#ffffff' },
+        headerTitleAlign: 'center',
       }}>
       <Stack.Screen
         name="Home"
@@ -47,24 +42,54 @@ const HomeScreen = () => {
           headerTitleStyle: { flex: 1 },
           headerBackTitleVisible: false,
           headerLeft: null,
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Profile')}
-              style={{ marginRight: '13%' }}>
-              <Image
-                source={ProfileIcon}
-                style={{ width: 20, height: 28, marginBottom: '3%' }}
-              />
-            </TouchableOpacity>
-          ),
+          // headerRight: () => (
+          //   <TouchableOpacity
+          //     onPress={() => navigation.navigate('Profile')}
+          //     style={{ marginRight: '13%' }}>
+          //     <Image
+          //       source={ProfileIcon}
+          //       style={{ width: 20, height: 28, marginBottom: '3%' }}
+          //     />
+          //   </TouchableOpacity>
+          // ),
         })}
       />
-      <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="MyArticles" component={MyArticles} />
-      <Stack.Screen name="MyComments" component={MyComments} />
-      <Stack.Screen name="MyReviews" component={MyReviews} />
-      <Stack.Screen name="MyRecords" component={MyRecords} />
-      <Stack.Screen name="MyInfo" component={MyInfo} />
+      <Stack.Screen name="Profile" 
+        component={Profile}
+        options={{
+          headerTitle: "프로필"
+        }}
+      />
+      <Stack.Screen name="MyArticles"
+        component={MyArticles}
+        options={{
+          headerTitle: "내 게시글"
+        }}
+      />
+      <Stack.Screen name="MyComments"
+        component={MyComments} 
+        options={{
+          headerTitle: "내 댓글"
+        }}
+      />
+      <Stack.Screen name="MyReviews"
+        component={MyReviews}
+        options={{
+          headerTitle: "내 코스 후기"
+        }}
+      />
+      <Stack.Screen name="MyRecords"
+        component={MyRecords} 
+        options={{
+          headerTitle: "주행 기록"
+        }}
+      />
+      <Stack.Screen name="MyInfo" 
+        component={MyInfo}
+        options={{
+          headerTitle: "내 정보"
+        }}
+      />
     </HomeStack.Navigator>
   );
 };
@@ -91,13 +116,21 @@ const CourseScreen = () => {
   );
 };
 
-const ChatStack = createStackNavigator();
-const ChatScreen = () => {
+const ProfileStack = createStackNavigator();
+const ProfileScreen = () => {
   return (
-    <ChatStack.Navigator>
-      <Stack.Screen name="ChatList" component={ChatList} />
-      <Stack.Screen name="ChatDetail" component={ChatDetail} />
-    </ChatStack.Navigator>
+    <ProfileStack.Navigator>
+      <Stack.Screen name="Profile"
+        component={Profile}
+        options={{
+          headerTitle: "프로필",
+          headerTitleAlign: 'center',
+          cardStyle: { backgroundColor: '#ffffff' },
+          headerLeft: null,
+        }}
+      />
+      <Stack.Screen name="CommunityDetail" component={CommunityDetail}/>
+    </ProfileStack.Navigator>
   )
 }
 
@@ -116,4 +149,4 @@ const StackNavigation = () => {
   );
 };
 
-export { StackNavigation, HomeScreen, CommunityScreen, CourseScreen, ChatScreen };
+export { StackNavigation, HomeScreen, CommunityScreen, CourseScreen, ProfileScreen };
