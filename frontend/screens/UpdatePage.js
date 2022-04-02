@@ -248,7 +248,7 @@ const UpdatePage = ( { navigation,route } ) => {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="position123" enabled>
       
 
         <View>
