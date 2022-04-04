@@ -21,9 +21,9 @@ public class CenterRepositoryImpl implements CenterRepositoryCustom {
     @Override
     public List<BikeRoad> findBikeRoadByCenterByRange(Double latitude, Double longitude) {
         Location northEast = GeometryUtil
-                .calculate(latitude, longitude, 10.0, Direction.NORTHEAST.getBearing());
+                .calculate(latitude, longitude, 30.0, Direction.NORTHEAST.getBearing());
         Location southWest = GeometryUtil
-                .calculate(latitude, longitude, 10.0, Direction.SOUTHWEST.getBearing());
+                .calculate(latitude, longitude, 30.0, Direction.SOUTHWEST.getBearing());
 
         double x1 = northEast.getLatitude();
         double y1 = northEast.getLongitude();

@@ -15,7 +15,7 @@ const MyReviews = () => {
         return(
           <SeparateBox key={key}>
             <BoxTitle>{el.content}</BoxTitle>
-            <WrittenDate>{el.createedTime.slice(0, 10)}</WrittenDate>
+            <WrittenDate>{el.createdTime.slice(0, 10)}</WrittenDate>
           </SeparateBox>
         )
       })

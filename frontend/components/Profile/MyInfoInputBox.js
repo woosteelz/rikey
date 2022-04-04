@@ -19,9 +19,9 @@ const InputBox = styled.View`
   width:100%;
   height: 100%;
   justify-content: center;
+  margin-bottom: 10%;
 `
 const InputLabel = styled.Text`
-  top: 30%;
   margin-bottom: 5%;
   font-size: 13px;
 `
@@ -32,5 +32,4 @@ const InfoInput = styled.TextInput`
 `
 const InfoBotLine = styled.View`
   border-top-width: 1px;
-  bottom: 12%;
 `

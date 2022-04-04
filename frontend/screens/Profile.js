@@ -28,7 +28,8 @@ const Profile = ({ navigation }) => {
   const [kcal, setKcal] = useState("0")
   const [distance, setdistance] = useState("0")
   const [time, setTime] = useState("0")
-
+  const [moreHour, setMoreHour] = useState('');
+  const [moreMinute, setMoreMinute] = useState('');
   const { userNickName } = useStore();
 
   useEffect(() => {
@@ -40,10 +41,14 @@ const Profile = ({ navigation }) => {
 
       setKcal(response.data.user.weeklyCalories)
       setdistance(response.data.user.weeklyDistance)
+      const theHour = theTime / 60
+      const theMinute = response.data.user.weeklyTime % 60
+      setMoreHour(theHour);
+      setMoreMinute(theMinute);
       setTime(response.data.user.weeklyTime)
       setGetImage(response.data.user.profilePic)
     })
-  }, [])
+  })
 
   return (
 
@@ -79,15 +84,15 @@ const Profile = ({ navigation }) => {
         <WeeklyBox>
           <WeeklyInnerBox title={"누적 칼로리"} imageLink={Fire} measurand={`${kcal} kcal`} />
           <WeeklyInnerBox title={"누적 거리"} imageLink={Bicycle} measurand={`${distance} km`}/>
-          <WeeklyInnerBox title={"누적 시간"} imageLink={Clock} measurand={`${time} 분`} />
+          <WeeklyInnerBox title={"누적 시간"} imageLink={Clock} measurand={time > 60 ? `${moreHour}시간 ${moreMinute}분` : `${time} 분`} />
         </WeeklyBox>
 
         <MyBox>
           <MyInnerBox>
+            <MyHistory content={"나의 주행 기록"} logo={MyRidingRecord} arrow={RightArrow} navigation={navigation} location={"MyRecords"} />
             <MyHistory content={"내가 쓴 글"} logo={MyPencil} arrow={RightArrow} navigation={navigation} location={"MyArticles"} />
             <MyHistory content={"내가 쓴 댓글"} logo={MyComment} arrow={RightArrow} navigation={navigation} location={"MyComments"} />
             <MyHistory content={"내가 쓴 코스 후기"} logo={MyReview} arrow={RightArrow} navigation={navigation} location={"MyReviews"} />
-            <MyHistory content={"나의 주행 기록"} logo={MyRidingRecord} arrow={RightArrow} navigation={navigation} location={"MyRecords"} />
           </MyInnerBox>
         </MyBox>
 
@@ -106,7 +111,7 @@ const TheBox = styled.View`
   align-items: center;
 `
 const TopBox = styled.View`
-  flex: 1.2;
+  flex: 1.3;
   justify-content: center;
   align-items: center;
   background-color : #EFF1F6;
@@ -132,12 +137,12 @@ const ProfileBackBox = styled.View`
   align-items: center;
   background-color: white;
   border-radius: 50px;
-  width : 80px;
-  height: 80px;
+  width : 65px;
+  height: 65px;
 `
 const ProfileImage = styled.Image`
-  width: 74px;
-  height: 74px;
+  width: 60px;
+  height: 60px;
   border-radius: 50px;
 `
 const EditBox = styled.View`
@@ -145,7 +150,7 @@ const EditBox = styled.View`
   flex-direction: row;
   justify-content: flex-end;
   margin-right: 4.5%;
-  margin-bottom: 12.5%;
+  margin-bottom: 13.5%;
 `
 const ProfileEditImage = styled.Image`
   width: 15px;
@@ -155,6 +160,7 @@ const ProfileDetailBox = styled.View`
   flex: 1.2;
   justify-content: center;
   align-items: center;
+  margin-bottom: 3%;
 `
 const NickNameText = styled.Text`
   font-weight: bold;
@@ -163,7 +169,6 @@ const NickNameText = styled.Text`
   margin-top: 1.5%;
 `
 const InstructionText = styled.Text`
-  font-weight: bold;
   color: black;
   font-size: 15px;
 `

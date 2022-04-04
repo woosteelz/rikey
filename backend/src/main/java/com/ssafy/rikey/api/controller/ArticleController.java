@@ -94,7 +94,7 @@ public class ArticleController {
         ArticleDetailResponseDto article = null;
         try {
             article = articleService.getArticle(nickName, articleId);
-            httpStatus = HttpStatus.CREATED;
+            httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (NoSuchElementException e) {
             httpStatus = HttpStatus.BAD_REQUEST;

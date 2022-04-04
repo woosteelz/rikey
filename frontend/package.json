@@ -19,6 +19,7 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "@react-navigation/stack": "^6.1.1",
+    "@stomp/stompjs": "^6.1.2",
     "axios": "^0.26.1",
     "expo-location": "^14.0.2",
     "moment": "^2.29.1",
@@ -35,6 +36,9 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.3.0",
     "react-paypal-express-checkout": "^1.0.5",
+    "sockjs": "^0.3.24",
+    "sockjs-client": "^1.6.0",
+    "stompjs": "^2.3.3",
     "styled-components": "^5.3.3",
     "zustand": "^3.7.1"
   },
