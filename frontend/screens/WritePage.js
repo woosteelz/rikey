@@ -288,7 +288,7 @@ const WritePage = ( { navigation } ) => {
 
             <TextInput
               multiline
-              numberOfLines={30}
+              numberOfLines={15}
               maxLength={450}
               style={styles.inputContent}
               onChangeText={setonChangeContent}

@@ -58,6 +58,14 @@ const Community = ( { navigation } ) => {
           }}
         /> */}
         </TouchableOpacity>
+        <View
+        style={{
+          width:"100%",
+          marginTop:"2%",
+          borderBottomColor: '#969696',
+          borderBottomWidth: 0.5,
+        }}
+      />
         </View>
     })
     const onBoardOverview = () => {
@@ -140,10 +148,10 @@ const Community = ( { navigation } ) => {
             <Image style={{ position:"absolute", width: 90, height: "15%" ,marginTop:"5%", marginLeft:"14.5%"}} source={TitleBack} />
             <Text style={{marginLeft: "3%",marginTop: "2%",fontSize: 16, fontWeight:'bold'}}>커뮤니티 최근글</Text>
             </View>
-            <View style={{marginTop: "5%",width: "90%", height: "45%"}}>
-               
+            <View style={{marginTop: "5%",width: "90%", height: "54%"}}>
+                <ScrollView showsVerticalScrollIndicator={false}>
                 <View>{elements}</View>
-
+                </ScrollView>
             </View>
             <TouchableOpacity style={styles.communityButton} onPress={() => navigation.navigate('CommunityBoard')}> 
               <Text>커뮤니티 모든 글 보기 > </Text>
@@ -161,9 +169,10 @@ const styles = StyleSheet.create({
     elevation : 5
   },
   communityButton : {
-    marginLeft: "auto", 
+    position: 'absolute',
+    marginLeft: "60%", 
     margin: "3%",
-    marginTop: "8%",
+    marginTop: "159%",
     
   },
   communityButton2 : { 

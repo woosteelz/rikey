@@ -286,7 +286,7 @@ const UpdatePage = ( { navigation,route } ) => {
 
             <TextInput
               multiline
-              numberOfLines={30}
+              numberOfLines={20}
               maxLength={450}
               style={styles.inputContent}
               onChangeText={setonChangeContent}
