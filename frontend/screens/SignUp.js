@@ -32,12 +32,12 @@ const SignUp = ({ route, navigation }) => {
 				console.log(response);
 				setUserId(response.data.profile.id);
 				setUserNickName(response.data.profile.nickName);
-
 				navigation.navigate('Tabs')
 
 			})
 
 			.catch((e) => {
+				alert("이미 사용 중인 닉네임입니다!")
 				console.log(e);
 				
 			})
@@ -170,6 +170,7 @@ const SignUpContainer = styled.View`
 
 const SignUpText = styled.Text`
 	font-weight: bold;
+	color: black;
 `
 
 const SignUpInput = styled.TextInput`
