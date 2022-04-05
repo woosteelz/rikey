@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -55,11 +56,23 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articles = null;
 
         if (category.equals("ALL")) {
+            articles = articleRepository.findAllByOrderByIdDesc();
+        } else {
+            articles = articleRepository.findByCategoryOrderByIdDesc(Category.valueOf(category));
+        }
+
+        return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
+    }
+
+    //인기 게시글 조회
+    @Override
+    public List<ArticleResponseDto> getHitArticles(String category) {
+        List<Article> articles = null;
+
+        if (category.equals("ALL")) {
             articles = articleRepository.findRecentlyOrderByHIts();
-            articles.addAll(articleRepository.findAllByOrderByIdDesc());
         } else {
             articles = articleRepository.findRecentlyByCategoryOrderByHIts(category);
-            articles.addAll(articleRepository.findByCategoryOrderByIdDesc(Category.valueOf(category)));
         }
 
         return articles.stream().map(ArticleResponseDto::new).collect(Collectors.toList());
@@ -70,20 +83,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDetailResponseDto getArticle(String nickName, Long articleId) {
         Article article = articleRepository.findById(articleId).get();
-        List<Likey> likeys = likeyRepository.findByArticle(article);
         User user = userRepository.findByNickName(nickName);
-
-        Boolean isLike = false;
-
-        for (Likey likey : likeys) {
-            if (likey.getUser().getId().equals(user.getId())) {
-                isLike = true;
-                break;
-            }
+        System.out.println("user = " + user);
+        Optional<Likey> likey = likeyRepository.findByArticleAndUser(article, user);
+        System.out.println("likey = " + likey);
+        Boolean isLike = true;
+        if (likey.isPresent()) {
+            isLike = false;
         }
 
         article.increaseHits();
-        List<Comment> comments = commentRepository.findByArticle(article);
+        List<Comment> comments = commentRepository.findByArticleOrderByIdDesc(article);
         List<CommentResponseDto> commentResponseDtos = comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
 
         return new ArticleDetailResponseDto(isLike, article, commentResponseDtos);

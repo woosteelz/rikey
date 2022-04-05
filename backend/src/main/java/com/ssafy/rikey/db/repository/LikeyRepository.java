@@ -6,9 +6,10 @@ import com.ssafy.rikey.db.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LikeyRepository extends JpaRepository<Likey, Long>  {
 
-    List<Likey> findByArticle(Article article);
+    Optional<Likey> findByArticleAndUser(Article article, User user);
     void deleteByUserAndArticle(User user, Article article);
 }

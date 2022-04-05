@@ -44,7 +44,7 @@ public class User {
     @JoinColumn(name = "auth_id", unique = true)
     private Auth auth;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Likey> likeArticles = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, orphanRemoval = true)
