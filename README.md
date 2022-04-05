@@ -2,7 +2,7 @@
 
 > RIDE + BIKE = RIKEY 💚
 
-![rikey_logo](/uploads/5d468fb6c97f0ff38d45c26c1016e4b0/rikey_logo.png)
+![rikey_logo](/uploads/1a2020ad742b42f8679f9ef50420e269/rikey_logo.png)
 
 
 ## 프로젝트 소개
