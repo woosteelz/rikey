@@ -1,11 +1,14 @@
 import axios from "axios";
 import React, { Component, useState, useEffect, createRef } from "react";
 import { TouchableWithoutFeedback ,Alert, Button, Keyboard, ScrollView, KeyboardAvoidingView,Image, StyleSheet, View, Text,Dimensions,TouchableOpacity,TextInput, SafeAreaView } from "react-native";
+
 //사진
 import Rikey from '../assets/rikey.png'
 import commentbutton from '../assets/commentbutton.png'
 import hamburgerbutton from '../assets/hamburgerbutton.png'
 import defaultprofiepic from '../assets/images/Default.png'
+import LikeButton from '../assets/images/FilledHeart.png'
+import DisLikeButton from '../assets/images/Heart.png'
 // 상태관리
 import { useStore } from "../states"
 import { useIsFocused } from '@react-navigation/native';
@@ -41,18 +44,23 @@ const CommunityDetail = ( { props, route, navigation} ) => {
   const [articleBoard, setArticleBoard] = useState('');
   const [articlePics, setArticlePics] = useState([]);
   const [articleProfilePic, setprofilePic] = useState('');
+  const [islike,setIslike] = useState(false)
   
   
   // 게시글을 API로 호출하는 함수
   const articleCall = async() => {
-    const response = await axios.get(`http://j6c208.p.ssafy.io/api/articles/${articleId}?nickName=${userId}`)
-    console.log(response.data.article.content)
+ 
+    const response = await axios.get(`http://j6c208.p.ssafy.io/api/articles/${articleId}?nickName=${userNickName}`)
+    console.log(response.data)
     setArticleContent(response.data.article.content)
     setArticleTitle(response.data.article.title)
     setArticleComment(response.data.article.commentList)
     setArticleBoard(response.data.article.category)
+    console.log(response.data.article.isLike)
+    setIslike(response.data.article.isLike)
     setArticlePics(response.data.article.pics)
     setprofilePic(response.data.article.profilePic)
+
     var detaildate = moment(response.data.article.createdTime).format("YYYY-MM-DD HH:mm:ss")
     setArticleTime(moment(detaildate).fromNow())
     console.log(articleComment)
@@ -173,8 +181,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
     
 
     const CommentBox = ({props}) => {
-    console.log('프롭스에요',props)
-    console.log('프롭스주세요')
+
     return(
           <View style={{marginBottom: "2%"}}>
          <TouchableOpacity onPress={ () => {
@@ -188,12 +195,12 @@ const CommunityDetail = ( { props, route, navigation} ) => {
               }}>
         <View style={{flexDirection: "row"}}>
           { props.profilePic ?
-            <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%" ,borderRadius: 15}} source={{uri : props.item.profilePic}}/>
+            <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%" ,borderRadius: 15}} source={{uri : props.profilePic}}/>
             :
             <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%"}} source={defaultprofiepic}/>
           }
           <Text style={{fontWeight:"bold", color:'#282828',marginTop:"1%"}}>{props.author}</Text>
-          {/* <Text style={{marginLeft: "5%", marginTop:"1%"}}>{props.gapCommentTime}</Text> */}
+          <Text style={{marginLeft: "5%", marginTop:"1%"}}>{moment(props.commentTime).fromNow()}</Text>
           {
             userNickName === props.author ?
             <View>
@@ -258,9 +265,50 @@ const CommunityDetail = ( { props, route, navigation} ) => {
       console.log(response)
     }
     
+    
+    // 좋아요 로직
+    const SendIsLike = () =>{
+      
+      { islike ?
+        
+        UnLikePost()
+        
+        :
+        
+        LikePost()
+
+      }
+    }
+      // 좋아요 전송 로직
+      const LikePost = async() =>{
+        const response = await axios.post('http://j6c208.p.ssafy.io/api/likes',{
+          
+          articleId : articleId,
+          userId : userId
+        })
+        console.log(response)
+        setIslike(true)
+
+      }
+
+      // 좋아요 삭제 로직
+      const UnLikePost = async() =>{
+        const response = await axios.delete('http://j6c208.p.ssafy.io/api/likes',{
+
+          data : {
+          articleId : articleId,
+          userId : userId
+          }
+
+        })
+        console.log(response)
+        setIslike(false)
+
+      }
+    ///
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="position" enabled>
       <ScrollView>
       
       <View>
@@ -289,10 +337,10 @@ const CommunityDetail = ( { props, route, navigation} ) => {
         <Image style={{ resizeMode: "cover", height: 60, width: 60}} source={defaultprofiepic} />
         }
         <View>
-          <View style={{flexDirection: "row" ,justifyContent:"space-around"}}>
+          <View style={{flexDirection: "row"}}>
           <Text style={{fontWeight: "bold", marginLeft:"5%",fontSize:20, color:"black"}}>{articleAuthor}</Text>
           { (articleAuthor === userNickName) ?
-          <TouchableOpacity style={{flex:0.01, marginLeft:"27%",marginTop:"1%"}} onPress={()=> SheetManager.show("article_sheet")}>
+          <TouchableOpacity style={{position:"absolute", marginLeft:screenWidth - screenWidth*0.3,marginTop:"1%"}} onPress={()=> SheetManager.show("article_sheet")}>
           <Image style={{resizeMode:"cover", width:20, height:20}} source={hamburgerbutton}/>
           
           <ActionSheet id="article_sheet" ref={articleActionSheetRef}>
@@ -342,11 +390,18 @@ const CommunityDetail = ( { props, route, navigation} ) => {
           <Text style={{marginLeft:"6%" ,fontSize: 14, color:"#484848"}}>
           {articleContent}  
           </Text>
+          { islike ?
           
-
-
+          <TouchableOpacity onPress={()=>SendIsLike()}>
+          <Image style={{resizeMode:"center", width: 30, height: 30, marginRight:"4%", marginLeft:"auto", marginTop:"4%"}} source={LikeButton}/>
+          </TouchableOpacity>
+          :
+          <TouchableOpacity onPress={()=>SendIsLike()}>
+          <Image style={{resizeMode:"center", width: 30, height: 30, marginRight:"4%", marginLeft:"auto", marginTop:"4%"}} source={DisLikeButton}/>
+          </TouchableOpacity>
+          }
           <View style={{flexDirection: "row"}}>
-          <View style={{width:"90%",flex : 0.9}}>
+          <View style={{width:"90%"}}>
           
           <SafeAreaView>
             <TextInput
@@ -361,7 +416,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
           
           </SafeAreaView>
           </View>
-          <View style={{ backgroundColor: "#969696", marginTop:"9%", height:"57.5%",width:"10%", flex:0.1}} >
+          <View style={{ backgroundColor: "#969696", marginTop:"2.6%", height:"83%",width:"10%"}} >
           <TouchableOpacity onPress={() => WriteComment()}>
             <View style={{position:'absolute' , marginLeft: "17%" ,marginTop: "25%", zIndex: 2}}>
             <Image style={{ resizeMode: "cover", height: 25, width: 25, zIndex: 2}} source={commentbutton}/>
@@ -371,7 +426,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
         </View>
 
 
-
+          
         <View style={{marginTop: "5%" ,marginLeft: "3%"}}>
           {/* {commentboard} */}
           {articleComment.map( (item,key) => {
@@ -394,7 +449,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
 const styles = StyleSheet.create({
   input : {
     paddingLeft: 15,
-    marginTop:"10%",
+    marginTop:"3%",
     backgroundColor: "#969696",
     zIndex: 1,
   },

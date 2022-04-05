@@ -19,6 +19,7 @@ const Home = ({ navigation }) => {
   const [humidity, setHumidity] = useState('');
   const [windSpeed, setWindSpeed] = useState('');
   const [clouds, setClouds] = useState('');
+  const [icon, setIcon] = useState('');
   
   const [dayNight, setDayNight] = useState('');
   const [hours, setHours] = useState('');
@@ -49,6 +50,8 @@ const Home = ({ navigation }) => {
     try {
       const url = await getLocation();
       const response = await axios.get(url)
+      console.log(response);
+      setIcon(response.data.weather[0].icon);
       setWeather(response.data.weather[0].description);
       setTemp( Math.ceil(response.data.main.temp * 10) / 10);
       setHumidity(response.data.main.humidity);
@@ -78,6 +81,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     getWeather();
     getClock();
+    console.log(icon);
   }, [])
 
   return (
@@ -87,7 +91,8 @@ const Home = ({ navigation }) => {
 
         <WeatherBox>
           <TopBox>
-            <Image source={ClearSky} />
+            <WeatherImage source={{ uri : `http://openweathermap.org/img/wn/${icon}@2x.png` }} />
+            {/* <Image source={ClearSky} /> */}
             {/* <Text>{weather}</Text> */}
             <WeatherTextBox>
               <WeatherText>{year}년 {month}월 {day}일</WeatherText>
@@ -189,12 +194,15 @@ const TopBox = styled.View`
   justify-content : center;
   align-items: center;
 `
+const WeatherImage = styled.Image`
+  width: 55px;
+  height: 55px;
+`
 const WeatherTextBox = styled.View`
   margin-top: 2.5%;
   justify-content : center;
   align-items: center;
 `
-
 const BottomBox = styled.View`
   flex: 1;
   flex-direction : row;
