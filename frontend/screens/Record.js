@@ -56,13 +56,13 @@ function getKcal(d, t, weight) {
   if (speed > 40) {
     speed = 40;
   }
-  console.log(speed);
-  console.log(d, t, kcalConsumption[speed], speed);
+  // console.log(speed);
+  // console.log(d, t, kcalConsumption[speed], speed);
   return (weight * 1000 * kcalConsumption[speed] * t) / 60;
 }
 
 // 2개의 위도 경도 입력시 거리 반환(KM)
-function getDIstance(prevLat, prevLng, currLat, currLng) {
+function getDistance(prevLat, prevLng, currLat, currLng) {
   const toRad = x => (x * Math.PI) / 180;
   const R = 6371; // 지구 반지름
 
@@ -107,20 +107,21 @@ function Record({ navigation }) {
       _watchId = Geolocation.watchPosition(
         position => {
           const { latitude, longitude } = position.coords;
-          const dis = getDIstance(
+          const dis = getDistance(
             latitude,
             longitude,
-            wayPoint[0].latitude,
-            wayPoint[0].longitude,
+            wayPoint[wayPoint.length - 1].latitude,
+            wayPoint[wayPoint.length - 1].longitude,
           );
           // console.log('변경위치: ', latitude, longitude);
-          console.log('거리, 시간', distance, time);
+          // console.log('거리, 시간', distance, time);
           setLocation({ latitude, longitude });
           setDistance(state => state + dis);
           setKcal(
             state => state + getKcal(distance, (time + 1) / 1000, WEIGHT),
           );
-          setWayPoint(state => [{ latitude, longitude }, ...state]);
+          setWayPoint(state => [...state, { latitude, longitude }]);
+          // console.log('waypoint', wayPoint);
         },
         error => {
           console.log(error);
@@ -240,6 +241,7 @@ function Record({ navigation }) {
           provider={Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE} // ios일 경우 apple map 사용
           showsUserLocation={true}
           showsMyLocationButton={true} // 현재위치 업데이트 버튼은 Google Map일 경우만 렌더링 됨
+          followsUserLocation={true}
           style={styles.map}
           region={{
             latitude: !isEmptyObj(location) ? location.latitude : 37.510425,
