@@ -240,7 +240,7 @@ const CommunityBoard = ( { navigation } ) => {
         (service === "RECRUIT" ?
         <Text style={{ fontSize: 16, marginLeft: "2%", fontWeight:"bold", marginTop: "5%",width : "30%"}}> 라이딩크루 모집</Text>
         :
-        <Text style={{ fontSize: 16, marginLeft: "2%", fontWeight:"bold", marginTop: "5%",width : "40%"}}> 커뮤니티 게시판</Text>
+        <Text style={{ fontSize: 16, marginLeft: "2%", color:"black", fontWeight:"bold", marginTop: "5%",width : "40%"}}> 커뮤니티 게시판</Text>
         )
         }
         {/* <Text style={{ flex:0.9, marginTop: "5%", textAlign: "right"}} >분류 : </Text> */}

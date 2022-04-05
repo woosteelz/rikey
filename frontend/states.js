@@ -18,6 +18,9 @@ const useStore = create(set => ({
   // 사용자 nickName
   userNickName: '',
   setUserNickName: givenNickName => set({ userNickName: givenNickName }),
+  // 사용자 area
+  userArea: '',
+  setUserArea: givenUserArea => set({ userArea: givenUserArea })
 }));
 
 const useUserInput = create(set => ({

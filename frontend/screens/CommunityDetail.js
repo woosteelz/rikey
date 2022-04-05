@@ -261,35 +261,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
       </View>
     )}
     ////////////////////
-    function MissType() {
-      const [show, setShow] = React.useState(true);
-      return <Box w="100%" alignItems="center">
-          <Collapse isOpen={show}>
-            <Alert w="90%" maxW="400" status="error">
-              <VStack space={1} flexShrink={1} w="100%">
-                <HStack flexShrink={1} space={2} alignItems="center" justifyContent="space-between">
-                  <HStack flexShrink={1} space={2} alignItems="center">
-                    <Alert.Icon />
-                    <Text fontSize="md" fontWeight="medium" _dark={{
-                    color: "coolGray.800"
-                  }}>
-                      작성오류
-                    </Text>
-                  </HStack>
-                  <IconButton variant="unstyled" icon={<CloseIcon size="3" color="coolGray.600" />} onPress={() => setShow(false)} />
-                </HStack>
-                <Box pl="6" _dark={{
-                _text: {
-                  color: "coolGray.600"
-                }
-              }}>
-                  한글자 이상 작성하셔야 합니다!
-                </Box>
-              </VStack>
-            </Alert>
-          </Collapse>
-        </Box>;
-    }
+
     // 댓글작성 로직
     const WriteComment = async() => {
       if (text) {
@@ -351,10 +323,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
       }
     ///
 
-      const temp = () => {
-        console.log(navigation.navigate('WritePage'))
-        console.log(navigation.goBack())
-      }
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="position" enabled>
@@ -440,7 +409,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
           <Text style={{marginLeft:"6%" ,fontSize: 14, color:"#484848"}}>
           {articleContent}
           </Text>
-          <View style={{ flexDirection: "row",marginLeft:"5%", marginTop:"5%"}} >
+          <View style={{ flexDirection: "row",marginLeft:"5%", marginTop:"5%",marginRight:"3%"}} >
           {ArticlePicutres}
           </View>
           
