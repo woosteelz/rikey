@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import { KeyboardAvoidingView,Image, StyleSheet, View, Text,Dimensions,TouchableOpacity,
-  TextInput, Keyboard, TouchableWithoutFeedback, Button,SafeAreaView,ScrollView } from "react-native";
+  TextInput, Keyboard, TouchableWithoutFeedback, Button,SafeAreaView,ScrollView,Alert } from "react-native";
 import { Radio, NativeBaseProvider,Center,} from "native-base";
 
 //사진 임포트한 부분
@@ -214,6 +214,15 @@ const WritePage = ( { navigation } ) => {
   };
     // 글쓰기버튼 클릭
     const writeprocessTemp = async() => {
+      if (!onChangeTitle) {
+        Alert.alert('제목 미입력', '제목을 입력하세요.')
+        return
+      }else{ if (!onChangeTitle){
+        Alert.alert('내용 미입력', '내용을 입력하세요.')
+        return
+      }
+      
+      }
       console.log("여기는지낫나요")
       const urls = await uploadprocess()
       console.log("글쓰기시", urls)
@@ -288,7 +297,7 @@ const WritePage = ( { navigation } ) => {
 
             <TextInput
               multiline
-              numberOfLines={30}
+              numberOfLines={15}
               maxLength={450}
               style={styles.inputContent}
               onChangeText={setonChangeContent}
@@ -303,15 +312,26 @@ const WritePage = ( { navigation } ) => {
             </NativeBaseProvider> */}
          
          <View>
+            <View
+            style={{
+              width:"95%",
+              marginTop:"2%",
+              marginLeft:"2.5%",
+              marginBottom:"3%",
+              borderBottomColor: '#969696',
+              borderBottomWidth: 0.5,
+            }}
+          />
           <TouchableOpacity
 
-            style={{backgroundColor:"#DDDDDD"}}
+            
             onPress={handleImagePicker}
           >
           {
             images.length !== 0 ?
           <View style={{ marginLeft: "5%", flexDirection: "row"}}>
-
+ 
+          
             {imagepreview}
 
           </View>
@@ -353,7 +373,7 @@ const styles = StyleSheet.create({
     height: 36,
     margin: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "grey",
+    borderBottomColor: "#AAAAAA",
     padding: 4,
   },
   inputContent: {
@@ -362,7 +382,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     height: "50%",
     margin: 12,
-    borderBottomColor: "grey",
+
     padding: 5,
   },
   

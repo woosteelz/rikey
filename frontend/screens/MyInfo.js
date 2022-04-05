@@ -19,9 +19,7 @@ const MyInfo = ({ navigation }) => {
   const [weight, setWeight] = useState('');
   const [image, setImage] = useState('');
 
-  const [defaultImage, setDefaultImage] = useState('https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4arX/image/FToC1jQw1U0mAhJYnEmTPg7ZQD8.jpg');
-
-  const { userId, userNickName, setUserNickName } = useStore();
+  const { userId, userNickName, setUserNickName, setUserArea } = useStore();
 
   const editProfile = () => {
     API.put('/users', {
@@ -35,6 +33,7 @@ const MyInfo = ({ navigation }) => {
     })
     .then(() => {
       setUserNickName(nickName);
+      setUserArea(area);
       navigation.navigate("Profile")
     })
   }
@@ -125,8 +124,7 @@ const MyInfo = ({ navigation }) => {
 
             <Profileflex>
               <ProfileImageBox>
-                {/* <ProfileImage source={{ uri : image }} /> */}
-                <ProfileImage source={ image ? { uri : image } : { uri : defaultImage }} />
+                <ProfileImage source={ image ? { uri : image } :  Black } />
                 <TouchableOpacity
                   onPress={() => sendImages()}
                 >
@@ -250,6 +248,7 @@ const InputBox = styled.View`
 const InputLabel = styled.Text`
   margin-bottom: 5%;
   font-size: 13px;
+  color: black;
 `
 const ButtonContainer = styled.View`
   top: 5%;

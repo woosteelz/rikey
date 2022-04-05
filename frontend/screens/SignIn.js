@@ -6,6 +6,7 @@ import {
   Button,
   Platform,
   Image,
+  PermissionsAndroid
 } from "react-native";
 import { NaverLogin, getProfile } from "@react-native-seoul/naver-login";
 import styled from "styled-components";
@@ -50,13 +51,27 @@ const getUserProfile = async (token) => {
   }
 }; 
 
+async function requestPermission() {
+  try {
+    if (Platform.OS === 'ios') {
+      return await Geolocation.requestAuthorization('always');
+    }
+    if (Platform.OS === 'android') {
+      return await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 // Promise: https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise
 
 // naverLogin: token => getUserProfile(token): naverId
 const SignIn = ({ navigation }) => {
-  const { setUserId, setUserNickName } = useStore();
+  const { setUserId, setUserNickName, setUserArea } = useStore();
 
   // const naverLogout = () => {
   //   NaverLogin.logout();
@@ -64,6 +79,10 @@ const SignIn = ({ navigation }) => {
   //   setUserNaverId('');
   //   console.log('로그아웃 완료')
   // };
+
+  useEffect(() => {
+    requestPermission();
+  }, [])
 
   const naverLoginProcess = async () => {
     try {
@@ -88,6 +107,7 @@ const SignIn = ({ navigation }) => {
           // 반환 success면 Home으로 가기
           setUserId(result.id);
           setUserNickName(result.nickName);
+          setUserArea(result.area.name)
           navigation.navigate('Tabs');
         }
       })
@@ -199,6 +219,7 @@ const BikeImg = styled.Image`
 const LoginText = styled.Text`
   font-size: 20px;
   font-weight: bold;
+  color: black;
 `
 const LoginButton = styled.Button`
 `

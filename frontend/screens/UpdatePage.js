@@ -286,12 +286,12 @@ const UpdatePage = ( { navigation,route } ) => {
 
             <TextInput
               multiline
-              numberOfLines={30}
+              numberOfLines={20}
               maxLength={450}
               style={styles.inputContent}
               onChangeText={setonChangeContent}
               value={onChangeContent}
-              placeholder="내용"
+              placeholder="내용을 입력하세요"
             />
             
             {/* <NativeBaseProvider>
@@ -301,12 +301,24 @@ const UpdatePage = ( { navigation,route } ) => {
             </NativeBaseProvider> */}
          
          <View>
+         <View
+            style={{
+              width:"95%",
+              marginTop:"2%",
+              marginLeft:"2.5%",
+              marginBottom:"3%",
+              borderBottomColor: '#969696',
+              borderBottomWidth: 0.5,
+            }}
+          />
           <TouchableOpacity
 
             style={{marginLeft: "5%"}}
             onPress={handleImagePicker}
           >
-          {
+          { (imagepreview.length === 0) ?
+          <Image style={{marginLeft: "5%", height: 100, width: 100}} source={WooSteel} />
+          :
             (flag) ?
           <View style={{ flexDirection: "row" }}>
 
@@ -362,8 +374,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     height: "50%",
     margin: 12,
-    borderWidth: 1,
-    borderBottomColor: "grey",
+
     padding: 5,
   },
   

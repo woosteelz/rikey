@@ -14,6 +14,7 @@ import RidingMan from '../assets/images/RidingMan.png'
 
 const Home = ({ navigation }) => {
 
+  const API_KEY = "4ed0ebc28fd6064863095c9cd2c107e1"
   const [weather, setWeather] = useState('맑음');
   const [temp, setTemp] = useState('');
   const [humidity, setHumidity] = useState('');
@@ -27,8 +28,20 @@ const Home = ({ navigation }) => {
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
+  const date = new Date();
 
-  const API_KEY = "4ed0ebc28fd6064863095c9cd2c107e1"
+  const weekday = date.getDay();
+  const safetyInstructions = [
+    ["안전모 착용하기", "자전거 운전자 및 동승자는 반드시 안전모 착용"],
+    ["자전거 음주운전 금지","음주 후 자전거를 운행하면 도로교통법에 의해 처벌"],
+    ["야간 운행 시 라이트 켜기", "사고 예방을 위해 야간 전조등과 후미등 장착"],
+    ["주행 시 휴대전화, 이어폰 사용하지 않기", "주변 상황을 둘러보지 못해 사고 위험이 큼"],
+    ["자전거 도로 주행은 이렇게!", "자전거도로가 설치된 경우 자전거 도로로, 자전거 도로가 없는 경우 도로 우측 가장자리에 붙어서 이용"],
+    ["2대 이상 나란히 차도를 통행하지 않기", "안전표지로 통행이 허용된 경우는 제외"],
+    ["안전한 전기자전거 운행", "일정한 요건을 갖춘 전기자전거만 자전거도로 통행 허용"]
+  ]
+  const [safetyTitle, safetyContent] = safetyInstructions[weekday]
+
 
   const getLocation = () => {
     return new Promise((resolve, reject) => {
@@ -45,12 +58,10 @@ const Home = ({ navigation }) => {
         }
     )})
   }
-
   const getWeather = async () => {
     try {
       const url = await getLocation();
       const response = await axios.get(url)
-      console.log(response);
       setIcon(response.data.weather[0].icon);
       setWeather(response.data.weather[0].description);
       setTemp( Math.ceil(response.data.main.temp * 10) / 10);
@@ -62,8 +73,6 @@ const Home = ({ navigation }) => {
     catch(e) {
     }
   }
-
-  const date = new Date();
   const getClock = () => {
     setYear(date.getFullYear());
     setMonth(date.getMonth() + 1);
@@ -81,7 +90,6 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     getWeather();
     getClock();
-    console.log(icon);
   }, [])
 
   return (
@@ -158,8 +166,8 @@ const Home = ({ navigation }) => {
           </TitleBox>
 
           <InstructBox>
-            <InstructTitle>자전거 도로 주행은 이렇게!</InstructTitle>
-            <InstructDetail>자전거도로가 설치된 경우 자전거 도로로, 자전거 도로가 없는 경우 도로 우측 가장자리에 붙어서 이용</InstructDetail>
+            <InstructTitle>{safetyTitle}</InstructTitle>
+            <InstructDetail>{safetyContent}</InstructDetail>
           </InstructBox>
 
         </SafeBox>
@@ -187,6 +195,7 @@ const WeatherText = styled.Text`
   color: #979797;
   font-weight: bold;
   font-size: 15px;
+  color: black;
 `
 
 const TopBox = styled.View`
@@ -285,4 +294,5 @@ const InstructDetail = styled.Text`
   text-align: center;
   font-weight: bold;
   font-size: 15px;
+  color: black;
 `

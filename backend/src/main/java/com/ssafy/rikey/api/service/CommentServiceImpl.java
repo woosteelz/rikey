@@ -79,11 +79,4 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    // 게시글 내 댓글 리스트 조회
-    @Override
-    public List<CommentResponseDto> getCommentList(Long articleId) {
-        Article article = articleRepository.findById(articleId).get();
-        List<Comment> comments = commentRepository.findByArticle(article);
-        return comments.stream().map(CommentResponseDto::new).collect(Collectors.toList());
-    }
 }
