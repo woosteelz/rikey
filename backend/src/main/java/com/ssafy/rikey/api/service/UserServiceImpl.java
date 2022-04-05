@@ -93,19 +93,19 @@ public class UserServiceImpl implements UserService {
 
     // 칼로리, 거리, 시간으로 랭킹 조회
     @Override
-    public List<Integer> getRankings(String nickname, String area) {
+    public List<Integer> getRankings(String nickname, Area area) {
         List<Integer> rankingList = new ArrayList<>();
         User user = userRepository.findByNickName(nickname);
 
-        List<User> usersByCalorie = userRepository.findAllByAreaOrderByCumulCalorieDesc(Area.valueOf(area));
+        List<User> usersByCalorie = userRepository.findAllByAreaOrderByCumulCalorieDesc(area);
         int rankingByCalorie = usersByCalorie.indexOf(user);
         rankingList.add(rankingByCalorie + 1);
 
-        List<User> usersByDistance = userRepository.findAllByAreaOrderByCumulDistanceDesc(Area.valueOf(area));
+        List<User> usersByDistance = userRepository.findAllByAreaOrderByCumulDistanceDesc(area);
         int rankingByDistance = usersByDistance.indexOf(user);
         rankingList.add(rankingByDistance + 1);
 
-        List<User> usersByTime = userRepository.findAll3ByAreaOrderByCumulTimeDesc(Area.valueOf(area));
+        List<User> usersByTime = userRepository.findAll3ByAreaOrderByCumulTimeDesc(area);
         int rankingsByTime = usersByTime.indexOf(user);
         rankingList.add(rankingsByTime + 1);
 
