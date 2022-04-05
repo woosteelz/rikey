@@ -51,7 +51,29 @@ async function requestPermission() {
   }
 }
 
-// 칼로리 계산
+const getCurrTime = async () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = ('0' + (today.getMonth() + 1)).slice(-2);
+  const day = ('0' + today.getDate()).slice(-2);
+  const hours = ('0' + today.getHours()).slice(-2);
+  const minutes = ('0' + today.getMinutes()).slice(-2);
+  const seconds = ('0' + today.getSeconds()).slice(-2);
+  return (
+    year +
+    '-' +
+    month +
+    '-' +
+    day +
+    ' ' +
+    hours +
+    ':' +
+    minutes +
+    ':' +
+    seconds +
+    '.500'
+  );
+};
 
 // 2개의 위도 경도 입력시 거리 반환(KM)
 function getDistance(prevLat, prevLng, currLat, currLng) {
@@ -80,6 +102,9 @@ function Record({ navigation }) {
   const [record, setRecord] = useState(false); // 기록 시작 / 중지
   const [kcal, setKcal] = useState(0); // 소비 칼로리
   const [distance, setDistance] = useState(0); // 주행 거리
+
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
 
   // stopwatch
   const [isActive, setIsActive] = useState(false);
@@ -118,14 +143,16 @@ function Record({ navigation }) {
             wayPoint[wayPoint.length - 1].latitude,
             wayPoint[wayPoint.length - 1].longitude,
           );
-          const cal = (2.3 * WEIGHT) / 900;
-          // console.log('변경위치: ', latitude, longitude);
-          // console.log('거리, 시간', distance, time);
+
+          if (dis >= 0.005) {
+            const cal = (2.3 * WEIGHT) / 900;
+            setKcal(state => state + cal);
+          }
+
           setLocation({ latitude, longitude });
           setDistance(state => state + dis);
-          setKcal(state => state + cal);
+
           setWayPoint(state => [...state, { latitude, longitude }]);
-          // console.log('waypoint', wayPoint);
         },
         error => {
           console.log(error);
@@ -133,8 +160,6 @@ function Record({ navigation }) {
         {
           enableHighAccuracy: true,
           distanceFilter: 0,
-          // interval: 500000,
-          // fastestInterval: 2000,
         },
       );
       return () => {
@@ -163,17 +188,17 @@ function Record({ navigation }) {
   // 내 위치정보 가져오기
   const getMyPosition = () => {
     requestPermission().then(res => {
-      console.log(res);
+      // console.log(res);
       if (res === 'granted') {
         setGranted(true);
         Geolocation.getCurrentPosition(
           pos => {
             const { latitude, longitude } = pos.coords;
-            console.log('내 위치', latitude, longitude);
+            // console.log('내 위치', latitude, longitude);
             setLocation({ latitude, longitude });
             if (wayPoint.length === 0) {
               setWayPoint([{ latitude, longitude }]);
-              console.log('웨이포인트', wayPoint);
+              // console.log('웨이포인트', wayPoint);
             }
             axios({
               url: 'http://j6c208.p.ssafy.io/api/bikeRoads/facilities',
@@ -234,34 +259,50 @@ function Record({ navigation }) {
   };
 
   // 위치기록 시작하기 + Stopwatch 시작
-  const recordStart = () => {
+  const recordStart = async () => {
+    if (startTime === '') {
+      try {
+        const currTime = await getCurrTime();
+        console.log(currTime);
+        setStartTime(currTime);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     setRecord(true);
     setIsActive(true);
     setIsPaused(false);
   };
 
   // 위치기록 중단하기
-  const recordStop = () => {
-    axios({
-      url: 'http://j6c208.p.ssafy.io/api/ridings',
-      method: 'post',
-      data: {
-        userId,
-        ridingTime: time / 3600000,
-        ridingCalorie: Math.round(kcal * 10) / 10,
-        ridingDist: Math.round(distance * 10) / 10,
-        startTime: '2022-02-01 23:59:59.500',
-        endTime: '2022-02-01 23:59:59.500',
-      },
-    })
-      .then(res => {
-        alert('주행 정보가 성공적으로 기록되었습니다');
-        console.log(res);
+  const recordStop = async () => {
+    try {
+      const currTime = await getCurrTime();
+      console.log(currTime);
+      axios({
+        url: 'http://j6c208.p.ssafy.io/api/ridings',
+        method: 'post',
+        data: {
+          userId,
+          ridingTime: time / 60000,
+          ridingCalorie: Math.round(kcal * 10) / 10,
+          ridingDist: Math.round(distance * 10) / 10,
+          startTime,
+          endTime: currTime,
+        },
       })
-      .catch(err => {
-        alert('등록에 실패하였습니다');
-        console.log(err);
-      });
+        .then(res => {
+          alert('주행 정보가 성공적으로 기록되었습니다');
+          console.log(res);
+        })
+        .catch(err => {
+          alert('등록에 실패하였습니다');
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+    setStartTime('');
     setRecord(false);
     setIsActive(false);
     setDistance(0);

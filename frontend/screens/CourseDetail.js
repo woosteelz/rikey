@@ -192,7 +192,6 @@ const CourseDetail = ({ route, navigation }) => {
                 resizeMode: 'contain',
                 height: 20,
                 width: 20,
-                marginLeft: 20,
                 tintColor: 'black',
               }}
             />
@@ -261,7 +260,7 @@ const CourseDetail = ({ route, navigation }) => {
                 source={require('../assets/icons/star.png')}
               />
               <Text style={{ fontSize: 21, color: '#024430' }}>
-                {!detail.score === 'NaN'
+                {detail.score !== 'NaN'
                   ? Math.round(detail.score * 10) / 10
                   : 0}
               </Text>
@@ -292,7 +291,7 @@ const CourseDetail = ({ route, navigation }) => {
                 marginLeft: 10,
                 color: 'black',
               }}>
-              코스 거리 : ??Km
+              코스 거리 : 추후 업데이트 예정
             </Text>
             <Text
               style={{
@@ -319,7 +318,13 @@ const CourseDetail = ({ route, navigation }) => {
               }}>
               코스 설명
             </Text>
-            <Text style={{ fontSize: 15, margin: 20, marginTop: -3 }}>
+            <Text
+              style={{
+                fontSize: 15,
+                margin: 20,
+                marginTop: -3,
+                color: 'black',
+              }}>
               {detail.introduce}
             </Text>
             <Text
