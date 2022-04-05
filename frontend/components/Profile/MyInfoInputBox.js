@@ -24,6 +24,7 @@ const InputBox = styled.View`
 const InputLabel = styled.Text`
   margin-bottom: 5%;
   font-size: 13px;
+  color: black;
 `
 const InfoInput = styled.TextInput`
   width: 50%;

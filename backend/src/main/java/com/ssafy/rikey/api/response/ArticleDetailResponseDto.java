@@ -35,7 +35,7 @@ public class ArticleDetailResponseDto {
     @ApiModelProperty(value = "게시글 수정일", example = "2022-02-01 23:59:59.500")
     private LocalDateTime modifiedTime;
 
-    @ApiModelProperty(value = "게시글 좋아요수", example = "1")
+    @ApiModelProperty(value = "게시글 좋아요 여부", example = "1")
     private Boolean isLike;
 
     @ApiModelProperty(value = "게시글 조회수", example = "1")
@@ -49,6 +49,9 @@ public class ArticleDetailResponseDto {
 
     @ApiModelProperty(value = "게시글 작성자 닉네임", example = "영하")
     private String author;
+
+    @ApiModelProperty(value = "유저 사진 경로", example = "ftpServerUrl/pic.jpg")
+    private String profilePic;
 
     @ApiModelProperty(value = "댓글 리스트")
     @ElementCollection
@@ -66,6 +69,7 @@ public class ArticleDetailResponseDto {
         category = article.getCategory();
         likeCnt = article.getLikeUsers().size();
         author = article.getAuthor().getNickName();
+        profilePic = article.getAuthor().getProfile_pic();
         this.isLike = isLike;
         commentList = commentResponseDtos;
     }
