@@ -8,7 +8,7 @@
 ## 프로젝트 소개
 
 * 프로젝트명: RIKEY
-* 개발 기간: 2022.02.28 ~ 2022.04.08
+* 개발 기간: 2022.02.21 ~ 2022.04.08
 * 서비스 특징 및 주요기능
   - 오늘의 날씨, 라이딩 안전 수칙 등의 정보 제공
   - 내 위치를 기준으로 가까운 자전거 코스 추천
@@ -60,10 +60,11 @@
     <td align="center"><a href="https://github.com/kimhyeongjun95"><img src="https://avatars.githubusercontent.com/u/86656921?v=4" width="100px;" alt=""/><br /><sub><b>김형준<br>Front-end</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/hongjungkimm"><img src="https://avatars.githubusercontent.com/u/87457152?v=4" width="100px;" alt=""/><br /><sub><b>김홍중<br>Back-end</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/yeongsummer"><img src="https://avatars.githubusercontent.com/u/87457128?v=4" width="100px;" alt=""/><br /><sub><b>장영하<br>Back-end</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/DongKyunJung"><img src="https://avatars.githubusercontent.com/u/87457171?v=4" width="100px;" alt=""/><br /><sub><b>정동균<br>Front-stack</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/DongKyunJung"><img src="https://avatars.githubusercontent.com/u/87457171?v=4" width="100px;" alt=""/><br /><sub><b>정동균<br>Front-end</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/woosteelz"><img src="https://avatars.githubusercontent.com/u/48507475?v=4" width="100px;" alt=""/><br /><sub><b>정우철<br>Front-end</b></sub></a><br /></td>
     </tr>
 </table>
+
 
 
 
