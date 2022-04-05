@@ -12,6 +12,9 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
+
+import { LogoTitle } from '../components/Header/LogoTitle';
+
 import { useStore } from '../states';
 import axios from 'axios';
 
@@ -66,7 +69,6 @@ const CustomCommentList = ({ reviewList }) => {
 
 const CourseDetail = ({ route, navigation }) => {
   const [detail, setDetail] = useState({});
-  const [size, setSize] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
 
   const [content, setContent] = useState('');
@@ -135,13 +137,12 @@ const CourseDetail = ({ route, navigation }) => {
   }, [modalVisible]);
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, backgroundColor: 'white' }}>
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
         <View style={{ ...styles.centeredView }}>
@@ -176,151 +177,207 @@ const CourseDetail = ({ route, navigation }) => {
           </View>
         </View>
       </Modal>
-      <ScrollView style={{ backgroundColor: 'white' }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+      <View style={{ backgroundColor: 'white' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
           <TouchableOpacity
-            style={styles.communityButton2}
+            style={{ alignSelf: 'center' }}
             onPress={() => navigation.navigate('Course')}>
-            <Text> ← 뒤로 </Text>
+            <Image
+              source={require('../assets/images/Back.png')}
+              style={{
+                resizeMode: 'contain',
+                height: 20,
+                width: 20,
+                marginLeft: 20,
+                tintColor: 'black',
+              }}
+            />
           </TouchableOpacity>
-          <Image
-            style={{
-              resizeMode: 'cover',
-              height: 80,
-              width: 160,
-              marginLeft: 30,
-            }}
-            source={require('../assets/rikey.png')}
-          />
+          <View style={{ alignSelf: 'center' }}>
+            <Image
+              style={{
+                resizeMode: 'contain',
+                height: 70,
+                width: 140,
+                marginLeft: -25,
+              }}
+              source={require('../assets/rikey.png')}
+            />
+          </View>
+          <View>{null}</View>
         </View>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-          }}>
-          <Image
-            style={{
-              height: 250,
-              width: 380,
-              resizeMode: 'stretch',
-            }}
-            source={{
-              uri: `${detail.image}`,
-            }}
-          />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: 28,
-              margin: 5,
-              marginTop: 20,
-              fontWeight: 'bold',
-              color: 'black',
-            }}>
-            {detail.name}
-          </Text>
+        <ScrollView>
           <View
             style={{
               flex: 1,
-              flexDirection: 'row',
-              margin: 5,
-              justifyContent: 'space-between',
               alignItems: 'center',
+              justifyContent: 'flex-start',
             }}>
             <Image
               style={{
-                width: 25,
-                height: 25,
+                height: 250,
+                width: 380,
+                resizeMode: 'stretch',
               }}
-              resizeMode="contain"
-              source={require('../assets/icons/star.png')}
+              source={{
+                uri: `${detail.image}`,
+              }}
             />
-            <Text style={{ fontSize: 21, color: '#024430' }}>
-              {Math.round(detail.score * 10) / 10}
-            </Text>
-            <Text style={{ marginRight: 20, color: '#024430' }}> / 5</Text>
-            <Text style={{ color: '#024430' }}>
-              라이더 리뷰 {!isEmptyObj(detail) ? detail.reviewList.length : 0}개
-            </Text>
           </View>
-          <Text style={{ color: 'grey', letterSpacing: -1 }}>
-            ________________________________________________________________
-          </Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: 18, margin: 10, color: 'black' }}>
-            코스 정보
-          </Text>
-          <Text
-            style={{ fontSize: 16, margin: 3, marginLeft: 10, color: 'black' }}>
-            코스 거리 : 200Km
-          </Text>
-          <Text
-            style={{ fontSize: 16, margin: 3, marginLeft: 10, color: 'black' }}>
-            예상 소요시간 : {!isEmptyObj(detail) ? detail.hour : 0}시간{' '}
-            {!isEmptyObj(detail) ? detail.minute : 0}분
-          </Text>
-          <Text
-            style={{ color: 'grey', letterSpacing: -1, alignSelf: 'center' }}>
-            ________________________________________________________________
-          </Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: 18, margin: 10, color: 'black' }}>
-            코스 설명
-          </Text>
-          <Text style={{ fontSize: 15, margin: 20, marginTop: -3 }}>
-            {detail.introduce}
-          </Text>
-          <Text
-            style={{
-              color: 'black',
-              letterSpacing: -1,
-              alignSelf: 'center',
-              marginTop: -20,
-            }}>
-            ________________________________________________________________
-          </Text>
           <View
             style={{
               flex: 1,
-              flexDirection: 'row',
-              margin: 5,
-              justifyContent: 'space-between',
               alignItems: 'center',
+              justifyContent: 'center',
             }}>
-            <Text style={{ fontSize: 18, margin: 5, color: 'black' }}>
-              라이더 리뷰
+            <Text
+              style={{
+                fontSize: 28,
+                margin: 5,
+                marginTop: 20,
+                fontWeight: 'bold',
+                color: 'black',
+              }}>
+              {detail.name}
             </Text>
-            <TouchableOpacity
-              style={{ marginRight: 15 }}
-              onPress={() => setModalVisible(!modalVisible)}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                margin: 5,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
               <Image
                 style={{
-                  tintColor: '#024430',
-                  width: 24,
-                  height: 24,
+                  width: 25,
+                  height: 25,
                 }}
-                source={require('../assets/icons/more.png')}
+                resizeMode="contain"
+                source={require('../assets/icons/star.png')}
               />
-            </TouchableOpacity>
+              <Text style={{ fontSize: 21, color: '#024430' }}>
+                {!detail.score === 'NaN'
+                  ? Math.round(detail.score * 10) / 10
+                  : 0}
+              </Text>
+              <Text style={{ marginRight: 20, color: '#024430' }}> / 5</Text>
+              <Text style={{ color: '#024430' }}>
+                라이더 리뷰 {!isEmptyObj(detail) ? detail.reviewList.length : 0}
+                개
+              </Text>
+            </View>
+            <Text style={{ color: 'grey', letterSpacing: -1 }}>
+              ________________________________________________________________
+            </Text>
           </View>
-        </View>
-        {!isEmptyObj(detail) ? (
-          <CustomCommentList reviewList={detail.reviewList.reverse()} />
-        ) : (
-          <Text>리뷰가 아직 없네요..</Text>
-        )}
-        {/* navigation 영역 */}
-        <View style={{ flex: 1, height: 100 }}></View>
-      </ScrollView>
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontSize: 18,
+                margin: 10,
+                color: 'black',
+                fontWeight: 'bold',
+              }}>
+              코스 정보
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                margin: 3,
+                marginLeft: 10,
+                color: 'black',
+              }}>
+              코스 거리 : ??Km
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                margin: 3,
+                marginLeft: 10,
+                color: 'black',
+              }}>
+              예상 소요시간 : {!isEmptyObj(detail) ? detail.hour : 0}시간{' '}
+              {!isEmptyObj(detail) ? detail.minute : 0}분
+            </Text>
+            <Text
+              style={{ color: 'grey', letterSpacing: -1, alignSelf: 'center' }}>
+              ________________________________________________________________
+            </Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontSize: 18,
+                margin: 10,
+                color: 'black',
+                fontWeight: 'bold',
+              }}>
+              코스 설명
+            </Text>
+            <Text style={{ fontSize: 15, margin: 20, marginTop: -3 }}>
+              {detail.introduce}
+            </Text>
+            <Text
+              style={{
+                color: 'grey',
+                letterSpacing: -1,
+                alignSelf: 'center',
+                marginTop: -20,
+              }}>
+              ________________________________________________________________
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                margin: 5,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  margin: 5,
+                  color: 'black',
+                  fontWeight: 'bold',
+                }}>
+                라이더 리뷰
+              </Text>
+              <TouchableOpacity
+                style={{ marginRight: 15 }}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Image
+                  style={{
+                    tintColor: '#024430',
+                    width: 24,
+                    height: 24,
+                  }}
+                  source={require('../assets/icons/more.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          {!isEmptyObj(detail) ? (
+            <CustomCommentList reviewList={detail.reviewList.reverse()} />
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                alignContent: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text>리뷰가 아직 없네요..</Text>
+            </View>
+          )}
+          {/* navigation 영역 */}
+          <View style={{ flex: 1, height: 100 }}></View>
+        </ScrollView>
+      </View>
     </View>
   );
 };
