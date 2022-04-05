@@ -15,6 +15,7 @@ const SignUp = ({ route, navigation }) => {
 		
 		const { setUserId } = useStore();
 		const { setUserNickName } = useStore();
+		const { setUserArea } = useStore();
 
 		const id = route.params.id;
 
@@ -32,6 +33,8 @@ const SignUp = ({ route, navigation }) => {
 				console.log(response);
 				setUserId(response.data.profile.id);
 				setUserNickName(response.data.profile.nickName);
+				setUserArea(response.data.profile.area.name)
+
 				navigation.navigate('Tabs')
 
 			})
