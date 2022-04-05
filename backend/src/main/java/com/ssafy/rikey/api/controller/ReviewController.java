@@ -42,7 +42,7 @@ public class ReviewController {
 
         try {
             reviewList = reviewService.getMyReviews(nickName);
-            httpStatus = HttpStatus.CREATED;
+            httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

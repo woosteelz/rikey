@@ -40,7 +40,7 @@ public class CommentController {
 
         try {
             commentList = commentService.getMyComments(nickName);
-            httpStatus = HttpStatus.CREATED;
+            httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (RuntimeException e) {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

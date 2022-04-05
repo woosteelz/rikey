@@ -10,6 +10,7 @@ import java.util.List;
 public interface ArticleService {
 
     List<ArticleResponseDto> getRecentArticles();
+    List<ArticleResponseDto> getHitArticles(String category);
     List<ArticleResponseDto> getArticles(String category);
     ArticleDetailResponseDto getArticle(String nickName, Long articleId);
     List<ArticleResponseDto> getMyArticles(String nickname);

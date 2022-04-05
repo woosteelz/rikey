@@ -23,9 +23,9 @@ public class ToiletRepositoryImpl implements ToiletRepositoryCustom {
     public List<Toilet> findByRange(Double latitude, Double longitude) {
 
         Location northEast = GeometryUtil
-                .calculate(latitude, longitude, 10.0, Direction.NORTHEAST.getBearing());
+                .calculate(latitude, longitude, 1.0, Direction.NORTHEAST.getBearing());
         Location southWest = GeometryUtil
-                .calculate(latitude, longitude, 10.0, Direction.SOUTHWEST.getBearing());
+                .calculate(latitude, longitude, 1.0, Direction.SOUTHWEST.getBearing());
 
         double x1 = northEast.getLatitude();
         double y1 = northEast.getLongitude();

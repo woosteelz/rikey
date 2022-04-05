@@ -35,7 +35,7 @@ public class Article extends com.ssafy.rikey.db.entity.BaseEntity {
     @JoinColumn(name = "user_id")
     private User author;
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Likey> likeUsers = new ArrayList<>();
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
