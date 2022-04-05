@@ -21,7 +21,7 @@ const MyInfo = ({ navigation }) => {
 
   const [defaultImage, setDefaultImage] = useState('https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4arX/image/FToC1jQw1U0mAhJYnEmTPg7ZQD8.jpg');
 
-  const { userId, userNickName, setUserNickName } = useStore();
+  const { userId, userNickName, setUserNickName, setUserArea } = useStore();
 
   const editProfile = () => {
     API.put('/users', {
@@ -35,6 +35,7 @@ const MyInfo = ({ navigation }) => {
     })
     .then(() => {
       setUserNickName(nickName);
+      setUserArea(area);
       navigation.navigate("Profile")
     })
   }

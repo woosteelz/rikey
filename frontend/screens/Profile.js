@@ -41,7 +41,7 @@ const Profile = ({ navigation }) => {
 
       setKcal(response.data.user.weeklyCalories)
       setdistance(response.data.user.weeklyDistance)
-      const theHour = theTime / 60
+      const theHour = response.data.user.weeklyTime / 60
       const theMinute = response.data.user.weeklyTime % 60
       setMoreHour(theHour);
       setMoreMinute(theMinute);
