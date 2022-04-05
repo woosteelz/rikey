@@ -200,6 +200,7 @@ const BikeImg = styled.Image`
 const LoginText = styled.Text`
   font-size: 20px;
   font-weight: bold;
+  color: black;
 `
 const LoginButton = styled.Button`
 `
