@@ -35,7 +35,7 @@ public class ArticleDetailResponseDto {
     @ApiModelProperty(value = "게시글 수정일", example = "2022-02-01 23:59:59.500")
     private LocalDateTime modifiedTime;
 
-    @ApiModelProperty(value = "게시글 좋아요수", example = "1")
+    @ApiModelProperty(value = "게시글 좋아요 여부", example = "1")
     private Boolean isLike;
 
     @ApiModelProperty(value = "게시글 조회수", example = "1")

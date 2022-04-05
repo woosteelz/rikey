@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -82,16 +83,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDetailResponseDto getArticle(String nickName, Long articleId) {
         Article article = articleRepository.findById(articleId).get();
-        List<Likey> likeys = likeyRepository.findByArticle(article);
         User user = userRepository.findByNickName(nickName);
-
-        Boolean isLike = false;
-
-        for (Likey likey : likeys) {
-            if (likey.getUser().getId().equals(user.getId())) {
-                isLike = true;
-                break;
-            }
+        System.out.println("user = " + user);
+        Optional<Likey> likey = likeyRepository.findByArticleAndUser(article, user);
+        System.out.println("likey = " + likey);
+        Boolean isLike = true;
+        if (likey.isPresent()) {
+            isLike = false;
         }
 
         article.increaseHits();
