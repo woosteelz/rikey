@@ -253,7 +253,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
           }
         </View>
         <View style={{marginTop:"1%",marginLeft:"11%"}}>
-        <Text>{props.content}</Text>
+        <Text style={{color:"black"}}>{props.content}</Text>
 
         </View>
         </TouchableOpacity>
@@ -439,6 +439,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
               onChangeText={onChangeText}
               value={text}
               placeholder="댓글을 입력하세요.."
+              placeholderTextColor="#242424" 
 
             />
           <TouchableOpacity style={{ position:'absolute',marginLeft:"90%",marginTop:"3%",zIndex:2}}onPress={() => WriteComment()}>
