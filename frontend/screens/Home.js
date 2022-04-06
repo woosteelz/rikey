@@ -100,6 +100,7 @@ const Home = ({ navigation }) => {
         <WeatherBox>
           <TopBox>
             <WeatherImage source={{ uri : `http://openweathermap.org/img/wn/${icon}@2x.png` }} />
+            {/* <WeatherImage source={ClearSky} /> */}
             {/* <Image source={ClearSky} /> */}
             {/* <Text>{weather}</Text> */}
             <WeatherTextBox>
