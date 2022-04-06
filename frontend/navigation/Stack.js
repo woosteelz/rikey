@@ -20,7 +20,7 @@ import LogoTitle from '../components/Header/LogoTitle';
 import ProfileIcon from '../assets/icons/ProfileIcon.jpg';
 import 'react-native-gesture-handler';
 
-import UpdatePage  from '../screens/UpdatePage';
+import UpdatePage from '../screens/UpdatePage';
 import CommunityDetail from '../screens/CommunityDetail';
 import CommunityBoard from '../screens/CommunityBoard';
 import Community from '../screens/Community';
@@ -61,10 +61,15 @@ const HomeScreen = () => {
 const CommunityStack = createStackNavigator();
 const CommunityScreen = () => {
   return (
-    <CommunityStack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#ffffff' }, headerShown : false }} initialRouteName='Community'>
-      <Stack.Screen name="Community" component={Community}/>
-      <Stack.Screen name="CommunityBoard" component={CommunityBoard}/>
-      <Stack.Screen name="CommunityDetail" component={CommunityDetail}/>
+    <CommunityStack.Navigator
+      screenOptions={{
+        cardStyle: { backgroundColor: '#ffffff' },
+        headerShown: false,
+      }}
+      initialRouteName="Community">
+      <Stack.Screen name="Community" component={Community} />
+      <Stack.Screen name="CommunityBoard" component={CommunityBoard} />
+      <Stack.Screen name="CommunityDetail" component={CommunityDetail} />
       <Stack.Screen name="WritePage" component={WritePage} />
       <Stack.Screen name="UpdatePage" component={UpdatePage} />
     </CommunityStack.Navigator>
@@ -88,50 +93,55 @@ const ProfileScreen = () => {
       screenOptions={{
         cardStyle: { backgroundColor: '#ffffff' },
         headerTitleAlign: 'center',
-      }}
-    >
-      <Stack.Screen name="Profile"
+      }}>
+      <Stack.Screen
+        name="Profile"
         component={Profile}
         options={{
-          headerTitle: "프로필",
+          headerTitle: '프로필',
           headerTitleAlign: 'center',
           cardStyle: { backgroundColor: '#ffffff' },
           headerLeft: null,
         }}
       />
-      <Stack.Screen name="MyArticles"
+      <Stack.Screen
+        name="MyArticles"
         component={MyArticles}
         options={{
-          headerTitle: "내 게시글"
+          headerTitle: '내 게시글',
         }}
       />
-      <Stack.Screen name="MyComments"
-        component={MyComments} 
+      <Stack.Screen
+        name="MyComments"
+        component={MyComments}
         options={{
-          headerTitle: "내 댓글"
+          headerTitle: '내 댓글',
         }}
       />
-      <Stack.Screen name="MyReviews"
+      <Stack.Screen
+        name="MyReviews"
         component={MyReviews}
         options={{
-          headerTitle: "내 코스 후기"
+          headerTitle: '내 코스 후기',
         }}
       />
-      <Stack.Screen name="MyRecords"
-        component={MyRecords} 
+      <Stack.Screen
+        name="MyRecords"
+        component={MyRecords}
         options={{
-          headerTitle: "주행 기록"
+          headerTitle: '주행 기록',
         }}
       />
-      <Stack.Screen name="MyInfo" 
+      <Stack.Screen
+        name="MyInfo"
         component={MyInfo}
         options={{
-          headerTitle: "내 정보"
+          headerTitle: '내 정보',
         }}
       />
     </ProfileStack.Navigator>
-  )
-}
+  );
+};
 
 const Stack = createStackNavigator();
 const StackNavigation = () => {
@@ -148,4 +158,10 @@ const StackNavigation = () => {
   );
 };
 
-export { StackNavigation, HomeScreen, CommunityScreen, CourseScreen, ProfileScreen };
+export {
+  StackNavigation,
+  HomeScreen,
+  CommunityScreen,
+  CourseScreen,
+  ProfileScreen,
+};

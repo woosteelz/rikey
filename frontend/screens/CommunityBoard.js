@@ -104,7 +104,7 @@ const CommunityBoard = ( { navigation } ) => {
               }}>
                   닫기
                 </Button>
-                <Button onPress={() => {
+                <Button style={{backgroundColor:'#00C689'}} onPress={() => {
                 SearchRequest()
                 setShowModal(false);
               }}>
@@ -143,7 +143,7 @@ const CommunityBoard = ( { navigation } ) => {
         style={{
           width:"100%",
           marginTop:"4%",
-          borderBottomColor: '#484848',
+          borderBottomColor: '#969696',
           borderBottomWidth: 0.5,
         }}
       />
@@ -175,7 +175,7 @@ const CommunityBoard = ( { navigation } ) => {
         style={{
           width:"100%",
           marginTop:"2%",
-          borderBottomColor: '#484848',
+          borderBottomColor: '#969696',
           borderBottomWidth: 0.5,
         }}
       />
@@ -240,12 +240,12 @@ const CommunityBoard = ( { navigation } ) => {
         (service === "RECRUIT" ?
         <Text style={{ fontSize: 16, marginLeft: "2%", fontWeight:"bold", marginTop: "5%",width : "30%"}}> 라이딩크루 모집</Text>
         :
-        <Text style={{ fontSize: 16, marginLeft: "2%", fontWeight:"bold", marginTop: "5%",width : "30%"}}> 커뮤니티 게시판</Text>
+        <Text style={{ fontSize: 16, marginLeft: "2%", color:"black", fontWeight:"bold", marginTop: "5%",width : "40%"}}> 커뮤니티 게시판</Text>
         )
         }
         {/* <Text style={{ flex:0.9, marginTop: "5%", textAlign: "right"}} >분류 : </Text> */}
          <NativeBaseProvider>
-            <Center style={{marginTop: "4.5%",marginLeft:"auto",marginRight:"40%"}}>
+            <Center style={{marginTop: "7%",marginLeft:"auto",marginRight:"45%"}}>
                 <Example />
             </Center>
           </NativeBaseProvider>
@@ -253,7 +253,7 @@ const CommunityBoard = ( { navigation } ) => {
 
         </View>
         
-        <View style={{ marginTop: "5%", width: "90%", height: "75%"}}>
+        <View style={{ marginTop: "5%", width: "90%", height: "77%"}}>
         <ScrollView showsVerticalScrollIndicator={false} >
           <View>{Hotvariousboard}</View>
           <View>{variousboard}</View>
@@ -263,7 +263,7 @@ const CommunityBoard = ( { navigation } ) => {
         {/* 글쓰기 버튼 */}
         <View style={{flex:1}}>
 
-        <View style={{marginRight:"5%",marginBottom:"2%", position:'absolute',bottom:0,alignSelf:'flex-end'}}>
+        <View style={{marginRight:"5%",marginBottom:"5%", position:'absolute',bottom:0,alignSelf:'flex-end'}}>
           <TouchableOpacity style={styles.writebutton} onPress={() => navigation.navigate('WritePage')}> 
                 <Image style={{resizeMode: "cover", height:70, width: 70}} source={writebutton} />
           </TouchableOpacity>

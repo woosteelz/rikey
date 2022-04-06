@@ -15,6 +15,7 @@ const SignUp = ({ route, navigation }) => {
 		
 		const { setUserId } = useStore();
 		const { setUserNickName } = useStore();
+		const { setUserArea } = useStore();
 
 		const id = route.params.id;
 
@@ -32,12 +33,14 @@ const SignUp = ({ route, navigation }) => {
 				console.log(response);
 				setUserId(response.data.profile.id);
 				setUserNickName(response.data.profile.nickName);
+				setUserArea(response.data.profile.area.name)
 
 				navigation.navigate('Tabs')
 
 			})
 
 			.catch((e) => {
+				alert("이미 사용 중인 닉네임입니다!")
 				console.log(e);
 				
 			})
@@ -170,6 +173,7 @@ const SignUpContainer = styled.View`
 
 const SignUpText = styled.Text`
 	font-weight: bold;
+	color: black;
 `
 
 const SignUpInput = styled.TextInput`

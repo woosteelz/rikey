@@ -14,6 +14,7 @@ import MyComment from '../assets/images/MyComment.png'
 import MyReview from '../assets/images/MyReview.png'
 import MyRidingRecord from '../assets/images/MyRidingRecord.png'
 import RightArrow from '../assets/images/RightArrow.png'
+import Black from '../assets/images/Black.png'
 
 import API from '../api/API'
 import { useStore } from '../states';
@@ -23,7 +24,6 @@ const Profile = ({ navigation }) => {
   const [greeting, setGreeting] = useState("안녕하세요!");
   const [area, setArea] = useState("서울");
   const [getImage, setGetImage] = useState('https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4arX/image/FToC1jQw1U0mAhJYnEmTPg7ZQD8.jpg');
-  const [defaultImage, setDefaultImage] = useState('https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4arX/image/FToC1jQw1U0mAhJYnEmTPg7ZQD8.jpg');
 
   const [kcal, setKcal] = useState("0")
   const [distance, setdistance] = useState("0")
@@ -41,7 +41,7 @@ const Profile = ({ navigation }) => {
 
       setKcal(response.data.user.weeklyCalories)
       setdistance(response.data.user.weeklyDistance)
-      const theHour = theTime / 60
+      const theHour = response.data.user.weeklyTime / 60
       const theMinute = response.data.user.weeklyTime % 60
       setMoreHour(theHour);
       setMoreMinute(theMinute);
@@ -58,7 +58,7 @@ const Profile = ({ navigation }) => {
 
           <ProfileImgBox>
             <ProfileBackBox>
-              <ProfileImage source={ getImage ? { uri : getImage } : { uri : defaultImage }}/>
+              <ProfileImage source={ getImage ? { uri : getImage } : Black }/>
             </ProfileBackBox>
           </ProfileImgBox>
 

@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import { KeyboardAvoidingView,Image, StyleSheet, View, Text,Dimensions,TouchableOpacity,
-  TextInput, Keyboard, TouchableWithoutFeedback, Button,SafeAreaView,ScrollView } from "react-native";
+  TextInput, Keyboard, TouchableWithoutFeedback, Button,SafeAreaView,ScrollView,Alert } from "react-native";
 import { Radio, NativeBaseProvider,Center,} from "native-base";
 
 //사진 임포트한 부분
@@ -11,7 +11,7 @@ import WooSteel from '../assets/defaultimage.jpg'
 import { useStore } from "../states";
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 import axios from "axios";
-
+import API from "../api/API";
 
 
 
@@ -67,7 +67,7 @@ const WritePage = ( { navigation } ) => {
 
   // 이미지에 관해
   const uploadprocess = () => {
-
+    
     if (images.length !== 0){
     return new Promise( (resolve) => {
     images.map((item, index) => {
@@ -77,9 +77,11 @@ const WritePage = ( { navigation } ) => {
         name: item.fileName,
       });
     });
-    console.log("내놔제발 ㅠㅠ", imagedata)
-    console.log(JSON.stringify(imagedata))
-    
+
+    // const response = API.post('articles/upload',{
+    // body : imagedata
+    // })
+    // console.log(response)
     // 가보즈아~~
     
     fetch('http://j6c208.p.ssafy.io/api/articles/upload',{
@@ -87,15 +89,15 @@ const WritePage = ( { navigation } ) => {
       body: imagedata
     }).then(res => res.json())
     .then(res => {
+      alert(res.urls)
+      
       
 
-      
-      alert("Success")
-      console.log("업로드시", res.urls)
+
       resolve(res.urls)
     })
     .catch(err => {
-      console.log("이게들어갔음", imagedata)
+
       console.error("error uploading images: ", err);
     });
     
@@ -194,18 +196,16 @@ const WritePage = ( { navigation } ) => {
 
             })
           })
-          console.log('모야')
-          
-          console.log("이미지리스트임", imageList)
-          console.log(images)
+
           
 
           
-      
+
           // console.log(JSON.stringify(imagedata));
         
         
       } catch (e) {
+
           console.log('error', e);
       } finally {
           console.log('finally')
@@ -214,25 +214,35 @@ const WritePage = ( { navigation } ) => {
   };
     // 글쓰기버튼 클릭
     const writeprocessTemp = async() => {
-      console.log("여기는지낫나요")
-      const urls = await uploadprocess()
-      console.log("글쓰기시", urls)
-      const response = await axios.post(
-        "http://j6c208.p.ssafy.io/api/articles",
-        {
-          content : onChangeContent,
-          title : onChangeTitle,
-          category : cvalue,
-          pics : urls,
-          userId : userId
-        }
-      );
-      if (response) {
-        navigation.navigate('CommunityDetail', {articleId: response.data.article, author : userNickName})
-        console.log(response)
-      } else {
-        alert("오류발생")
+      
+      if (!onChangeTitle) {
+        Alert.alert("제목 미입력", "제목을 입력해주세요.")
+        return
+      }else if (!onChangeContent) {
+        Alert.alert("내용 미입력", "내용을 입력하세요")
+        return
       }
+      
+    
+
+      const urls = await uploadprocess()
+      console.log('urls',urls)
+      // const response = await axios.post(
+      //   "http://j6c208.p.ssafy.io/api/articles",
+      //   {
+      //     content : onChangeContent,
+      //     title : onChangeTitle,
+      //     category : cvalue,
+      //     pics : urls,
+      //     userId : userId
+      //   }
+      // );
+      // if (response) {
+      //   navigation.navigate('CommunityDetail', {articleId: response.data.article, author : userNickName})
+
+      // } else {
+      //   alert("오류발생")
+      // }
     };
 
 
@@ -288,7 +298,7 @@ const WritePage = ( { navigation } ) => {
 
             <TextInput
               multiline
-              numberOfLines={30}
+              numberOfLines={15}
               maxLength={450}
               style={styles.inputContent}
               onChangeText={setonChangeContent}
@@ -303,15 +313,26 @@ const WritePage = ( { navigation } ) => {
             </NativeBaseProvider> */}
          
          <View>
+            <View
+            style={{
+              width:"95%",
+              marginTop:"2%",
+              marginLeft:"2.5%",
+              marginBottom:"3%",
+              borderBottomColor: '#969696',
+              borderBottomWidth: 0.5,
+            }}
+          />
           <TouchableOpacity
 
-            style={{backgroundColor:"#DDDDDD"}}
+            
             onPress={handleImagePicker}
           >
           {
             images.length !== 0 ?
           <View style={{ marginLeft: "5%", flexDirection: "row"}}>
-
+ 
+          
             {imagepreview}
 
           </View>
@@ -353,7 +374,7 @@ const styles = StyleSheet.create({
     height: 36,
     margin: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "grey",
+    borderBottomColor: "#AAAAAA",
     padding: 4,
   },
   inputContent: {
@@ -362,7 +383,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     height: "50%",
     margin: 12,
-    borderBottomColor: "grey",
+
     padding: 5,
   },
   

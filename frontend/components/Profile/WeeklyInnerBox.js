@@ -32,7 +32,6 @@ const Box = styled.View`
   width: 100%;
   height: 100%;
 `
-
 const WeeklyText = styled.Text`
   flex: 0.5;
   font-weight: bold;
@@ -61,8 +60,8 @@ const InnerImageBox = styled.View`
   align-items: center;
 `
 const BotImage = styled.Image`
-  width: 30;
-  height: 30;
+  width: 30px;
+  height: 30px;
 `
 const BotText = styled.Text`
   margin-top: 7%;

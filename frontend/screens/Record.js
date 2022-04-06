@@ -7,6 +7,7 @@ import {
   Button,
   Pressable,
   PermissionsAndroid,
+  TouchableOpacity,
 } from 'react-native';
 import MapView, {
   Marker,
@@ -14,19 +15,19 @@ import MapView, {
   PROVIDER_GOOGLE,
   PROVIDER_DEFAULT,
 } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import {
+  NativeBaseProvider,
+  Select,
+  Center,
+  Box,
+  CheckIcon,
+} from 'native-base';
+
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import { useStore } from '../states';
 
 const WEIGHT = 70;
-
-// 칼로라 소비 계수 -> 몸무게(KG) X 1000 X kcalConsumption[속도] X 시간(분)
-const kcalConsumption = [
-  0.035, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065,
-  0.065, 0.065, 0.065, 0.0783, 0.0783, 0.0783, 0.0939, 0.0939, 0.0939, 0.113,
-  0.113, 0.113, 0.124, 0.124, 0.136, 0.136, 0.149, 0.163, 0.163, 0.179, 0.179,
-  0.196, 0.215, 0.215, 0.259, 0.259, 0.259, 0.311, 0.311, 0.311,
-];
 
 function isEmptyObj(obj) {
   if (obj.constructor === Object && Object.keys(obj).length === 0) {
@@ -50,19 +51,32 @@ async function requestPermission() {
   }
 }
 
-// 칼로리 계산
-function getKcal(d, t, weight) {
-  let speed = Math.round((d / t) * 3600);
-  if (speed > 40) {
-    speed = 40;
-  }
-  console.log(speed);
-  console.log(d, t, kcalConsumption[speed], speed);
-  return (weight * 1000 * kcalConsumption[speed] * t) / 60;
-}
+const getCurrTime = async () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = ('0' + (today.getMonth() + 1)).slice(-2);
+  const day = ('0' + today.getDate()).slice(-2);
+  const hours = ('0' + today.getHours()).slice(-2);
+  const minutes = ('0' + today.getMinutes()).slice(-2);
+  const seconds = ('0' + today.getSeconds()).slice(-2);
+  return (
+    year +
+    '-' +
+    month +
+    '-' +
+    day +
+    ' ' +
+    hours +
+    ':' +
+    minutes +
+    ':' +
+    seconds +
+    '.500'
+  );
+};
 
 // 2개의 위도 경도 입력시 거리 반환(KM)
-function getDIstance(prevLat, prevLng, currLat, currLng) {
+function getDistance(prevLat, prevLng, currLat, currLng) {
   const toRad = x => (x * Math.PI) / 180;
   const R = 6371; // 지구 반지름
 
@@ -89,10 +103,26 @@ function Record({ navigation }) {
   const [kcal, setKcal] = useState(0); // 소비 칼로리
   const [distance, setDistance] = useState(0); // 주행 거리
 
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+
   // stopwatch
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
   const [time, setTime] = useState(0);
+
+  const [toilets, setToilets] = useState([]);
+  const [stores, setStores] = useState([]);
+  const [cvss, setCvss] = useState([]);
+
+  const [service, setService] = useState('');
+  const [selected, setSelected] = useState([]);
+
+  const setFacilities = item => {
+    if (item === 'cvs') setSelected(cvss);
+    if (item === 'toilet') setSelected(toilets);
+    if (item === 'store') setSelected(stores);
+  };
 
   useEffect(() => {
     getMyPosition();
@@ -107,20 +137,22 @@ function Record({ navigation }) {
       _watchId = Geolocation.watchPosition(
         position => {
           const { latitude, longitude } = position.coords;
-          const dis = getDIstance(
+          const dis = getDistance(
             latitude,
             longitude,
-            wayPoint[0].latitude,
-            wayPoint[0].longitude,
+            wayPoint[wayPoint.length - 1].latitude,
+            wayPoint[wayPoint.length - 1].longitude,
           );
-          // console.log('변경위치: ', latitude, longitude);
-          console.log('거리, 시간', distance, time);
+
+          if (dis >= 0.005) {
+            const cal = (2.3 * WEIGHT) / 900;
+            setKcal(state => state + cal);
+          }
+
           setLocation({ latitude, longitude });
           setDistance(state => state + dis);
-          setKcal(
-            state => state + getKcal(distance, (time + 1) / 1000, WEIGHT),
-          );
-          setWayPoint(state => [{ latitude, longitude }, ...state]);
+
+          setWayPoint(state => [...state, { latitude, longitude }]);
         },
         error => {
           console.log(error);
@@ -128,8 +160,6 @@ function Record({ navigation }) {
         {
           enableHighAccuracy: true,
           distanceFilter: 0,
-          interval: 500000,
-          fastestInterval: 2000,
         },
       );
       return () => {
@@ -158,18 +188,35 @@ function Record({ navigation }) {
   // 내 위치정보 가져오기
   const getMyPosition = () => {
     requestPermission().then(res => {
-      console.log(res);
+      // console.log(res);
       if (res === 'granted') {
         setGranted(true);
         Geolocation.getCurrentPosition(
           pos => {
             const { latitude, longitude } = pos.coords;
-            console.log('내 위치', latitude, longitude);
+            // console.log('내 위치', latitude, longitude);
             setLocation({ latitude, longitude });
             if (wayPoint.length === 0) {
               setWayPoint([{ latitude, longitude }]);
-              console.log('웨이포인트', wayPoint);
+              // console.log('웨이포인트', wayPoint);
             }
+            axios({
+              url: 'http://j6c208.p.ssafy.io/api/bikeRoads/facilities',
+              method: 'get',
+              params: {
+                latitude,
+                longitude,
+              },
+            })
+              .then(res => {
+                console.log(res.data);
+                setToilets(res.data.toilets);
+                setStores(res.data.stores);
+                setCvss(res.data.cvss);
+              })
+              .catch(err => {
+                console.log('에러발생', err);
+              });
           },
           error => {
             console.log(error);
@@ -182,35 +229,80 @@ function Record({ navigation }) {
     });
   };
 
+  const SelectMenu = () => {
+    return (
+      <Center>
+        <Box w="3/4" maxW="250">
+          <Select
+            selectedValue={service}
+            minWidth="90"
+            accessibilityLabel="Choose Service"
+            placeholder="편의시설 고르기"
+            color="black"
+            backgroundColor="white"
+            _selectedItem={{
+              bg: 'white',
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={1}
+            onValueChange={itemValue => {
+              setService(itemValue);
+              setFacilities(itemValue);
+            }}>
+            <Select.Item label="편의점" value="cvs" />
+            <Select.Item label="자전거 보관소" value="store" />
+            <Select.Item label="화장실" value="toilet" />
+          </Select>
+        </Box>
+      </Center>
+    );
+  };
+
   // 위치기록 시작하기 + Stopwatch 시작
-  const recordStart = () => {
+  const recordStart = async () => {
+    if (startTime === '') {
+      try {
+        const currTime = await getCurrTime();
+        console.log(currTime);
+        setStartTime(currTime);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     setRecord(true);
     setIsActive(true);
     setIsPaused(false);
   };
 
   // 위치기록 중단하기
-  const recordStop = () => {
-    axios({
-      url: 'http://j6c208.p.ssafy.io/api/ridings',
-      method: 'post',
-      data: {
-        userId,
-        ridingTime: time / 3600000,
-        ridingCalorie: Math.round(kcal * 10) / 10,
-        ridingDist: Math.round(distance * 10) / 10,
-        startTime: '2022-02-01 23:59:59.500',
-        endTime: '2022-02-01 23:59:59.500',
-      },
-    })
-      .then(res => {
-        alert('주행 정보가 성공적으로 기록되었습니다');
-        console.log(res);
+  const recordStop = async () => {
+    try {
+      const currTime = await getCurrTime();
+      console.log(currTime);
+      axios({
+        url: 'http://j6c208.p.ssafy.io/api/ridings',
+        method: 'post',
+        data: {
+          userId,
+          ridingTime: time / 60000,
+          ridingCalorie: Math.round(kcal * 10) / 10,
+          ridingDist: Math.round(distance * 10) / 10,
+          startTime,
+          endTime: currTime,
+        },
       })
-      .catch(err => {
-        alert('등록에 실패하였습니다');
-        console.log(err);
-      });
+        .then(res => {
+          alert('주행 정보가 성공적으로 기록되었습니다');
+          console.log(res);
+        })
+        .catch(err => {
+          alert('등록에 실패하였습니다');
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+    setStartTime('');
     setRecord(false);
     setIsActive(false);
     setDistance(0);
@@ -235,51 +327,114 @@ function Record({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <View style={styles.mapContainer}>
-        <MapView
-          provider={Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE} // ios일 경우 apple map 사용
-          showsUserLocation={true}
-          showsMyLocationButton={true} // 현재위치 업데이트 버튼은 Google Map일 경우만 렌더링 됨
-          style={styles.map}
-          region={{
-            latitude: !isEmptyObj(location) ? location.latitude : 37.510425,
-            longitude: !isEmptyObj(location) ? location.longitude : 126.996236,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}>
-          <Polyline
-            coordinates={wayPoint} //specify our coordinates
-            strokeColor={'#00C689'}
-            strokeWidth={5}
-          />
-        </MapView>
-      </View>
-      <View style={styles.recordContainer}>
-        <View style={{ flex: 1, marginVertical: 20 }}>
-          <Text style={{ fontWeight: 'bold', alignSelf: 'center' }}>
-            {('0' + Math.floor((time / 60000) % 60)).slice(-2)} :{' '}
-            {('0' + Math.floor((time / 1000) % 60)).slice(-2)} /{' '}
-            {Math.round((distance + Number.EPSILON) * 100) / 100}Km /{' '}
-            {Math.round(kcal * 100) / 100} Kcal
-          </Text>
-          <View style={{ flexDirection: 'row' }}>
-            <Pressable
-              style={styles.button}
-              onPress={record ? recordStop : recordStart}>
-              <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                {record ? '기록 중단하기' : '기록 시작하기'}
-              </Text>
-            </Pressable>
-            {record ? (
-              <Pressable style={styles.button} onPress={recordPause}>
+      <NativeBaseProvider>
+        <View style={styles.mapContainer}>
+          <MapView
+            provider={
+              Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE
+            } // ios일 경우 apple map 사용
+            showsUserLocation={true}
+            showsMyLocationButton={true} // 현재위치 업데이트 버튼은 Google Map일 경우만 렌더링 됨
+            followsUserLocation={true}
+            style={styles.map}
+            region={{
+              latitude: !isEmptyObj(location) ? location.latitude : 37.510425,
+              longitude: !isEmptyObj(location)
+                ? location.longitude
+                : 126.996236,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }}>
+            {service === 'cvs'
+              ? cvss.map((cvs, idx) => {
+                  return (
+                    <TouchableOpacity>
+                      <Marker
+                        key={idx}
+                        coordinate={{
+                          latitude: cvs.latitude,
+                          longitude: cvs.longitude,
+                        }}
+                        title={cvs.brandName + cvs.name}
+                        description={cvs.roadAddress}
+                      />
+                    </TouchableOpacity>
+                  );
+                })
+              : null}
+            {service === 'store'
+              ? stores.map((store, idx) => {
+                  return (
+                    <TouchableOpacity>
+                      <Marker
+                        key={idx}
+                        coordinate={{
+                          latitude: store.latitude,
+                          longitude: store.longitude,
+                        }}
+                        title={store.name}
+                        description={
+                          store.airInjector
+                            ? '공기 주입기 있음'
+                            : '공기 주입기 없음'
+                        }
+                      />
+                    </TouchableOpacity>
+                  );
+                })
+              : null}
+            {service === 'toilet'
+              ? toilets.map((toilet, idx) => {
+                  return (
+                    <TouchableOpacity>
+                      <Marker
+                        key={idx}
+                        coordinate={{
+                          latitude: toilet.latitude,
+                          longitude: toilet.longitude,
+                        }}
+                        title={toilet.name}
+                        description={`운영시간 : ${toilet.openTime}`}
+                      />
+                    </TouchableOpacity>
+                  );
+                })
+              : null}
+            <Polyline
+              coordinates={wayPoint} //specify our coordinates
+              strokeColor={'#00C689'}
+              strokeWidth={5}
+            />
+          </MapView>
+          <SelectMenu />
+        </View>
+        <View style={styles.recordContainer}>
+          <View style={{ flex: 1, marginVertical: 20 }}>
+            <Text style={{ fontWeight: 'bold', alignSelf: 'center' }}>
+              {('0' + Math.floor((time / 60000) % 60)).slice(-2)} :{' '}
+              {('0' + Math.floor((time / 1000) % 60)).slice(-2)} /{' '}
+              {Math.round((distance + Number.EPSILON) * 100) / 100}Km /{' '}
+              {Math.round(kcal * 100) / 100} Kcal
+            </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Pressable
+                style={styles.button}
+                onPress={record ? recordStop : recordStart}>
                 <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                  {!isPaused ? '일시정지' : '재개'}
+                  {record ? '기록 중단하기' : '기록 시작하기'}
                 </Text>
               </Pressable>
-            ) : null}
+              {record ? (
+                <Pressable style={styles.button} onPress={recordPause}>
+                  <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                    {!isPaused ? '일시정지' : '재개'}
+                  </Text>
+                </Pressable>
+              ) : null}
+            </View>
           </View>
         </View>
-      </View>
+      </NativeBaseProvider>
     </View>
   );
 }

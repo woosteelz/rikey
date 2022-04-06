@@ -1,39 +1,60 @@
 import React, { Component, useState, useEffect } from "react";
 import { Image, StyleSheet, View, Text, ScrollView, Dimensions,LinearLayout,TouchableOpacity,Button  } from "react-native";
 
+
+/// 사진 데이터 ////
 import TitleBack from '../assets/images/TitleBack.png'
 import Pencil from '../assets/images/Pencil.png'
 import HandsUp from '../assets/images/Handsup.png'
-import writebutton from '../assets/writebutton.png'
+import Fire from '../assets/images/Fire.png'
+import Bicycle from '../assets/images/Bicycle.png'
+import Clock from '../assets/images/Clock.png'
+
+
+/////////////////
 import { Select, Box, CheckIcon, Center, NativeBaseProvider } from "native-base";
 import { useIsFocused } from '@react-navigation/native';
 import API from "../api/API";
-
+import { useStore } from "../states";
 
 
 const Community = ( { navigation } ) => {
+  const { userNickName, userArea } = useStore();
   const isFocused = useIsFocused();
+
+  const [RankCal,setRankCal] = useState('');
+  const [RankDis,setRankDis] = useState('');
+  const [RankTime,setRankTime] = useState('');
   useEffect(() =>{
-    console.log('됫냐')
+
     async function get() {
       const completed = false
       const response = await API.get(
         '/articles/recent'
       );
       
-      console.log(response.data.articleList)
+
       setminioverview(response.data.articleList)
       
-      console.log(minioverview)
-      console.log('왜안되')
+
       
       if (!completed) setminioverview(response.data.articleList);
         console.log(minioverview)
     }
+
+    async function weekly() {
+      console.log(userArea)
+      console.log(userNickName)
+      const response = await API.get(
+        `articles/rankings/${userNickName}?area=${userArea}`
+      );
+      console.log(response)
+      setRankCal(response.data.rankingByCalorie)
+      setRankDis(response.data.rankingsByDistance)
+      setRankTime(response.data.rankingByTime)
+    }
     get();
-    return () => {
-      completed = true;
-    };
+    weekly()
     
     
 
@@ -58,6 +79,14 @@ const Community = ( { navigation } ) => {
           }}
         /> */}
         </TouchableOpacity>
+        <View
+        style={{
+          width:"100%",
+          marginTop:"2%",
+          borderBottomColor: '#969696',
+          borderBottomWidth: 0.5,
+        }}
+      />
         </View>
     })
     const onBoardOverview = () => {
@@ -103,32 +132,44 @@ const Community = ( { navigation } ) => {
        <View style={{flexDirection:"row"}}>
             <Image style={{ resizeMode:"cover", width: 25, height : 25 ,marginTop:"4%",marginLeft:"7%"}} source={HandsUp} />
             <Image style={{ position:"absolute", width: 25, height: "5%" ,marginTop:"5.9%", marginLeft:"14.5%"}} source={TitleBack} />
-            <Text style={{marginLeft: "3%",marginTop: "4%",fontSize: 16, fontWeight:'bold'}}>내 랭킹</Text>
+            <Text style={{marginLeft: "3%",marginTop: "4%",color:"black", fontSize: 16, fontWeight:'bold'}}>내 랭킹</Text>
             </View>
 
         </View>
                 <View style={{flexDirection: "row",marginTop:"6%"}}>
-                <Text style={{marginLeft:"5%"}}>주간 소비 칼로리</Text>
-                <Text style={{marginLeft:"9%"}}>주간 주행 거리</Text>
-                <Text style={{marginLeft:"11%"}}>주간 누적 시간</Text>
+                <Text style={{fontSize: 13, marginLeft:"6%",color:"black"}}>소비 칼로리 랭킹</Text>
+                <Text style={{fontSize: 13, marginLeft:"10.5%",color:"black"}}>주행 거리 랭킹</Text>
+                <Text style={{fontSize: 13, marginLeft:"13.5%",color:"black"}}>누적 시간 랭킹</Text>
                 </View>
             <View style={{ flexDirection: "row", height:"20%" }}> 
                 
                 <View style={{ width: "25.5%", marginLeft: 2 }}>
 
                   <View style={ styles.box }>
+                  <View style={{marginLeft:"13%",marginTop:"1%",backgroundColor:"white",width:"75%",height:"75%",borderRadius:40}}>
+                  <Image style={{ resizeMode:"cover", width: 30, height : 30 ,marginTop:"20%",marginLeft:"22%"}} source={Fire} />
+                  </View>
+                  <Text style={{color:'#484848',marginTop:"2%",textAlign:"center", width:"100%"}}>{RankCal} 등</Text>
                   </View>
                 </View>
 
                 <View style={{ width: "25.5%" , marginLeft: 30 }}>
  
                   <View style={ styles.box }>
+                  <View style={{marginLeft:"13%",marginTop:"1%",backgroundColor:"white",width:"75%",height:"75%",borderRadius:40}}>
+                  <Image style={{ resizeMode:"cover", width: 30, height : 30 ,marginTop:"20%",marginLeft:"22%"}} source={Bicycle} />
+                  </View>
+                  <Text style={{color:'#484848',marginTop:"2%",textAlign:"center", width:"100%"}}>{RankDis} 등</Text>
                   </View>
                 </View>
 
                 <View style={{ width: "25.5%" , marginLeft: 30 }}>
  
                   <View style={ styles.box }>
+                  <View style={{marginLeft:"13%",marginTop:"1%",backgroundColor:"white",width:"75%",height:"75%",borderRadius:40}}>
+                  <Image style={{ resizeMode:"cover", width: 30, height : 30 ,marginTop:"20%",marginLeft:"22%"}} source={Clock} />
+                  </View>
+                  <Text style={{color:'#484848',marginTop:"2%",width:"100%",textAlign:"center"}}>{RankTime} 등</Text>
                   </View>
                 </View>
 
@@ -138,16 +179,18 @@ const Community = ( { navigation } ) => {
             <View style={{flexDirection:"row"}}>
             <Image style={{ resizeMode:"cover", width: 25, height : 25 ,marginTop:"3%",marginLeft:"7%"}} source={Pencil} />
             <Image style={{ position:"absolute", width: 90, height: "15%" ,marginTop:"5%", marginLeft:"14.5%"}} source={TitleBack} />
-            <Text style={{marginLeft: "3%",marginTop: "2%",fontSize: 16, fontWeight:'bold'}}>커뮤니티 최근글</Text>
+            <Text style={{marginLeft: "3%",color:"black", marginTop: "2%",fontSize: 16, fontWeight:'bold',color:"#484848"}}>커뮤니티 최근글</Text>
             </View>
-            <View style={{marginTop: "5%",width: "90%", height: "45%"}}>
-               
+            <View style={{marginTop: "5%",width: "90%", height: "56.5%"}}>
+                <ScrollView showsVerticalScrollIndicator={false}>
                 <View>{elements}</View>
-
+                </ScrollView>
             </View>
+            <View style={{position:'absolute',bottom: "3%",left:"57%"}}>
             <TouchableOpacity style={styles.communityButton} onPress={() => navigation.navigate('CommunityBoard')}> 
-              <Text>커뮤니티 모든 글 보기 > </Text>
+              <Text style={{color:"#484848"}}>커뮤니티 모든 글 보기 > </Text>
             </TouchableOpacity> 
+            </View>
         </View>
 
 
@@ -163,7 +206,7 @@ const styles = StyleSheet.create({
   communityButton : {
     marginLeft: "auto", 
     margin: "3%",
-    marginTop: "8%",
+    marginTop: "4%",
     
   },
   communityButton2 : { 

@@ -85,4 +85,5 @@ const BoxTitle = styled.Text`
 const WrittenDate = styled.Text`
   margin-left: 70%;
   top: 18.5%;
+  color: black;
 `

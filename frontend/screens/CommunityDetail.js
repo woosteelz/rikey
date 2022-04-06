@@ -9,6 +9,7 @@ import hamburgerbutton from '../assets/hamburgerbutton.png'
 import defaultprofiepic from '../assets/images/Default.png'
 import LikeButton from '../assets/images/FilledHeart.png'
 import DisLikeButton from '../assets/images/Heart.png'
+import Back from '../assets/images/Back.png'
 // 상태관리
 import { useStore } from "../states"
 import { useIsFocused } from '@react-navigation/native';
@@ -44,7 +45,8 @@ const CommunityDetail = ( { props, route, navigation} ) => {
   const [articleBoard, setArticleBoard] = useState('');
   const [articlePics, setArticlePics] = useState([]);
   const [articleProfilePic, setprofilePic] = useState('');
-  const [islike,setIslike] = useState(false)
+  const [islike,setIslike] = useState(false);
+  const [likeCnt,setLikeCnt] = useState('');
   
   
   // 게시글을 API로 호출하는 함수
@@ -60,7 +62,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
     setIslike(response.data.article.isLike)
     setArticlePics(response.data.article.pics)
     setprofilePic(response.data.article.profilePic)
-
+    setLikeCnt(response.data.article.likeCnt)
     var detaildate = moment(response.data.article.createdTime).format("YYYY-MM-DD HH:mm:ss")
     setArticleTime(moment(detaildate).fromNow())
     console.log(articleComment)
@@ -178,8 +180,16 @@ const CommunityDetail = ( { props, route, navigation} ) => {
         
     //   </View>
     // })
-    
 
+    //사진 맵함수
+    const ArticlePicutres = articlePics.map( (item, key) => {
+      return <View key={key}>
+      <Image style={{resizeMode:"cover", height: 100, width: 100 , marginRight: "7%"}} source={{uri: item}} />
+    </View>
+    })
+
+
+    ////
     const CommentBox = ({props}) => {
 
     return(
@@ -200,7 +210,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
             <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%"}} source={defaultprofiepic}/>
           }
           <Text style={{fontWeight:"bold", color:'#282828',marginTop:"1%"}}>{props.author}</Text>
-          <Text style={{marginLeft: "5%", marginTop:"1%"}}>{moment(props.commentTime).fromNow()}</Text>
+          <Text style={{marginLeft: "5%", marginTop:"1%"}}>{moment(props.createdTime).fromNow()}</Text>
           {
             userNickName === props.author ?
             <View>
@@ -242,7 +252,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
 
           }
         </View>
-        <View style={{marginTop:"1%"}}>
+        <View style={{marginTop:"1%",marginLeft:"11%"}}>
         <Text>{props.content}</Text>
 
         </View>
@@ -254,6 +264,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
 
     // 댓글작성 로직
     const WriteComment = async() => {
+      if (text) {
       const response  =  await axios.post('http://j6c208.p.ssafy.io/api/comments/',{
         articleId : articleId,
         content : text,
@@ -263,8 +274,11 @@ const CommunityDetail = ( { props, route, navigation} ) => {
       articleCall()
   
       console.log(response)
+    }else{
+
+      Alert.alert('작성 오류','한글자 이상 작성해야 합니다.')
     }
-    
+  }
     
     // 좋아요 로직
     const SendIsLike = () =>{
@@ -287,6 +301,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
           userId : userId
         })
         console.log(response)
+        setLikeCnt(likeCnt+1)
         setIslike(true)
 
       }
@@ -302,35 +317,39 @@ const CommunityDetail = ( { props, route, navigation} ) => {
 
         })
         console.log(response)
+        setLikeCnt(likeCnt-1)
         setIslike(false)
 
       }
     ///
+
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="position" enabled>
       <ScrollView>
       
       <View>
-
+        
         <View>
           <View style={{flexDirection: "row", justifyContent: "space-around"}}>
           <TouchableOpacity style={styles.communityButton2} onPress={() => 
-            {(navigation.goBack() === navigation.navigate('WritePage')) || (navigation.goBack() === navigation.navigate('UpdatePage')) ?
+            {(navigation.goBack() == navigation.navigate('WritePage')) || (navigation.goBack() == navigation.navigate('UpdatePage')) ?
             navigation.navigate('CommunityBoard')
+            
             // navigation.goBack()
             
             :
               navigation.goBack()
             }
           }> 
-                <Text> ← 뒤로 </Text>
+                <Image style={{ resizeMode: "center", height: 20, width: 20, marginLeft:"2%"}} source={Back} />
           </TouchableOpacity>
-          <Image style={{ resizeMode: "cover", height: 80, width: 160}} source={Rikey} />
+          <Image style={{ resizeMode: "cover", height: 60, width: 120, marginTop:"3%"}} source={Rikey} />
           <View style={{marginRight : "15%"}}></View>
           </View>
 
-        <View style={{ flexDirection: "row", marginLeft: "6%"}}>
+        <View style={{ flexDirection: "row", marginLeft: "6%",marginTop:"2%"}}>
         { (articleProfilePic) ?
         <Image style={{ resizeMode: "cover", height: 60, width: 60, borderRadius: 50}} source={{uri : articleProfilePic}} />
         :
@@ -388,20 +407,29 @@ const CommunityDetail = ( { props, route, navigation} ) => {
         <View style={{marginTop: "5%", width: "100%", height: "100%"}}>
           <Text style={{marginLeft:"6%" , marginBottom: "5%" , fontSize: 22, color:"black"}}>{articleTitle}</Text>
           <Text style={{marginLeft:"6%" ,fontSize: 14, color:"#484848"}}>
-          {articleContent}  
+          {articleContent}
           </Text>
-          { islike ?
+          <View style={{ flexDirection: "row",marginLeft:"5%", marginTop:"5%",marginRight:"3%"}} >
+          {ArticlePicutres}
+          </View>
           
+          { islike ?
+          <View style={{flexDirection:'row',  marginRight:"4%", marginLeft:"auto", marginTop:"4%"}}>
           <TouchableOpacity onPress={()=>SendIsLike()}>
-          <Image style={{resizeMode:"center", width: 30, height: 30, marginRight:"4%", marginLeft:"auto", marginTop:"4%"}} source={LikeButton}/>
+          <Image style={{resizeMode:"center", width: 30, height: 30}} source={LikeButton}/>
           </TouchableOpacity>
+          <Text style={{marginTop:"1.5%", marginLeft:"2%"}}>{likeCnt}</Text>
+          </View>
           :
+          <View style={{flexDirection:'row',  marginRight:"4%", marginLeft:"auto", marginTop:"4%"}}>
           <TouchableOpacity onPress={()=>SendIsLike()}>
-          <Image style={{resizeMode:"center", width: 30, height: 30, marginRight:"4%", marginLeft:"auto", marginTop:"4%"}} source={DisLikeButton}/>
+          <Image style={{resizeMode:"center", width: 30, height: 30}} source={DisLikeButton}/>
           </TouchableOpacity>
+          <Text style={{marginTop:"1.5%", marginLeft:"2%"}}>{likeCnt}</Text>
+          </View>
           }
-          <View style={{flexDirection: "row"}}>
-          <View style={{width:"90%"}}>
+          <View>
+          <View style={{width:"100%",backgroundColor: "#DDDDDD",marginTop:"3%"}}>
           
           <SafeAreaView>
             <TextInput
@@ -413,16 +441,19 @@ const CommunityDetail = ( { props, route, navigation} ) => {
               placeholder="댓글을 입력하세요.."
 
             />
-          
+          <TouchableOpacity style={{ position:'absolute',marginLeft:"90%",marginTop:"3%",zIndex:2}}onPress={() => WriteComment()}>
+          <Image style={{resizeMode: "center", height: 25, width: 25}} source={commentbutton}/>
+          </TouchableOpacity>
           </SafeAreaView>
+
           </View>
-          <View style={{ backgroundColor: "#969696", marginTop:"2.6%", height:"83%",width:"10%"}} >
+          {/* <View style={{ backgroundColor: "#969696", marginTop:"2.6%", height:"10%",width:"10%"}} >
           <TouchableOpacity onPress={() => WriteComment()}>
-            <View style={{position:'absolute' , marginLeft: "17%" ,marginTop: "25%", zIndex: 2}}>
-            <Image style={{ resizeMode: "cover", height: 25, width: 25, zIndex: 2}} source={commentbutton}/>
+            <View style={{position:'absolute' , marginLeft: "17%" ,marginTop: "25%"}}>
+            <Image style={{ resizeMode: "cover", height: 25, width: 25}} source={commentbutton}/>
             </View>
           </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
 
 
@@ -448,9 +479,10 @@ const CommunityDetail = ( { props, route, navigation} ) => {
 
 const styles = StyleSheet.create({
   input : {
+    width: "90%",
     paddingLeft: 15,
-    marginTop:"3%",
-    backgroundColor: "#969696",
+
+    
     zIndex: 1,
   },
   writebutton : {

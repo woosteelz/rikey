@@ -7,35 +7,66 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  PermissionsAndroid,
 } from 'react-native';
 import axios from 'axios';
 
-const logo = {
-  uri: 'https://mblogthumb-phinf.pstatic.net/MjAxOTEyMTNfMjQz/MDAxNTc2MjM4NzE1ODEz.rJgwvkYWJR60irHgY6QlB68xKu-sxwKS4u3D0Jk83REg.zbDGJ1tGhwM1oucn_L1iKdqX5aJviN7zO8XqpL_T3uQg.PNG.daddybike/%EC%9E%90%EC%A0%84%EA%B1%B0%EA%B5%AD%ED%86%A0%EC%A2%85%EC%A3%BC.PNG?type=w800',
-  width: 64,
-  height: 64,
-};
+import Geolocation from 'react-native-geolocation-service';
+
+async function requestPermission() {
+  try {
+    if (Platform.OS === 'ios') {
+      return await Geolocation.requestAuthorization('always');
+    }
+    if (Platform.OS === 'android') {
+      return await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 const Course = ({ navigation }) => {
   const [bikeCourse, setBikeCourse] = useState([]);
+  const [location, setLocation] = useState({}); // 현재 위치
 
   const getCourse = () => {
-    axios({
-      url: 'http://j6c208.p.ssafy.io/api/bikeRoads',
-      method: 'get',
-      params: {
-        latitude: 37.504449335359766,
-        longitude: 126.98076992442245,
-      },
-    })
-      .then(res => {
-        console.log('success');
-        console.log(res.data);
-        setBikeCourse(res.data.bikeroadList);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    requestPermission().then(res => {
+      console.log(res);
+      if (res === 'granted') {
+        Geolocation.getCurrentPosition(
+          pos => {
+            const { latitude, longitude } = pos.coords;
+            console.log('내 위치', latitude, longitude);
+            setLocation({ latitude, longitude });
+            axios({
+              url: 'http://j6c208.p.ssafy.io/api/bikeRoads',
+              method: 'get',
+              params: {
+                latitude,
+                longitude,
+              },
+            })
+              .then(res => {
+                console.log('success');
+                console.log(res.data);
+                setBikeCourse(res.data.bikeroadList);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          },
+          error => {
+            console.log(error);
+            console.log('내 위치를 불러올수 없습니다');
+            setGranted(false);
+          },
+          { enableHighAccuracy: true, timeout: 3600, maximumAge: 3600 },
+        );
+      }
+    });
   };
 
   useEffect(() => {
@@ -44,30 +75,33 @@ const Course = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TouchableOpacity
-          style={styles.communityButton2}
-          onPress={() => navigation.navigate('Community')}>
-          <Text> ← 뒤로 </Text>
-        </TouchableOpacity>
-        <Image
-          style={{ resizeMode: 'cover', height: 80, width: 160 }}
-          source={require('../assets/rikey.png')}
-        />
-        <TouchableOpacity
-          style={styles.communityButton2}
-          onPress={() => navigation.navigate('Facilities')}>
+          style={{ alignSelf: 'center' }}
+          onPress={() => navigation.navigate('')}>
           <Image
-            source={require('../assets/icons/shop.png')}
+            source={require('../assets/images/Back.png')}
             style={{
-              resizeMode: 'cover',
-              height: 24,
-              width: 24,
-              marginLeft: 40,
-              tintColor: 'grey',
+              resizeMode: 'contain',
+              height: 20,
+              width: 20,
+              marginLeft: 20,
+              tintColor: 'black',
             }}
           />
         </TouchableOpacity>
+        <View style={{ alignSelf: 'center' }}>
+          <Image
+            style={{
+              resizeMode: 'contain',
+              height: 70,
+              width: 140,
+              marginLeft: -25,
+            }}
+            source={require('../assets/rikey.png')}
+          />
+        </View>
+        <View>{null}</View>
       </View>
       <View
         style={{
