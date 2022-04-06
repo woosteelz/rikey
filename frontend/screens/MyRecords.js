@@ -109,6 +109,7 @@ const WrittenDate = styled.Text`
   bottom: 1%;
   font-weight: bold;
   font-size: 13px;
+  color: black;
 `
 const DeleteImgBox = styled.View`
   flex: 1;
