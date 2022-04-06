@@ -210,7 +210,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
             <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%"}} source={defaultprofiepic}/>
           }
           <Text style={{fontWeight:"bold", color:'#282828',marginTop:"1%"}}>{props.author}</Text>
-          <Text style={{marginLeft: "5%", marginTop:"1%"}}>{moment(props.commentTime).fromNow()}</Text>
+          <Text style={{marginLeft: "5%", marginTop:"1%"}}>{moment(props.createdTime).fromNow()}</Text>
           {
             userNickName === props.author ?
             <View>
