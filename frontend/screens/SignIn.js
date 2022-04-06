@@ -122,43 +122,42 @@ const SignIn = ({ navigation }) => {
   return (
     <Container>
 
-        <TopGap />
+      <TopGap />
 
-        <LogoContainer>
-          <LogoImg source={Logo} />
-        </LogoContainer>
+      <LogoContainer>
+        <LogoImg source={Logo} />
+      </LogoContainer>
 
-        <ContentsFlex>
-            <InnerFlex>
+      <ContentsFlex>
+          <InnerFlex>
 
-                <BikeContainer>
-                  <BikeImg source={Bike}/>
-                </BikeContainer>
+              <BikeContainer>
+                <BikeImg source={Bike}/>
+              </BikeContainer>
 
-                <BottomFlex>
+              <BottomFlex>
 
-                  <LoginTextcontainer/>
-                    <LoginText>{"즐거운 라이딩을 위한"}</LoginText>
-                    <LoginText>{"현명한 선택"}</LoginText>
-                  <LoginTextcontainer/>
+                <LoginTextcontainer/>
+                  <LoginText>{"즐거운 라이딩을 위한"}</LoginText>
+                  <LoginText>{"현명한 선택"}</LoginText>
+                <LoginTextcontainer/>
 
-                  <ButtonContainer>
-                    <LoginButton
-                      title="네이버 로그인"
-                      onPress={() => naverLoginProcess()}
-                      color="#19ce60"
-                      />
-                  </ButtonContainer>
+                <ButtonContainer>
+                  <LoginButton
+                    title="네이버 로그인"
+                    onPress={() => naverLoginProcess()}
+                    color="#19ce60"
+                    />
+                </ButtonContainer>
 
-                </BottomFlex>
+              </BottomFlex>
 
-                <BottomGap/>
+              <BottomGap/>
 
-            </InnerFlex>
-        </ContentsFlex>
-
+          </InnerFlex>
+      </ContentsFlex>
     </Container>
-);
+  );
 };
 {/* {!!naverToken && (
   <Button title="회원정보 가져오기" onPress={getUserProfile} />
@@ -212,7 +211,6 @@ const ButtonContainer = styled.View`
 const BottomGap = styled.View`
   flex: 3;
 `
-
 const BikeImg = styled.Image`
   resize-mode: contain;
 `
