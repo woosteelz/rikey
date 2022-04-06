@@ -69,7 +69,7 @@ const Community = ( { navigation } ) => {
         <Text style={{fontSize:15, fontWeight:'bold', color:'#363636', marginBottom: 2}}>{item.title}</Text>
         <Text style={{fontSize:13,color:'#424242', marginBottom: 3}} ellipsizeMode='tail' numberOfLines={1}>{item.content}</Text>
        {/* 내용이 길면 ...으로대체하는 로직을 작성할것 */}
-        <Text style={{fontSize:12, color:"909090"}}>{item.author}</Text>
+        <Text style={{fontSize:12, color:"#909090"}}>{item.author}</Text>
         {/* <View
           style={{
             marginTop: "3%",
