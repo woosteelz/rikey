@@ -1,10 +1,6 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -18,24 +14,6 @@ import Carousel from "../src/Carousel";
 
 const color = green[600];
 const white = green[50];
-
-function Copyright(props) {
-	return (
-		<Typography
-			variant="body2"
-			color="text.secondary"
-			align="center"
-			{...props}
-		>
-			{"Copyright © "}
-			<Link color="inherit" href="https://mui.com/">
-				Your Website
-			</Link>{" "}
-			{new Date().getFullYear()}
-			{"."}
-		</Typography>
-	);
-}
 
 const theme = createTheme();
 
@@ -111,9 +89,16 @@ export default function Homepage() {
 						<Button
 							variant="outlined"
 							startIcon={<FileDownloadIcon />}
-							sx={{ color: white, mt: 5 }}
+							color="info"
+							sx={{ mt: 5 }}
 						>
-							다운로드 받으러 가기
+							<Link
+								href="https://drive.google.com/drive/folders/1izbf-EV_amJwZCOTIZlVVHppUDf0Z1E8?usp=sharing"
+								sx={{ color: white }}
+								underline="none"
+							>
+								다운로드 받으러 가기
+							</Link>
 						</Button>
 					</Box>
 				</Grid>
