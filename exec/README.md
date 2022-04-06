@@ -100,6 +100,8 @@ nohup java -jar build/libs/rikey-0.0.1-SNAPSHOT.jar --server.servlet.context-pat
 
 ## 3. DB 덤프 파일
 
+ [Rikey_Dump.sql](Rikey_Dump.sql) 
+
 
 
 ## 4. 시연 시나리오
