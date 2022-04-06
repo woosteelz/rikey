@@ -30,6 +30,7 @@ const InfoInput = styled.TextInput`
   width: 50%;
   font-weight: bold;
   font-size: 15px;
+  color: black;
 `
 const InfoBotLine = styled.View`
   border-top-width: 1px;
