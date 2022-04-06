@@ -71,6 +71,7 @@ const WritePage = ( { navigation } ) => {
     if (images.length !== 0){
     return new Promise( (resolve) => {
     images.map((item, index) => {
+      console.log(item.mime)
       imagedata.append("uploadFiles", {
         uri: 'file://' + item.realPath,
         type: item.mime,
@@ -89,7 +90,7 @@ const WritePage = ( { navigation } ) => {
       body: imagedata
     }).then(res => res.json())
     .then(res => {
-      alert(res.urls)
+
       
       
 
@@ -170,7 +171,6 @@ const WritePage = ( { navigation } ) => {
   //////////////////
    const handleImagePicker = async () => {
       try {
-        
           const image = await MultipleImagePicker.openPicker({
               mediaType: "image",
               usedCameraButton: true,
@@ -185,7 +185,6 @@ const WritePage = ( { navigation } ) => {
               // selectedColor: '#f9813a',
           });
           console.log(image)
-
           setImages(image)
 
           image.map(imag => {
@@ -226,23 +225,22 @@ const WritePage = ( { navigation } ) => {
     
 
       const urls = await uploadprocess()
-      console.log('urls',urls)
-      // const response = await axios.post(
-      //   "http://j6c208.p.ssafy.io/api/articles",
-      //   {
-      //     content : onChangeContent,
-      //     title : onChangeTitle,
-      //     category : cvalue,
-      //     pics : urls,
-      //     userId : userId
-      //   }
-      // );
-      // if (response) {
-      //   navigation.navigate('CommunityDetail', {articleId: response.data.article, author : userNickName})
+      const response = await axios.post(
+        "http://j6c208.p.ssafy.io/api/articles",
+        {
+          content : onChangeContent,
+          title : onChangeTitle,
+          category : cvalue,
+          pics : urls,
+          userId : userId
+        }
+      );
+      if (response) {
+        navigation.navigate('CommunityDetail', {articleId: response.data.article, author : userNickName})
 
-      // } else {
-      //   alert("오류발생")
-      // }
+      } else {
+        alert("오류발생")
+      }
     };
 
 
