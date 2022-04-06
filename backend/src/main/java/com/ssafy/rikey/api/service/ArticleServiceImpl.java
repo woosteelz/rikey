@@ -84,12 +84,11 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDetailResponseDto getArticle(String nickName, Long articleId) {
         Article article = articleRepository.findById(articleId).get();
         User user = userRepository.findByNickName(nickName);
-        System.out.println("user = " + user);
         Optional<Likey> likey = likeyRepository.findByArticleAndUser(article, user);
-        System.out.println("likey = " + likey);
-        Boolean isLike = true;
+
+        Boolean isLike = false;
         if (likey.isPresent()) {
-            isLike = false;
+            isLike = true;
         }
 
         article.increaseHits();

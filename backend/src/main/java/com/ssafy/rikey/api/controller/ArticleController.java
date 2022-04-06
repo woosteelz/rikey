@@ -5,6 +5,7 @@ import com.ssafy.rikey.api.response.ArticleDetailResponseDto;
 import com.ssafy.rikey.api.response.ArticleResponseDto;
 import com.ssafy.rikey.api.service.ArticleService;
 import com.ssafy.rikey.api.service.UserService;
+import com.ssafy.rikey.db.entity.Area;
 import com.ssafy.rikey.db.entity.Article;
 import com.ssafy.rikey.db.repository.ArticleRepository;
 import io.swagger.annotations.*;
@@ -282,7 +283,8 @@ public class ArticleController {
         HttpStatus httpStatus = null;
 
         try {
-            rankings = userService.getRankings(nickName, area);
+            rankings = userService.getRankings(nickName, Area.nameOf(area));
+            System.out.println(Area.nameOf(area));
             httpStatus = HttpStatus.OK;
             result.put("status", "SUCCESS");
         } catch (NoSuchElementException e) {
