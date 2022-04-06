@@ -253,7 +253,7 @@ const CommunityBoard = ( { navigation } ) => {
 
         </View>
         
-        <View style={{ marginTop: "5%", width: "90%", height: "75%"}}>
+        <View style={{ marginTop: "5%", width: "90%", height: "77%"}}>
         <ScrollView showsVerticalScrollIndicator={false} >
           <View>{Hotvariousboard}</View>
           <View>{variousboard}</View>
@@ -263,7 +263,7 @@ const CommunityBoard = ( { navigation } ) => {
         {/* 글쓰기 버튼 */}
         <View style={{flex:1}}>
 
-        <View style={{marginRight:"5%",marginBottom:"2%", position:'absolute',bottom:0,alignSelf:'flex-end'}}>
+        <View style={{marginRight:"5%",marginBottom:"5%", position:'absolute',bottom:0,alignSelf:'flex-end'}}>
           <TouchableOpacity style={styles.writebutton} onPress={() => navigation.navigate('WritePage')}> 
                 <Image style={{resizeMode: "cover", height:70, width: 70}} source={writebutton} />
           </TouchableOpacity>

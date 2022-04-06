@@ -179,16 +179,18 @@ const Community = ( { navigation } ) => {
             <View style={{flexDirection:"row"}}>
             <Image style={{ resizeMode:"cover", width: 25, height : 25 ,marginTop:"3%",marginLeft:"7%"}} source={Pencil} />
             <Image style={{ position:"absolute", width: 90, height: "15%" ,marginTop:"5%", marginLeft:"14.5%"}} source={TitleBack} />
-            <Text style={{marginLeft: "3%",color:"black", marginTop: "2%",fontSize: 16, fontWeight:'bold'}}>커뮤니티 최근글</Text>
+            <Text style={{marginLeft: "3%",color:"black", marginTop: "2%",fontSize: 16, fontWeight:'bold',color:"#484848"}}>커뮤니티 최근글</Text>
             </View>
-            <View style={{marginTop: "5%",width: "90%", height: "47%"}}>
+            <View style={{marginTop: "5%",width: "90%", height: "56.5%"}}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                 <View>{elements}</View>
                 </ScrollView>
             </View>
+            <View style={{position:'absolute',bottom: "3%",left:"57%"}}>
             <TouchableOpacity style={styles.communityButton} onPress={() => navigation.navigate('CommunityBoard')}> 
-              <Text>커뮤니티 모든 글 보기 > </Text>
+              <Text style={{color:"#484848"}}>커뮤니티 모든 글 보기 > </Text>
             </TouchableOpacity> 
+            </View>
         </View>
 
 
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
   communityButton : {
     marginLeft: "auto", 
     margin: "3%",
-    marginTop: "8%",
+    marginTop: "4%",
     
   },
   communityButton2 : { 
