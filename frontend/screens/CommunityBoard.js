@@ -129,7 +129,7 @@ const CommunityBoard = ( { navigation } ) => {
       </View>
       <Text style={{fontSize:13,color:'#363636'}} ellipsizeMode='tail' numberOfLines={1}>{item.content}</Text>
       {/* 내용이 길면 ...으로대체하는 로직을 작성할것 */}
-      <Text style={{fontSize:12}}>{item.author}</Text>
+      <Text style={{fontSize:12,color:"#909090"}}>{item.author}</Text>
       {/* <View
         style={{
           marginTop: "3%",

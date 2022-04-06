@@ -294,6 +294,7 @@ const WritePage = ( { navigation } ) => {
               onChangeText={setonChangeTitle}
               value={onChangeTitle}
               placeholder="제목"
+              placeholderTextColor="#242424" 
             />
 
             <TextInput
@@ -304,6 +305,7 @@ const WritePage = ( { navigation } ) => {
               onChangeText={setonChangeContent}
               value={onChangeContent}
               placeholder="내용을 입력하세요..."
+              placeholderTextColor="#242424" 
             />
             
             {/* <NativeBaseProvider>
