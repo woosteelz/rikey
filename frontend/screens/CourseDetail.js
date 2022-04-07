@@ -13,10 +13,11 @@ import {
   FlatList,
 } from 'react-native';
 
-import { LogoTitle } from '../components/Header/LogoTitle';
-
 import { useStore } from '../states';
 import axios from 'axios';
+
+const starImgFilled = require('../assets/icons/star.png');
+const starImgCorner = require('../assets/icons/starcorner.png');
 
 function isEmptyObj(obj) {
   if (obj.constructor === Object && Object.keys(obj).length === 0) {
@@ -58,7 +59,32 @@ const CustomCommentList = ({ reviewList }) => {
                   {item.item.createdTime.slice(0, 10)}
                 </Text>
               </View>
-              <Text rkType="primary3 mediumLine">{item.item.content}</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Text rkType="primary3 mediumLine">{item.item.content}</Text>
+                <View style={styles.customRatingBar}>
+                  {[1, 2, 3, 4, 5].map(a => {
+                    return (
+                      <TouchableOpacity activeOpacity={0.7} key={a}>
+                        <Image
+                          style={{
+                            width: 12,
+                            height: 12,
+                            resizeMode: 'contain',
+                            tintColor: '#FFB110',
+                          }}
+                          source={
+                            a <= item.item.score ? starImgFilled : starImgCorner
+                          }
+                        />
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              </View>
             </View>
           </View>
         );
@@ -74,9 +100,6 @@ const CourseDetail = ({ route, navigation }) => {
   const [content, setContent] = useState('');
   const [defaultRating, setdefaultRating] = useState(0);
   const [maxRating, setmaxRating] = useState([1, 2, 3, 4, 5]);
-
-  const starImgFilled = require('../assets/icons/star.png');
-  const starImgCorner = require('../assets/icons/starcorner.png');
 
   const { userId } = useStore();
 
@@ -270,9 +293,18 @@ const CourseDetail = ({ route, navigation }) => {
                 개
               </Text>
             </View>
-            <Text style={{ color: 'grey', letterSpacing: -1 }}>
+            {/* <Text style={{ color: 'grey', letterSpacing: -1 }}>
               ________________________________________________________________
-            </Text>
+            </Text> */}
+            <View
+              style={{
+                height: 1,
+                width: 330,
+                borderWidth: 0.5,
+                marginTop: 5,
+                borderBottomColor: '#AAAAAA',
+              }}
+            />
           </View>
           <View style={{ flex: 1 }}>
             <Text
@@ -303,10 +335,16 @@ const CourseDetail = ({ route, navigation }) => {
               예상 소요시간 : {!isEmptyObj(detail) ? detail.hour : 0}시간{' '}
               {!isEmptyObj(detail) ? detail.minute : 0}분
             </Text>
-            <Text
-              style={{ color: 'grey', letterSpacing: -1, alignSelf: 'center' }}>
-              ________________________________________________________________
-            </Text>
+            <View
+              style={{
+                height: 1,
+                width: 330,
+                borderWidth: 0.5,
+                marginTop: 10,
+                borderBottomColor: '#AAAAAA',
+                alignSelf: 'center',
+              }}
+            />
           </View>
           <View style={{ flex: 1 }}>
             <Text
@@ -327,15 +365,16 @@ const CourseDetail = ({ route, navigation }) => {
               }}>
               {detail.introduce}
             </Text>
-            <Text
+            <View
               style={{
-                color: 'grey',
-                letterSpacing: -1,
+                height: 1,
+                width: 330,
+                borderWidth: 0.5,
+                marginTop: 10,
+                borderBottomColor: '#AAAAAA',
                 alignSelf: 'center',
-                marginTop: -20,
-              }}>
-              ________________________________________________________________
-            </Text>
+              }}
+            />
             <View
               style={{
                 flex: 1,
@@ -380,7 +419,7 @@ const CourseDetail = ({ route, navigation }) => {
             </View>
           )}
           {/* navigation 영역 */}
-          <View style={{ flex: 1, height: 100 }}></View>
+          <View style={{ flex: 1, height: 150 }}></View>
         </ScrollView>
       </View>
     </View>
