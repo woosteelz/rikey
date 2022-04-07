@@ -75,8 +75,8 @@ const Course = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <TouchableOpacity
+      <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
+        {/* <TouchableOpacity
           style={{ alignSelf: 'center' }}
           onPress={() => navigation.navigate('')}>
           <Image
@@ -89,14 +89,14 @@ const Course = ({ navigation }) => {
               tintColor: 'black',
             }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View style={{ alignSelf: 'center' }}>
           <Image
             style={{
               resizeMode: 'contain',
               height: 70,
               width: 140,
-              marginLeft: -25,
+              marginLeft: 25,
             }}
             source={require('../assets/rikey.png')}
           />
@@ -110,13 +110,13 @@ const Course = ({ navigation }) => {
           justifyContent: 'center',
           marginTop: -20,
         }}>
-        <Text style={{ fontSize: 18 }}>내 주변 자전거길을 소개합니다!</Text>
+        <Text style={{ fontSize: 18, color:'black' }}>내 주변 자전거길을 소개합니다!</Text>
       </View>
       <View style={{ flex: 7 }}>
         <ScrollView>
           {bikeCourse.length === 0 ? (
             <View style={{ alignSelf: 'center' }}>
-              <Text>이런! 주변에 자전거 길이 없네요...</Text>
+              <Text style={{ color:'black' }}>이런! 주변에 자전거 길이 없네요...</Text>
             </View>
           ) : (
             bikeCourse.map(bc => (
