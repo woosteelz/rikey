@@ -161,7 +161,7 @@ const CommunityBoard = ( { navigation } ) => {
       <Text style={{fontSize:15, fontWeight:'bold', color:'#424242', marginBottom: 3}}>{item.title}</Text>
       <Text style={{fontSize:13,color:'#363636'}} ellipsizeMode='tail' numberOfLines={1}>{item.content}</Text>
       {/* 내용이 길면 ...으로대체하는 로직을 작성할것 */}
-      <Text style={{fontSize:12}}>{item.author}</Text>
+      <Text style={{fontSize:12,color:"#909090"}}>{item.author}</Text>
       {/* <View
         style={{
           marginTop: "3%",
@@ -235,10 +235,10 @@ const CommunityBoard = ( { navigation } ) => {
         <Image style={{ resizeMode:"cover", width: 25, height : 25 ,marginTop:"5%",marginLeft:"7%"}} source={Pencil} />
         <Image style={{ position:"absolute", width: 90, height: "10%" ,marginTop:"7%", marginLeft:"14.5%"}} source={TitleBack} />
         { (service === "FREE") ?
-        <Text style={{ fontSize: 16, marginLeft: "2%", fontWeight:"bold", marginTop: "5%",width : "30%"}}> 자유로운 게시판</Text>
+        <Text style={{ fontSize: 16, marginLeft: "2%", fontWeight:"bold", marginTop: "5%",width : "30%",color:'black',width : "40%"}}> 자유로운 게시판</Text>
         :
         (service === "RECRUIT" ?
-        <Text style={{ fontSize: 16, marginLeft: "2%", fontWeight:"bold", marginTop: "5%",width : "30%"}}> 라이딩크루 모집</Text>
+        <Text style={{ fontSize: 16, marginLeft: "2%", fontWeight:"bold", marginTop: "5%",width : "30%",color:'black',width : "40%"}}> 라이딩크루 모집</Text>
         :
         <Text style={{ fontSize: 16, marginLeft: "2%", color:"black", fontWeight:"bold", marginTop: "5%",width : "40%"}}> 커뮤니티 게시판</Text>
         )

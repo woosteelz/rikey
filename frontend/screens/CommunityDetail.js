@@ -106,85 +106,12 @@ const CommunityDetail = ( { props, route, navigation} ) => {
       SheetManager.hideAll()
     }
     
-    // 댓글 생성될때마다 갱신되야되는데...시트모달갱신이안된다.."
-    // const commentboard = articleComment.map( (item,key) => {
-    //   const commentTime = moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss")
-    //   const gapCommentTime = moment(commentTime).fromNow()
-    //   console.log("아티클코맨트", articleComment)
-    //   console.log(item.commentId)
-      
-    //   return <View key={key} style={{marginBottom: "2%"}}>
-    //      <TouchableOpacity onPress={ () => {
-    //             if(userNickName === item.author) {
-    //             SheetManager.show(item.commentId);
-    //             }else{
-    //             SheetManager.show("nonuser_sheet");
-    //             }
-    //             // setModalVisible(true);
-    //             // setTempremove(item.commentId)
-    //           }}>
-    //     <View style={{flexDirection: "row"}}>
-    //       { item.profilePic ?
-    //         <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%" ,borderRadius: 15}} source={{uri : item.profilePic}}/>
-    //         :
-    //         <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%"}} source={defaultprofiepic}/>
-    //       }
-    //       <Text style={{fontWeight:"bold", color:'#282828',marginTop:"1%"}}>{item.author}</Text>
-    //       <Text style={{marginLeft: "5%", marginTop:"1%"}}>{gapCommentTime}</Text>
-    //       {
-    //         userNickName === item.author ?
-    //         <View>
-             
-    //           {/* <Image style={{ marginLeft: "auto" ,resizeMode: "cover", height: 20, width: 20}} source={hamburgerbutton} /> */}
-              
-
-    //           <ActionSheet id={item.commentId} ref={ActionSheetRef}>
-    //           <View style={{height: 120}}>
-    //                 <TouchableOpacity onPress={() => removeComment(item.commentId)}>
-    //                 <Text style={{fontSize: 20, margin:"4%"}}>삭제하기</Text>
-    //                 </TouchableOpacity>
-    //                 <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
-    //                 <TouchableOpacity onPress={() => sheetout("카")} >
-    //                 <Text style={{fontSize: 20 ,margin: "4%" }}>닫기</Text>   
-    //                 </TouchableOpacity>
-    //           </View>
-    //         </ActionSheet>
-            
-    //         </View>
-            
-
-            
-    //         :
-    //         <ActionSheet id="nonuser_sheet" ref={nonActionSheetRef}>
-    //           <View style={{height: 120}}>
-    //                 <TouchableOpacity onPress={() => {
-    //                   Alert.alert("신고완료", '신고되었습니다. 조속히 처리하겠습니다.')
-    //                   sheetout("nonuser_sheet")
-    //                 }}>
-    //                 <Text style={{fontSize: 20, margin:"4%"}}>신고하기</Text>
-    //                 </TouchableOpacity>
-    //                 <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
-    //                 <TouchableOpacity onPress={() => sheetout("nonuser_sheet")}>
-    //                 <Text style={{fontSize: 20 ,margin: "4%" }} >닫기</Text>  
-    //                 </TouchableOpacity> 
-    //           </View>
-    //         </ActionSheet>
-
-    //       }
-    //     </View>
-    //     <View style={{marginTop:"1%"}}>
-    //     <Text>{item.content}</Text>
-
-    //     </View>
-    //     </TouchableOpacity>
-        
-    //   </View>
-    // })
+  
 
     //사진 맵함수
     const ArticlePicutres = articlePics.map( (item, key) => {
       return <View key={key}>
-      <Image style={{resizeMode:"cover", height: 100, width: 100 , marginRight: "7%"}} source={{uri: item}} />
+      <Image style={{resizeMode:"cover", height: 100, width: 100 , margin:"2%" }} source={{uri: item}} />
     </View>
     })
 
@@ -210,7 +137,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
             <Image style={{ resizeMode: "cover", height: 30, width: 30 ,marginRight: "3%"}} source={defaultprofiepic}/>
           }
           <Text style={{fontWeight:"bold", color:'#282828',marginTop:"1%"}}>{props.author}</Text>
-          <Text style={{marginLeft: "5%", marginTop:"1%"}}>{moment(props.createdTime).fromNow()}</Text>
+          <Text style={{marginLeft: "5%", marginTop:"1%",color:'black'}}>{moment(props.createdTime).fromNow()}</Text>
           {
             userNickName === props.author ?
             <View>
@@ -221,11 +148,11 @@ const CommunityDetail = ( { props, route, navigation} ) => {
               <ActionSheet id={props.commentId} ref={ActionSheetRef}>
               <View style={{height: 120}}>
                     <TouchableOpacity onPress={() => removeComment(props.commentId)}>
-                    <Text style={{fontSize: 20, margin:"4%"}}>삭제하기</Text>
+                    <Text style={{fontSize: 20, margin:"4%",color:'black'}}>삭제하기</Text>
                     </TouchableOpacity>
                     <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
                     <TouchableOpacity onPress={() => sheetout("카")} >
-                    <Text style={{fontSize: 20 ,margin: "4%" }}>닫기</Text>   
+                    <Text style={{fontSize: 20 ,margin: "4%" ,color:'black'}}>닫기</Text>   
                     </TouchableOpacity>
               </View>
             </ActionSheet>
@@ -241,11 +168,11 @@ const CommunityDetail = ( { props, route, navigation} ) => {
                       Alert.alert("신고완료", '신고되었습니다. 조속히 처리하겠습니다.')
                       sheetout("nonuser_sheet")
                     }}>
-                    <Text style={{fontSize: 20, margin:"4%"}}>신고하기</Text>
+                    <Text style={{fontSize: 20, margin:"4%",color:'black'}}>신고하기</Text>
                     </TouchableOpacity>
                     <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
                     <TouchableOpacity onPress={() => sheetout("nonuser_sheet")}>
-                    <Text style={{fontSize: 20 ,margin: "4%" }} >닫기</Text>  
+                    <Text style={{fontSize: 20 ,margin: "4%" ,color:'black'}} >닫기</Text>  
                     </TouchableOpacity> 
               </View>
             </ActionSheet>
@@ -326,7 +253,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="position" enabled>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
       <ScrollView>
       
       <View>
@@ -368,7 +295,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
                       sheetout()
                       removeArticle()
                     }}>
-                    <Text style={{fontSize: 20, margin:"4%"}}>글 삭제하기</Text>
+                    <Text style={{fontSize: 20, margin:"4%",color:'black'}}>글 삭제하기</Text>
                     </TouchableOpacity>
                     <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
                     <TouchableOpacity onPress={() => {
@@ -384,11 +311,11 @@ const CommunityDetail = ( { props, route, navigation} ) => {
                     }
                     
                     }>
-                    <Text style={{fontSize: 20, margin:"4%"}}>수정하기</Text>
+                    <Text style={{fontSize: 20, margin:"4%",color:'black'}}>수정하기</Text>
                     </TouchableOpacity>
                     <View style={{ borderBottomColor: '#484848', borderBottomWidth: 0.5,height: "0.1%", width: "100%"}} />
                     <TouchableOpacity onPress={() => sheetout("article_sheet")} >
-                    <Text style={{fontSize: 20 ,margin: "4%" }}>닫기</Text>   
+                    <Text style={{fontSize: 20 ,margin: "4%" ,color:'black'}}>닫기</Text>   
                     </TouchableOpacity>
               </View>
           </ActionSheet>
@@ -398,7 +325,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
           }
           </View>
   
-          <Text style={{marginLeft: "8%"}}>{articleTime}</Text>
+          <Text style={{marginLeft: "8%",color:"black"}}>{articleTime}</Text>
    
         </View>
 
@@ -409,7 +336,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
           <Text style={{marginLeft:"6%" ,fontSize: 14, color:"#484848"}}>
           {articleContent}
           </Text>
-          <View style={{ flexDirection: "row",marginLeft:"5%", marginTop:"5%",marginRight:"3%"}} >
+          <View style={{ flexDirection: "row",marginLeft:"5%", marginTop:"5%",marginRight:"3%",justifyContent:'space-around'}} >
           {ArticlePicutres}
           </View>
           
@@ -418,14 +345,14 @@ const CommunityDetail = ( { props, route, navigation} ) => {
           <TouchableOpacity onPress={()=>SendIsLike()}>
           <Image style={{resizeMode:"center", width: 30, height: 30}} source={LikeButton}/>
           </TouchableOpacity>
-          <Text style={{marginTop:"1.5%", marginLeft:"2%"}}>{likeCnt}</Text>
+          <Text style={{marginTop:"1.5%", marginLeft:"2%",color:'black'}}>{likeCnt}</Text>
           </View>
           :
           <View style={{flexDirection:'row',  marginRight:"4%", marginLeft:"auto", marginTop:"4%"}}>
           <TouchableOpacity onPress={()=>SendIsLike()}>
           <Image style={{resizeMode:"center", width: 30, height: 30}} source={DisLikeButton}/>
           </TouchableOpacity>
-          <Text style={{marginTop:"1.5%", marginLeft:"2%"}}>{likeCnt}</Text>
+          <Text style={{marginTop:"1.5%", marginLeft:"2%",color:'black'}}>{likeCnt}</Text>
           </View>
           }
           <View>
@@ -459,7 +386,7 @@ const CommunityDetail = ( { props, route, navigation} ) => {
 
 
           
-        <View style={{marginTop: "5%" ,marginLeft: "3%"}}>
+        <View style={{marginTop: "5%" ,marginLeft: "3%",marginBottom:"15%"}}>
           {/* {commentboard} */}
           {articleComment.map( (item,key) => {
             return <CommentBox props={item} key={key}/>
@@ -482,7 +409,7 @@ const styles = StyleSheet.create({
   input : {
     width: "90%",
     paddingLeft: 15,
-
+    color:'black',
     
     zIndex: 1,
   },

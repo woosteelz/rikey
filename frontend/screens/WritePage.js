@@ -9,6 +9,7 @@ import Rikey from '../assets/rikey.png'
 import WooSteel from '../assets/defaultimage.jpg'
 /////
 import { useStore } from "../states";
+import ImageResizer from 'react-native-image-resizer';
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 import axios from "axios";
 import API from "../api/API";
@@ -25,10 +26,9 @@ import API from "../api/API";
 
 
 
-
-
 const WritePage = ( { navigation } ) => {
   const { userId, userNickName } = useStore()
+  const [imagesize, setImageSize] = useState({})
   const [cvalue, setCValue] = React.useState("FREE");
   const Boardvarious = () => {
     return<Radio.Group defaultValue="FREE" name="exampleGroup" value={cvalue} onChange={value => {setCValue(value)}} accessibilityLabel="favorite colorscheme">
@@ -69,16 +69,37 @@ const WritePage = ( { navigation } ) => {
   const uploadprocess = () => {
     
     if (images.length !== 0){
-    return new Promise( (resolve) => {
-    images.map((item, index) => {
-      console.log(item.mime)
-      imagedata.append("uploadFiles", {
-        uri: 'file://' + item.realPath,
-        type: item.mime,
-        name: item.fileName,
+    return new Promise(async(resolve) => {
+    const promiseList = images.map((item, index) => {
+      
+      return ImageResizer.createResizedImage(
+        item.realPath,
+        300,
+        300,
+        'JPEG',
+        50,
+        0,
+        null
+      ).then(response => {
+        // setImageSize(response)
+        imagedata.append("uploadFiles", {
+          // uri: 'file://' + item.realPath,
+          uri : response.uri,
+          type: 'image/jpeg',
+          name: item.fileName,
+        });
+      })
+      .catch(err => {
+        console.log(err)
       });
-    });
+      
 
+    
+
+     
+    });
+    await Promise.all(promiseList)
+    console.log(imagedata)
     // const response = API.post('articles/upload',{
     // body : imagedata
     // })
@@ -94,7 +115,7 @@ const WritePage = ( { navigation } ) => {
       
       
 
-
+      console.log('리주',res.urls)
       resolve(res.urls)
     })
     .catch(err => {
@@ -163,7 +184,7 @@ const WritePage = ( { navigation } ) => {
   const imagepreview = images.map( (item,key) => {
     return <View key={key}>
       {/* <Text>하잉</Text> */}
-      <Image style={{height: 100, width: 100 , marginRight: "7%"}} source={{uri: "file://"+ item.realPath}} />
+      <Image style={{height: 100, width: 100 }} source={{uri: "file://"+ item.realPath}} />
     </View>
   })
 
@@ -184,6 +205,7 @@ const WritePage = ( { navigation } ) => {
               singleSelectedMode: false
               // selectedColor: '#f9813a',
           });
+          
           console.log(image)
           setImages(image)
 
@@ -330,7 +352,7 @@ const WritePage = ( { navigation } ) => {
           >
           {
             images.length !== 0 ?
-          <View style={{ marginLeft: "5%", flexDirection: "row"}}>
+          <View style={{flexDirection: "row",justifyContent:'space-around'}}>
  
           
             {imagepreview}
@@ -373,12 +395,14 @@ const styles = StyleSheet.create({
   inputTitle: {
     height: 36,
     margin: 12,
+    color:'black',
     borderBottomWidth: 1,
     borderBottomColor: "#AAAAAA",
     padding: 4,
   },
   inputContent: {
     textAlign:"left",
+    color:'black',
     textAlignVertical: "top",
     borderRadius: 7,
     height: "50%",
