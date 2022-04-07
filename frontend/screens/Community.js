@@ -136,38 +136,38 @@ const Community = ( { navigation } ) => {
             </View>
 
         </View>
-                <View style={{flexDirection: "row",marginTop:"6%"}}>
-                <Text style={{fontSize: 13, marginLeft:"6%",color:"black"}}>소비 칼로리 랭킹</Text>
-                <Text style={{fontSize: 13, marginLeft:"10.5%",color:"black"}}>주행 거리 랭킹</Text>
-                <Text style={{fontSize: 13, marginLeft:"13.5%",color:"black"}}>누적 시간 랭킹</Text>
+                <View style={{flexDirection: "row",marginTop:"6%",justifyContent:"space-around",margin:"2.5%",marginBottom:0}}>
+                <Text style={{fontSize: 13, color:"black"}}>소비 칼로리 랭킹</Text>
+                <Text style={{fontSize: 13, color:"black"}}>주행 거리 랭킹</Text>
+                <Text style={{fontSize: 13, color:"black"}}>누적 시간 랭킹</Text>
                 </View>
-            <View style={{ flexDirection: "row", height:"20%" }}> 
+            <View style={{ flexDirection: "row", height:"15%",marginBottom:"5%",justifyContent:'space-around' }}> 
                 
-                <View style={{ width: "25.5%", marginLeft: 2 }}>
+                <View style={{ width: "25.5%"}}>
 
                   <View style={ styles.box }>
-                  <View style={{marginLeft:"13%",marginTop:"1%",backgroundColor:"white",width:"75%",height:"75%",borderRadius:40}}>
-                  <Image style={{ resizeMode:"cover", width: 30, height : 30 ,marginTop:"20%",marginLeft:"22%"}} source={Fire} />
+                  <View style={{flex:1,justifyContent: "center", alignItems: "center", backgroundColor:"white",width:"75%",height:"75%",borderRadius:40}}>
+                    <Image style={{ resizeMode:"cover", width: 30, height : 30 }} source={Fire} />
                   </View>
-                  <Text style={{color:'#484848',marginTop:"2%",textAlign:"center", width:"100%"}}>{RankCal} 등</Text>
+                  <Text style={{color:'#484848',textAlign:"center", width:"100%"}}>{RankCal} 등</Text>
                   </View>
                 </View>
 
-                <View style={{ width: "25.5%" , marginLeft: 30 }}>
+                <View style={{ width: "25.5%" }}>
  
                   <View style={ styles.box }>
-                  <View style={{marginLeft:"13%",marginTop:"1%",backgroundColor:"white",width:"75%",height:"75%",borderRadius:40}}>
-                  <Image style={{ resizeMode:"cover", width: 30, height : 30 ,marginTop:"20%",marginLeft:"22%"}} source={Bicycle} />
+                  <View style={{flex:1,justifyContent: "center", alignItems: "center", backgroundColor:"white",width:"75%",height:"75%",borderRadius:40}}>
+                  <Image style={{ resizeMode:"cover", width: 30, height : 30}} source={Bicycle} />
                   </View>
                   <Text style={{color:'#484848',marginTop:"2%",textAlign:"center", width:"100%"}}>{RankDis} 등</Text>
                   </View>
                 </View>
 
-                <View style={{ width: "25.5%" , marginLeft: 30 }}>
+                <View style={{ width: "25.5%",marginRight:"6%" }}>
  
                   <View style={ styles.box }>
-                  <View style={{marginLeft:"13%",marginTop:"1%",backgroundColor:"white",width:"75%",height:"75%",borderRadius:40}}>
-                  <Image style={{ resizeMode:"cover", width: 30, height : 30 ,marginTop:"20%",marginLeft:"22%"}} source={Clock} />
+                  <View style={{flex:1,justifyContent: "center", alignItems: "center", backgroundColor:"white",width:"75%",height:"75%",borderRadius:40}}>
+                  <Image style={{ resizeMode:"cover", width: 30, height : 30 }} source={Clock} />
                   </View>
                   <Text style={{color:'#484848',marginTop:"2%",width:"100%",textAlign:"center"}}>{RankTime} 등</Text>
                   </View>
@@ -229,7 +229,12 @@ const styles = StyleSheet.create({
   },
 
   box: {
-    height: "70%",
+    flex: 1,
+    justifyContent: "center", 
+    alignItems: "center",
+
+
+    height: "50%",
     width: "100%",
     marginLeft : "15%",
     marginTop: 12,

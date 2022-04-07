@@ -148,14 +148,14 @@ const UpdatePage = ( { navigation,route } ) => {
   const imagepreview = images.map( (item,key) => {
     return <View key={key}>
       {/* <Text>하잉</Text> */}
-      <Image style={{height: 100, width: 100 , marginRight: "7%"}} source={{uri: "file://"+ item.realPath}} />
+      <Image style={{height: 100, width: 100}} source={{uri: "file://"+ item.realPath}} />
     </View>
   })
 
   const givenimage = pictures.map( (item,key) => {
     return <View key={key}>
       {/* <Text>하잉</Text> */}
-      <Image style={{height: 100, width: 100 , marginRight: "7%"}} source={{uri: item}} />
+      <Image style={{height: 100, width: 100}} source={{uri: item}} />
     </View>
   })
 
@@ -322,13 +322,13 @@ const UpdatePage = ( { navigation,route } ) => {
           <Image style={{marginLeft: "5%", height: 100, width: 100}} source={WooSteel} />
           :
             (flag) ?
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row",justifyContent:'space-around'}}>
 
             {imagepreview}
 
           </View>
           : 
-          <View style={{ flexDirection: "row"}} >
+          <View style={{ flexDirection: "row",justifyContent:'space-around'}} >
             {givenimage}
           </View>
           }
@@ -365,6 +365,7 @@ const styles = StyleSheet.create({
   },
   inputTitle: {
     height: 36,
+    color:'black',
     margin: 12,
     borderBottomWidth: 1,
     borderBottomColor: "grey",
@@ -372,6 +373,7 @@ const styles = StyleSheet.create({
   },
   inputContent: {
     textAlign:"left",
+    color:'black',
     textAlignVertical: "top",
     borderRadius: 7,
     height: "50%",
