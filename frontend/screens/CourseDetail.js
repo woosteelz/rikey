@@ -226,12 +226,29 @@ const CourseDetail = ({ route, navigation }) => {
                 resizeMode: 'contain',
                 height: 70,
                 width: 140,
-                marginLeft: -25,
+                marginLeft: 5,
               }}
               source={require('../assets/rikey.png')}
             />
           </View>
-          <View>{null}</View>
+          <TouchableOpacity
+            style={{ alignSelf: 'center' }}
+            onPress={() =>
+              detail.centerList.length === 0
+                ? alert('해당 코스는 상세보기를 지원하지 않습니다.')
+                : navigation.navigate('CourseComfort', { detail: detail })
+            }>
+            <Image
+              source={require('../assets/icons/information.png')}
+              style={{
+                resizeMode: 'contain',
+                height: 20,
+                width: 20,
+                tintColor: 'black',
+                marginRight: 5,
+              }}
+            />
+          </TouchableOpacity>
         </View>
         <ScrollView>
           <View
@@ -483,6 +500,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+    color: 'black',
   },
   customRatingBar: {
     justifyContent: 'center',
@@ -502,6 +520,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 40,
     marginTop: 10,
+    color: 'black',
   },
   root: {
     backgroundColor: '#ffffff',
