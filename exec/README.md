@@ -106,3 +106,4 @@ nohup java -jar build/libs/rikey-0.0.1-SNAPSHOT.jar --server.servlet.context-pat
 
 ## 4. 시연 시나리오
 
+[시연 시나리오 보기](시연시나리오.png)
