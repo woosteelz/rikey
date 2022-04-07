@@ -27,7 +27,6 @@ function isEmptyObj(obj) {
 }
 
 const CustomCommentList = ({ reviewList }) => {
-  console.log(reviewList);
   return (
     <FlatList
       style={styles.root}
@@ -64,7 +63,9 @@ const CustomCommentList = ({ reviewList }) => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <Text rkType="primary3 mediumLine">{item.item.content}</Text>
+                <Text rkType="primary3 mediumLine" style={{ color: 'black' }}>
+                  {item.item.content}
+                </Text>
                 <View style={styles.customRatingBar}>
                   {[1, 2, 3, 4, 5].map(a => {
                     return (
@@ -415,7 +416,7 @@ const CourseDetail = ({ route, navigation }) => {
                 alignContent: 'center',
                 justifyContent: 'center',
               }}>
-              <Text>리뷰가 아직 없네요..</Text>
+              <Text style={{ color: 'black' }}>리뷰가 아직 없네요..</Text>
             </View>
           )}
           {/* navigation 영역 */}
@@ -539,6 +540,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'black',
   },
   communityButton2: {
     marginTop: '8%',

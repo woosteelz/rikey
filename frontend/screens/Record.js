@@ -286,7 +286,7 @@ function Record({ navigation }) {
           userId,
           ridingTime: time / 60000,
           ridingCalorie: Math.round(kcal * 10) / 10,
-          ridingDist: Math.round(distance * 10) / 10,
+          ridingDist: Math.round((distance / 10) * 10) / 10,
           startTime,
           endTime: currTime,
         },
@@ -410,10 +410,15 @@ function Record({ navigation }) {
         </View>
         <View style={styles.recordContainer}>
           <View style={{ flex: 1, marginVertical: 20 }}>
-            <Text style={{ fontWeight: 'bold', alignSelf: 'center' }}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                alignSelf: 'center',
+                color: 'black',
+              }}>
               {('0' + Math.floor((time / 60000) % 60)).slice(-2)} :{' '}
               {('0' + Math.floor((time / 1000) % 60)).slice(-2)} /{' '}
-              {Math.round((distance + Number.EPSILON) * 100) / 100}Km /{' '}
+              {Math.round((distance / 10) * 100) / 100}Km /{' '}
               {Math.round(kcal * 100) / 100} Kcal
             </Text>
             <View style={{ flexDirection: 'row' }}>
