@@ -18,7 +18,7 @@
 | React Native     | 0.67.3    |
 | Zustand          | 3.7.1     |
 | Yarn             | 1.22.17   |
-|                  |           |
+| Xcode            | -         |
 
 
 
@@ -28,7 +28,7 @@
 
 - Android
 
-  - 깃 클론
+  - git clone
 
     - ```
       git clone https://lab.ssafy.com/s06-bigdata-dist-sub2/S06P22C208.git
@@ -37,13 +37,40 @@
   - frontend 폴더의 패키지 설치
 
     - ```
-      yarn
+      yarn install
       ```
 
   - 안드로이드 휴대폰 연결 or 안드로이드 에뮬레이터 연결 후 frontend 폴더에서
 
     - ```
       yarn android
+      ```
+
+
+- iOS
+
+  - git clone
+
+    - ```
+      git clone https://lab.ssafy.com/s06-bigdata-dist-sub2/S06P22C208.git
+      ```
+
+  - frontend 폴더 패키지 설치
+
+    - ```
+      yarn install
+      ```
+
+  - Linking
+
+    - ```
+      cd ios && pod install && cd ..
+      ```
+
+  - iOS 에뮬레이터 환경설정
+
+    - ```
+      yarn ios
       ```
 
       
